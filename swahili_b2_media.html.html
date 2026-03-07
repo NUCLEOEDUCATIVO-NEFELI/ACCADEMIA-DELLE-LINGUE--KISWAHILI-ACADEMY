@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media e Attualità Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #db2777;
+            --accent: #059669;
+            --bg-warm: #faf5ff;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(219, 39, 119, 0.08) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .media-gradient {
+            background: linear-gradient(135deg, var(--primary), #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #db2777);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .news-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .media-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .broadcast-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .headline-scroll {
+            background: linear-gradient(90deg, #1e1b4b, #312e81);
+            color: white;
+            padding: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .headline-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .social-tile {
+            transition: all 0.3s;
+        }
+        
+        .social-tile:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-violet-600 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    📡
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-violet-600">Media</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-violet-700">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-violet-700">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-violet-600 to-pink-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-violet-700">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Vyombo vya Habari</h2>
+                <p class="text-xl text-gray-600 mb-2">Media and Current Affairs in the Swahili World</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-violet-600 to-pink-600 mx-auto rounded-full mt-6"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Informazione, comunicazione e società nella costa swahili contemporanea</p>
+            </div>
+
+            <!-- Breaking News Ticker -->
+            <div class="headline-scroll rounded-lg mb-12 overflow-hidden">
+                <div class="headline-content">
+                    🌍 HABARI ZA LEO / TODAY'S NEWS: Tanzania na Kenya zashirikiana kwenye miradi ya uchumi | Zanzibar inakwenda kwenye uchumi wa bluu | Mtandao wa M-Pesa unapanuka | Utalii unarudi baada ya COVID | Kiswahili kinakua kimataifa | East African Community inaimarika | Nishati mbadala inazalishwa | Vijana wanaanzisha biashara za kidigitali
+                </div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-violet-600">
+                    <h3 class="text-2xl font-bold mb-4 text-violet-700">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        I <strong>media swahili</strong> rappresentano uno degli scenari più dinamici dell'Africa orientale. Dalla radio tradizionale (mogadiscio, 1951) all'era digitale, la costa swahili ha sviluppato un ecosistema informativo unico che bilancia <strong>tradizione orale</strong> e <strong>innovazione tecnologica</strong>. Oggi il swahili è una delle lingue più presenti sui social media africani.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: Media pluralisti, libertà di stampa in evoluzione, digitalizzazione rapida.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-pink-600">
+                    <h3 class="text-2xl font-bold mb-4 text-pink-700">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        <strong>Swahili media</strong> represent one of the most dynamic scenes in East Africa. From traditional radio (Mogadishu, 1951) to the digital era, the Swahili coast has developed a unique information ecosystem balancing <strong>oral tradition</strong> and <strong>technological innovation</strong>. Today Swahili is one of the most present languages on African social media.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: Pluralistic media, evolving press freedom, rapid digitalization.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Media Landscape Grid -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Mfumo wa Habari / Media Landscape</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="news-card bg-gradient-to-br from-red-100 to-red-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="media-icon broadcast-animation">📻</div>
+                        <h4 class="font-bold text-lg mb-2">Redio / Radio</h4>
+                        <p class="text-sm text-gray-600">Mezzo più popolare. BBC Swahili, Radio Tanzania, KBC.</p>
+                        <div class="mt-3 text-xs font-semibold text-red-700">Copertura: 80%+</div>
+                    </div>
+                    
+                    <div class="news-card bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="media-icon">📺</div>
+                        <h4 class="font-bold text-lg mb-2">Televisheni / TV</h4>
+                        <p class="text-sm text-gray-600">TBC, KBC, NTV, Citizen TV, Azam TV, ZBC.</p>
+                        <div class="mt-3 text-xs font-semibold text-blue-700">Digitale terrestre</div>
+                    </div>
+                    
+                    <div class="news-card bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="media-icon">📰</div>
+                        <h4 class="font-bold text-lg mb-2">Magazeti / Press</h4>
+                        <p class="text-sm text-gray-600">Daily News, The Citizen, Taifa Leo, Nipashe.</p>
+                        <div class="mt-3 text-xs font-semibold text-green-700">Declino cartaceo</div>
+                    </div>
+                    
+                    <div class="news-card bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="media-icon">📱</div>
+                        <h4 class="font-bold text-lg mb-2">Mtandao / Digital</h4>
+                        <p class="text-sm text-gray-600">Millard Ayo, Jamii Forums, social media, app.</p>
+                        <div class="mt-3 text-xs font-semibold text-purple-700">Crescita esplosiva</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Major Media Outlets -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Vyombo Vikubwa vya Habari / Major Media Outlets</h3>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-4 bg-red-50 rounded-xl border-l-4 border-red-500">
+                        <div class="text-3xl">📻</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-red-800">BBC Swahili</h4>
+                            <p class="text-sm text-gray-600 mb-2">Servizio fondato nel 1957. Standard giornalistico di riferimento. Copertura in tutta l'Africa orientale.</p>
+                            <div class="flex gap-2 text-xs">
+                                <span class="bg-red-200 px-2 py-1 rounded">Radio</span>
+                                <span class="bg-red-200 px-2 py-1 rounded">Online</span>
+                                <span class="bg-red-200 px-2 py-1 rounded">Social</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+                        <div class="text-3xl">📺</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-blue-800">Tanzania Broadcasting Corporation (TBC)</h4>
+                            <p class="text-sm text-gray-600 mb-2">Ente pubblico tanzaniano. Canali TBC1, TBC2, radio multiple. Trasmissioni in swahili e inglese.</p>
+                            <div class="flex gap-2 text-xs">
+                                <span class="bg-blue-200 px-2 py-1 rounded">TV</span>
+                                <span class="bg-blue-200 px-2 py-1 rounded">Radio</span>
+                                <span class="bg-blue-200 px-2 py-1 rounded">Statale</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-green-50 rounded-xl border-l-4 border-green-500">
+                        <div class="text-3xl">📰</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-green-800">The Citizen / Mwananchi</h4>
+                            <p class="text-sm text-gray-600 mb-2">Gruppo Mwananchi Communications. Quotidiano indipendente di riferimento in Tanzania. Edizione swahili e inglese.</p>
+                            <div class="flex gap-2 text-xs">
+                                <span class="bg-green-200 px-2 py-1 rounded">Stampa</span>
+                                <span class="bg-green-200 px-2 py-1 rounded">Online</span>
+                                <span class="bg-green-200 px-2 py-1 rounded">Indipendente</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-purple-50 rounded-xl border-l-4 border-purple-500">
+                        <div class="text-3xl">📱</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-purple-800">Millard Ayo Blog</h4>
+                            <p class="text-sm text-gray-600 mb-2">Piattaforma digitale fondata dal giornalista Millard Ayo. Notizie in tempo reale, video, interviste. Milioni di follower.</p>
+                            <div class="flex gap-2 text-xs">
+                                <span class="bg-purple-200 px-2 py-1 rounded">Blog</span>
+                                <span class="bg-purple-200 px-2 py-1 rounded">YouTube</span>
+                                <span class="bg-purple-200 px-2 py-1 rounded">Social</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-orange-50 rounded-xl border-l-4 border-orange-500">
+                        <div class="text-3xl">💬</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-orange-800">Jamii Forums</h4>
+                            <p class="text-sm text-gray-600 mb-2">"Wikipedia della Tanzania". Piattaforma di discussione e whistleblowing. Ruolo cruciale nel giornalismo investigativo.</p>
+                            <div class="flex gap-2 text-xs">
+                                <span class="bg-orange-200 px-2 py-1 rounded">Forum</span>
+                                <span class="bg-orange-200 px-2 py-1 rounded">Crowdsourcing</span>
+                                <span class="bg-orange-200 px-2 py-1 rounded">Investigativo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Landscape -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Mitandao ya Kijamii / Social Media</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="social-tile bg-blue-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl mb-2">f</div>
+                        <h5 class="font-bold">Facebook</h5>
+                        <p class="text-xs opacity-90">Piattaforma principale per notizie</p>
+                    </div>
+                    
+                    <div class="social-tile bg-sky-500 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl mb-2">𝕏</div>
+                        <h5 class="font-bold">Twitter/X</h5>
+                        <p class="text-xs opacity-90">Dibattiti politici in tempo reale</p>
+                    </div>
+                    
+                    <div class="social-tile bg-pink-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl mb-2">📷</div>
+                        <h5 class="font-bold">Instagram</h5>
+                        <p class="text-xs opacity-90">Lifestyle e influencer swahili</p>
+                    </div>
+                    
+                    <div class="social-tile bg-red-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl mb-2">▶️</div>
+                        <h5 class="font-bold">YouTube</h5>
+                        <p class="text-xs opacity-90">Content creator e notiziari</p>
+                    </div>
+                </div>
+                
+                <div class="bg-violet-50 p-6 rounded-xl">
+                    <h4 class="font-bold text-violet-800 mb-3">📊 Statistiche Utilizzo / Usage Statistics</h4>
+                    <div class="grid md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-white p-3 rounded-lg">
+                            <div class="font-bold text-2xl text-violet-600">25M+</div>
+                            <div class="text-gray-600">Utenti internet in Tanzania</div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg">
+                            <div class="font-bold text-2xl text-violet-600">60%</div>
+                            <div class="text-gray-600">Penetrazione mobile</div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg">
+                            <div class="font-bold text-2xl text-violet-600">#3</div>
+                            <div class="text-gray-600">Lingua africana su Twitter</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Affairs Topics -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Mada za Kisasa / Current Affairs Topics</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-emerald-500">
+                        <div class="text-3xl">🌍</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Jumuiya ya Afrika Mashariki / East African Community</h4>
+                            <p class="text-gray-600 text-sm">Integrazione economica tra Tanzania, Kenya, Uganda, Rwanda, Burundi, S.Sudan e DRC. Libera circolazione, moneta comune in discussione.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <div class="text-3xl">⚡</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Nishati Mbadala / Renewable Energy</h4>
+                            <p class="text-gray-600 text-sm">Progetti idroelettrici (Julius Nyerere Dam), geotermico, solare. Obiettivo: energia universale entro 2030.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-amber-500">
+                        <div class="text-3xl">🚄</div>
+                        <div>
+                            <h4 class="font-bold text-lg">SGR - Standard Gauge Railway</h4>
+                            <p class="text-gray-600 text-sm">Ferrovia ad alta velocità Tanzania-Kenya. Collegamento Dar es Salaam-Mombasa-Nairobi. Investimenti cinesi.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-purple-500">
+                        <div class="text-3xl">🏝️</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Uchumi wa Bluu / Blue Economy</h4>
+                            <p class="text-gray-600 text-sm">Sviluppo sostenibile dell'Oceano Indiano: pesca, turismo, trasporto marittimo, energia dalle onde.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-pink-500">
+                        <div class="text-3xl">👩‍💼</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Usawa wa Kijinsia / Gender Equality</h4>
+                            <p class="text-gray-600 text-sm">Presidenza Samia Suluhu (prima donna in Tanzania). Rappresentanza femminile in parlamento. Sfide: matrimonio infantile, FGM.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-red-500">
+                        <div class="text-3xl">🎭</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Utamaduni na Burudani / Culture and Entertainment</h4>
+                            <p class="text-gray-600 text-sm">Bongo Flava (hip-hop swahili), Nollywood vs Swahiliwood, festival Zanzibar (ZIFF), letteratura contemporanea.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Press Freedom -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Uhuru wa Habari / Press Freedom</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-amber-50 p-6 rounded-xl border-2 border-amber-200">
+                        <h4 class="font-bold text-amber-800 mb-3">⚠️ Sfide / Challenges</h4>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• Leggi sul cybercrimine (2015) usate per reprimere</li>
+                            <li>• Chiusura temporanea di media indipendenti</li>
+                            <li>• Autocensura dei giornalisti</li>
+                            <li>• Minacce fisiche a reporter investigativi</li>
+                            <li>• Controllo statale su TBC</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-emerald-50 p-6 rounded-xl border-2 border-emerald-200">
+                        <h4 class="font-bold text-emerald-800 mb-3">✅ Progressi / Progress</h4>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• Apertura sotto presidente Samia Suluhu</li>
+                            <li>• Riapertura di organi stampa banditi</li>
+                            <li>• Crescita del giornalismo digitale indipendente</li>
+                            <li>• Piattaforme di fact-checking (Tanzania Check)</li>
+                            <li>• Libertà accresciuta sui social media</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-100 rounded-lg text-center">
+                    <p class="text-sm text-gray-600">Classifica Reporter Senza Frontiere 2023: Tanzania #92, Kenya #116, Somalia #141 su 180 paesi</p>
+                </div>
+            </div>
+
+            <!-- Key Media Terms -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Masharti ya Vyombo vya Habari / Key Media Terms</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Habari</h5>
+                        <p class="text-xs text-gray-500 mb-1">News/Information</p>
+                        <p class="text-sm text-gray-700">Notizia, informazione. Derivato da "-bari" (raccontare).</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Mwandishi</h5>
+                        <p class="text-xs text-gray-500 mb-1">Journalist/Writer</p>
+                        <p class="text-sm text-gray-700">Giornalista, colui che scrive. Plurale: waandishi.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Chapisho</h5>
+                        <p class="text-xs text-gray-500 mb-1">Publication/Post</p>
+                        <p class="text-sm text-gray-700">Articolo, post, pubblicazione sui media.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Mtazamo</h5>
+                        <p class="text-xs text-gray-500 mb-1">Opinion/Editorial</p>
+                        <p class="text-sm text-gray-700">Editoriale, punto di vista, opinione.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Uchunguzi</h5>
+                        <p class="text-xs text-gray-500 mb-1">Investigation</p>
+                        <p class="text-sm text-gray-700">Giornalismo investigativo, inchiesta.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-violet-700">Uongo</h5>
+                        <p class="text-xs text-gray-500 mb-1">Fake news/Lie</p>
+                        <p class="text-sm text-gray-700">Notizia falsa, menzogna. Problema crescente online.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Innovation -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Ubunifu wa Kidigitali / Digital Innovation</h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-violet-100 to-purple-100 p-6 rounded-xl">
+                        <div class="text-4xl mb-3">📲</div>
+                        <h4 class="font-bold text-violet-800 mb-2">M-Pesa Journalism</h4>
+                        <p class="text-sm text-gray-700">Micro-pagamenti per contenuti giornalistici via mobile. Crowdfunding per inchieste.</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-100 to-cyan-100 p-6 rounded-xl">
+                        <div class="text-4xl mb-3">🤖</div>
+                        <h4 class="font-bold text-blue-800 mb-2">AI na Habari</h4>
+                        <p class="text-sm text-gray-700">Traduzione automatica swahili-inglese, fact-checking AI, chatbot per news.</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-100 to-emerald-100 p-6 rounded-xl">
+                        <div class="text-4xl mb-3">🎙️</div>
+                        <h4 class="font-bold text-green-800 mb-2">Podcast Swahili</h4>
+                        <p class="text-sm text-gray-700">Crescita esponenziale di podcast in swahili: storia, politica, cultura pop.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Mazoezi ya Vyombo vya Habari / Media Exercises</h2>
+                <p class="text-gray-600">Completa le frasi / Complete the sentences (2 punti each)</p>
+            </div>
+
+            <form id="exercise-form" class="space-y-6">
+                
+                <!-- Exercise 1 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">1</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La lingua swahili è la <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="terza|3ª"> lingua africana più usata su Twitter.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="2">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">2</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">BBC Swahili è stata fondata nel <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="1957">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="3">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">3</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il mezzo di comunicazione più popolare in Tanzania è la <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="radio|redio">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="4">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">4</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Jamii Forums è chiamata la "<input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Wikipedia|Wikipedia della Tanzania"> della Tanzania".</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="5">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">5</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Millard Ayo è un famoso <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="blogger|giornalista digitale|mwandishi"> tanzaniano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 6 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">6</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">TBC sta per <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Tanzania Broadcasting Corporation">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="7">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">7</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="penetrazione|matumizi"> mobile in Tanzania è circa del 60%.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="8">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">8</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Samia Suluhu è la prima <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="donna|mwanamke|rais mwanamke"> presidente della Tanzania.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="9">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">9</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'<input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="East African Community|EAC|Jumuiya"> comprende 7 paesi dell'Africa orientale.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="10">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">10</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="SGR|Standard Gauge Railway"> è la nuova ferrovia ad alta velocità.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 11 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="11">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">11</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">M-Pesa è un sistema di <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="pagamento mobile|malipo ya simu|mobile money"> nato in Kenya.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 12 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="12">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">12</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Bongo Flava|hip hop|mziki"> è il genere musicale popolare swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 13 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="13">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">13</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">ZIFF è il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Zanzibar International Film Festival|festival del cinema">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 14 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="14">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">14</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La legge sul <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="cybercrimine|uhalifu wa kimtandao|2015"> del 2015 limita la libertà di stampa.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 15 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="15">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">15</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">"Habari" in swahili significa <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="notizia|news|informazione|habari">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 16 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="16">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">16</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Un giornalista in swahili si chiama <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="mwandishi|mwandishi wa habari">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 17 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="17">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">17</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'<input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="uchumi wa bluu|blue economy"> si riferisce allo sviluppo sostenibile dell'oceano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 18 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="18">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">18</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="diga|diga ya Nyerere|Julius Nyerere"> è la più grande diga idroelettrica della Tanzania.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 19 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="19">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">19</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="fact-checking|uhakiki|ukaguzi"> è la verifica dei fatti contro le fake news.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 20 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="20">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">20</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">"Uongo" significa <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="falsa notizia|bugia|fake news|menzogna"> in swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 21 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="21">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">21</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="podcast|podcasti"> in swahili stanno crescendo rapidamente.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 22 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="22">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">22</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="giornalismo investigativo|uchunguzi"> svela corruzione e scandali.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 23 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="23">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">23</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="censura|kuzuia|udhibiti"> dei media è un problema in alcuni periodi.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 24 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="24">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">24</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="social media|mitandao ya kijamii"> hanno democratizzato l'informazione.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 25 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="25">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">25</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="crowdfunding|uchangiaji"> finanzia progetti giornalistici.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 26 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="26">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">26</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="libertà di stampa|uhuru wa habari"> è garantita costituzionalmente ma limitata.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 27 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="27">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">27</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Gli <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="influencer|watawala wa maoni"> swahili hanno milioni di follower.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 28 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="28">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">28</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="turismo|utalii"> è tornato a crescere dopo il COVID-19.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 29 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="29">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">29</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="parità di genere|usawa wa kijinsia"> è un tema centrale nell'attualità.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 30 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">30</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="cambiamento climatici|mabadiliko ya tabianchi"> minaccia la costa swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 31 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="31">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">31</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="diga|diga ya Nyerere|Julius Nyerere Dam"> sul fiume Rufiji è controversa.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 32 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="32">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">32</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Gli <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="investimenti cinesi|uwekezaji wa China"> finanziano infrastrutture.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 33 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="33">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">33</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="lingua inglese|Kiingereza"> è co-ufficiale con lo swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 34 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="34">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">34</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="giornata mondiale|siku ya kimataifa"> della lingua swahili è il 7 luglio.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 35 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="35">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">35</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="giornalisti|waandishi wa habari"> rischiano la vita per inchieste.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 36 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="36">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">36</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="radio digitale|redio ya kidigitali"> sta sostituendo quella analogica.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 37 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="37">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">37</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="telefono cellulare|simu ya mkononi"> è il principale dispositivo di accesso.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 38 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="38">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">38</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="bandwidth|kas ya mtandao"> internet è in crescita nelle città.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 39 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="39">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">39</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Gli <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="startup|kuanzisha|vijana"> tecnologici crescono a Nairobi e Dar.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 40 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="40">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">40</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="blockchain|sarafu za kidigitali"> è usata per trasparenza.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 41 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="41">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">41</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="giornalismo civico|habari za jamii"> coinvolge i cittadini.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 42 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="42">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">42</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="elezioni|uchaguzi|2020|2025"> sono coperte intensamente dai media.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 43 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="43">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">43</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="comunità internazionali|kimataifa"> segue l'Africa orientale.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 44 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="44">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">44</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Papa|Papa Francesco"> ha visitato Mozambico nel 2019.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 45 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="45">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">45</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="COP|conferenza sul clima|climate change"> 27 ha discusso l'Africa.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 46 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="46">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">46</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Gli <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="attacchi terroristici|uvamizi|Al-Shabaab"> in Kenya fanno notizia.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 47 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="47">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">47</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="crisi alimentari|njaa|ukosefu wa chakula"> è ricorrente nel Sahel.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 48 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="48">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">48</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="gas naturale|gesi|mafuta"> di Mozambico è strategico.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 49 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="49">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">49</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="migrazione|hamia|wakimbizi"> verso l'Europa è un tema caldo.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 50 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="50">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-violet-600 text-white px-3 py-1 rounded-full text-sm font-bold">50</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="futuro|mustakbali|kesho"> dei media swahili è digitale e mobile.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="glass-panel rounded-2xl p-8 text-center mt-8">
+                    <button type="button" onclick="checkAllAnswers()" class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg mb-4">
+                        Verifica Tutte le Risposte / Check All Answers
+                    </button>
+                    <p class="text-gray-600 text-sm mb-4">Oppure premi Invio in qualsiasi campo per verificare automaticamente</p>
+                    
+                    <div id="final-results" class="hidden mt-6 p-6 bg-violet-50 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-4">Risultati Finali / Final Results</h3>
+                        <div class="text-4xl font-bold text-violet-700 mb-2" id="final-score">0/100</div>
+                        <p class="text-gray-600 mb-4" id="final-message"></p>
+                        
+                        <div class="bg-white p-4 rounded-lg mb-4 text-left">
+                            <p class="font-semibold mb-2">Invia i risultati via email / Send results via email:</p>
+                            <a id="email-link" href="#" class="text-violet-600 hover:underline break-all"></a>
+                        </div>
+                        
+                        <button type="button" onclick="resetExercises()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold transition-colors">
+                            Ricomincia / Restart
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        // Navigation
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+                window.scrollTo(0, 0);
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navExercises.classList.add('tab-active');
+                navTheory.classList.remove('tab-active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Exercise Logic
+        let currentScore = 0;
+        let answeredQuestions = new Set();
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('.input-swahili').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkAnswer(this);
+                }
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value.trim() !== '') {
+                    checkAnswer(this);
+                }
+            });
+        });
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[^a-z0-9\s]/g, '')
+                .trim();
+        }
+
+        function checkAnswer(input) {
+            const card = input.closest('.exercise-card');
+            const questionNum = card.dataset.question;
+            const userAnswer = input.value.trim();
+            const correctAnswers = input.dataset.answer.split('|').map(a => a.trim());
+            const feedback = card.querySelector('.feedback');
+            
+            if (!userAnswer) return;
+            
+            const normalizedUser = normalizeAnswer(userAnswer);
+            const isCorrect = correctAnswers.some(ans => normalizeAnswer(ans) === normalizedUser);
+            
+            // Update visual state
+            input.classList.remove('correct', 'incorrect');
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            // Show feedback
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                feedback.className = 'feedback mt-3 p-3 rounded-lg bg-green-100 text-green-800';
+                feedback.innerHTML = '✓ Corretto! / Correct!';
+                
+                if (!answeredQuestions.has(questionNum)) {
+                    currentScore += 2;
+                    answeredQuestions.add(questionNum);
+                }
+            } else {
+                feedback.className = 'feedback mt-3 p-3 rounded-lg bg-red-100 text-red-800';
+                feedback.innerHTML = `✗ Sbagliato. Risposta corretta: <strong>${correctAnswers[0]}</strong> / Wrong. Correct answer: <strong>${correctAnswers[0]}</strong>`;
+                
+                if (!answeredQuestions.has(questionNum)) {
+                    answeredQuestions.add(questionNum);
+                }
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalQuestions = 50;
+            const answered = answeredQuestions.size;
+            const percentage = (answered / totalQuestions) * 100;
+            
+            document.getElementById('progress-text').textContent = `${answered}/${totalQuestions}`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('current-score').textContent = currentScore;
+        }
+
+        function checkAllAnswers() {
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                if (input.value.trim() !== '') {
+                    checkAnswer(input);
+                }
+            });
+            
+            showFinalResults();
+        }
+
+        function showFinalResults() {
+            const finalResults = document.getElementById('final-results');
+            const finalScore = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            const emailLink = document.getElementById('email-link');
+            
+            finalResults.classList.remove('hidden');
+            finalScore.textContent = `${currentScore}/100`;
+            
+            let message = '';
+            if (currentScore >= 90) {
+                message = 'Eccellente! / Excellent! 🌟';
+            } else if (currentScore >= 70) {
+                message = 'Molto bene! / Very good! 👏';
+            } else if (currentScore >= 60) {
+                message = 'Sufficiente. / Pass. ✅';
+            } else {
+                message = 'Da migliorare. / Needs improvement. 📚';
+            }
+            finalMessage.textContent = message;
+            
+            // Generate email
+            const subject = `Risultati Media e Attualità Swahili - ${currentScore}/100`;
+            const body = `Salve,\\n\\nHo completato gli esercizi su Media e Attualità Swahili.\\n\\nPunteggio: ${currentScore}/100\\nRisposte corrette: ${currentScore/2}/50\\n\\nCordiali saluti`;
+            const mailtoLink = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            emailLink.href = mailtoLink;
+            emailLink.textContent = 'Clicca qui per inviare email / Click here to send email';
+            
+            // Scroll to results
+            finalResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetExercises() {
+            currentScore = 0;
+            answeredQuestions.clear();
+            
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.classList.add('hidden');
+            });
+            
+            document.getElementById('final-results').classList.add('hidden');
+            updateProgress();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
