@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letteratura Swahili di Base - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #581c87;
+            --secondary: #9333ea;
+            --accent: #c026d3;
+            --bg-warm: #faf5ff;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(88, 28, 135, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.08) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-lit {
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(88, 28, 135, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #9333ea);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(88, 28, 135, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .lit-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lit-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .lit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .book-spine {
+            background: linear-gradient(135deg, #581c87, #7c3aed);
+            border-radius: 0 4px 4px 0;
+            box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .book-spine::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .poem-stanza {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 1rem 1rem 0;
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+        }
+        
+        .genre-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .gen-oral { background: #fef3c7; color: #92400e; }
+        .gen-written { background: #dbeafe; color: #1e40af; }
+        .gen-poetry { background: #fce7f3; color: #9d174d; }
+        .gen-prose { background: #d1fae5; color: #065f46; }
+        .gen-drama { background: #fee2e2; color: #991b1b; }
+        
+        .author-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .author-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .timeline-node {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: -2.25rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .literary-device {
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+            border: 2px solid #c4b5fd;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .quote-mark {
+            font-size: 4rem;
+            line-height: 1;
+            color: var(--primary);
+            opacity: 0.2;
+            font-family: serif;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-800 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    📚
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-purple-800">Literature</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-purple-800">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-purple-800">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-800 to-violet-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-purple-800">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Fasihi ya Kiswahili</h2>
+                <p class="text-xl text-gray-600 mb-2">Swahili Literature - Basics</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-800 to-violet-600 mx-auto rounded-full mt-6"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Dalla tradizione orale alle opere scritte: epica, poesia, prosa e teatro della costa swahili</p>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-purple-800">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-800">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        La <strong>letteratura swahili</strong> ha radici antiche nella tradizione orale (<em>hadithi</em>, <em>ngano</em>, <em>mizimu</em>), poi trascritta con l'alfabeto arabo (<em>ajami</em>) dal XVII secolo e in caratteri latini dal XIX secolo. Si distingue per la fusione di temi bantu con forme arabe e influenze indiane.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: La poesia (<em>ushairi</em>) è il genere più prestigioso, con rigide regole metriche e tematiche.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-violet-600">
+                    <h3 class="text-2xl font-bold mb-4 text-violet-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        <strong>Swahili literature</strong> has ancient roots in oral tradition (<em>hadithi</em>, <em>ngano</em>, <em>mizimu</em>), then transcribed in Arabic script (<em>ajami</em>) from the 17th century and Latin characters from the 19th century. It is distinguished by the fusion of Bantu themes with Arabic forms and Indian influences.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: Poetry (<em>ushairi</em>) is the most prestigious genre, with strict metrical rules and themes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Literary Genres -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Aina za Fasihi / Literary Genres</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Oral Poetry -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🎭</span>
+                            <span class="genre-badge gen-oral">Oral</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Tendi / Nyimbo</h4>
+                        <p class="text-gray-600 text-sm mb-3">Poesia epica cantata con accompagnamento musicale. Storie di eroi, amori, guerre.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Epic poetry sung with music</div>
+                    </div>
+
+                    <!-- Lyric Poetry -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">💔</span>
+                            <span class="genre-badge gen-poetry">Poetry</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Malenga / Ushairi</h4>
+                        <p class="text-gray-600 text-sm mb-3">Poesia lirica su amore, filosofia, religione. Forme: shairi, utenzi, gabar.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Lyric poetry: love, philosophy</div>
+                    </div>
+
+                    <!-- Prose Tales -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">📖</span>
+                            <span class="genre-badge gen-oral">Oral</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Hadithi / Ngano</h4>
+                        <p class="text-gray-600 text-sm mb-3">Racconti popolari, fiabe con animali parlanti (Hadithi za Sungura), proverbi.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Folktales, animal stories</div>
+                    </div>
+
+                    <!-- Epic -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">⚔️</span>
+                            <span class="genre-badge gen-written">Written</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Utendi / Utenzi</h4>
+                        <p class="text-gray-600 text-sm mb-3">Poemi epici in stanze di 4 versi (vina), con rima aaba. Esempio: Utendi wa Tambuka.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Epic poems in 4-line stanzas</div>
+                    </div>
+
+                    <!-- Drama -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🎪</span>
+                            <span class="genre-badge gen-drama">Drama</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Tamthilia</h4>
+                        <p class="text-gray-600 text-sm mb-3">Teatro moderno (post-1960). Temi sociali, politici, storici. Esempio: Mfalme Juha.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Modern drama (post-1960)</div>
+                    </div>
+
+                    <!-- Novel -->
+                    <div class="lit-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">📚</span>
+                            <span class="genre-badge gen-prose">Prose</span>
+                        </div>
+                        <h4 class="font-bold text-lg swahili-lit mb-2">Riwaya / Hadithi</h4>
+                        <p class="text-gray-600 text-sm mb-3">Romanzo moderno. Primo: Swifa ya Mpunguti (1948). Temi: colonialismo, amore, conflitti.</p>
+                        <div class="text-xs text-purple-700 font-semibold">Modern novel (from 1948)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Famous Authors -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Waandishi Mashuhuri / Famous Authors</h3>
+                
+                <div class="author-timeline max-w-3xl mx-auto">
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Fumo Liongo (Sec. XVII)</div>
+                        <p class="text-gray-600">Poeta-eroe leggendario di Pate. Autore di poesie satiriche e amorose. Simbolo di resistenza.</p>
+                        <div class="text-sm text-gray-500 mt-1">Legendary poet-hero of Pate</div>
+                    </div>
+                    
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Muyaka bin Haji al-Ghassaniy (1776-1840)</div>
+                        <p class="text-gray-600">Poeta di Mombasa. Famoso per poesie politiche e amorose in forma <em>shairi</em>.</p>
+                        <div class="text-sm text-gray-500 mt-1">Mombasa poet, political and love poetry</div>
+                    </div>
+                    
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Shaaban Robert (1909-1962)</div>
+                        <p class="text-gray-600">"Poeta nazionale della Tanzania". Opere: Kusadikika (allegoria politica), Kufikirika, Adili na Nduguze.</p>
+                        <div class="text-sm text-gray-500 mt-1">National poet of Tanzania</div>
+                    </div>
+                    
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Euphrase Kezilahabi (1944-2020)</div>
+                        <p class="text-gray-600">Poeta sperimentale, romanziere. Opere: Gamba la Nyoka, Nagona, Mzingile. Introduce il free verse.</p>
+                        <div class="text-sm text-gray-500 mt-1">Experimental poet and novelist</div>
+                    </div>
+                    
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Mohamed Suleiman (1952-)</div>
+                        <p class="text-gray-600">Romanziere contemporaneo. Opere: Nyota ya Rehema, Mapenzi ya Fujo. Temi: AIDS, emigrazione, modernità.</p>
+                        <div class="text-sm text-gray-500 mt-1">Contemporary novelist</div>
+                    </div>
+                    
+                    <div class="timeline-node">
+                        <div class="font-bold text-purple-800 text-lg">Penina Muhando (1948-)</div>
+                        <p class="text-gray-600">Drammaturga femminile pioniera. Opere: Hatia, Nguzo Mama. Teatro impegnato su temi sociali.</p>
+                        <div class="text-sm text-gray-500 mt-1">Pioneer female playwright</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic Works -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-purple-800 flex items-center gap-2">
+                        <span>📜</span> Opere Classiche / Classic Works
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 bg-purple-50 p-3 rounded-lg">
+                            <div class="book-spine w-12 h-16 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-purple-900">Utendi wa Tambuka</div>
+                                <div class="text-sm text-gray-600">Poema epico (1728) sulla conquista islamica dell'Egitto. 3,000+ stanze.</div>
+                                <div class="text-xs text-purple-700">Epic poem on Islamic conquest of Egypt</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 bg-purple-50 p-3 rounded-lg">
+                            <div class="book-spine w-12 h-16 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-purple-900">Inkishafi</div>
+                                <div class="text-sm text-gray-600">Poesia meditativa sulla caduta del Sultanato di Pate. Autore: Sayyid Abdallah.</div>
+                                <div class="text-xs text-purple-700">Meditative poem on fall of Pate</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 bg-purple-50 p-3 rounded-lg">
+                            <div class="book-spine w-12 h-16 flex-shrink-0"></div>
+                            <div>
+                                <div class="font-bold text-purple-900">Kusadikika</div>
+                                <div class="text-sm text-gray-600">Romanzo allegorico di Shaaban Robert (1951). Critica del colonialismo.</div>
+                                <div class="text-xs text-purple-700">Allegorical novel criticizing colonialism</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-violet-600 flex items-center gap-2">
+                        <span>✍️</span> Forme Poetiche / Poetic Forms
+                    </h4>
+                    
+                    <div class="space-y-3">
+                        <div class="literary-device">
+                            <div class="font-bold text-violet-800 mb-1">Shairi</div>
+                            <p class="text-sm text-gray-600">Quatrain (4 versi) con rima aaba o abcb. Metro: 8-8-8-8 o 8-4-8-4 sillabe.</p>
+                        </div>
+                        
+                        <div class="literary-device">
+                            <div class="font-bold text-violet-800 mb-1">Utenzi / Utendi</div>
+                            <p class="text-sm text-gray-600">Poema epico in stanze di 4 versi. Rima concatenata: stanza 1 (aaba), stanza 2 (baac), stanza 3 (caad)...</p>
+                        </div>
+                        
+                        <div class="literary-device">
+                            <div class="font-bold text-violet-800 mb-1">Gabar</div>
+                            <p class="text-sm text-gray-600">Poesia di lode, elegia o satira. Forma libera ma con ritmo marcato.</p>
+                        </div>
+                        
+                        <div class="literary-device">
+                            <div class="font-bold text-violet-800 mb-1">Free Verse (Mishairí ya Uhuru)</div>
+                            <p class="text-sm text-gray-600">Poesia libera moderna, senza rime fisse. Kezilahabi pioniere.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Poem -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Esempio: Shairi di Muyaka</h3>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="poem-stanza">
+                        <p class="text-lg mb-2">Kisa cha mwanamke ni kisa,</p>
+                        <p class="text-lg mb-2">Kisa cha mwanamume ni kisa,</p>
+                        <p class="text-lg mb-2">Kisa cha watoto ni kisa,</p>
+                        <p class="text-lg">Lakini kisa cha Mombasa ni hadithi.</p>
+                    </div>
+                    
+                    <div class="text-center text-gray-600 italic mb-4">
+                        "La storia di una donna è una storia,<br>
+                        La storia di un uomo è una storia,<br>
+                        La storia dei bambini è una storia,<br>
+                        Ma la storia di Mombasa è un racconto epico."
+                    </div>
+                    
+                    <div class="text-sm text-gray-500 text-center">
+                        — Muyaka bin Haji, XIX secolo<br>
+                        <span class="italic">Sulla grandezza storica di Mombasa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Literary Devices -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-xl font-bold mb-6 text-center">Vifaa vya Fasihi / Literary Devices</h4>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl">
+                        <div class="text-2xl mb-2">🔄</div>
+                        <div class="font-bold text-purple-800">Tashbihi</div>
+                        <div class="text-sm text-gray-600">Similitudine<br>"kama" (come)</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl">
+                        <div class="text-2xl mb-2">🎭</div>
+                        <div class="font-bold text-purple-800">Chuki</div>
+                        <div class="text-sm text-gray-600">Personificazione<br>animali/objetti parlanti</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl">
+                        <div class="text-2xl mb-2">🔊</div>
+                        <div class="font-bold text-purple-800">Sauti</div>
+                        <div class="text-sm text-gray-600">Onomatopea<br>suoni della natura</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl">
+                        <div class="text-2xl mb-2">🔄</div>
+                        <div class="font-bold text-purple-800">Rudia</div>
+                        <div class="text-sm text-gray-600">Ripetizione<br>per enfasi ritmica</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oral vs Written -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-xl font-bold mb-4 text-center">Fasihi Simulizi vs Andishi / Oral vs Written Literature</h4>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-amber-50 rounded-xl p-5 border-2 border-amber-200">
+                        <h5 class="font-bold text-amber-800 mb-3 flex items-center gap-2">
+                            <span>🗣️</span> Simulizi (Oral)
+                        </h5>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• Trasmessa oralmente di generazione in generazione</li>
+                            <li>• Variabile, adattata al contesto</li>
+                            <li>• Interattiva: pubblico partecipa</li>
+                            <li>• Generi: ngano, misemo, mashairi ya jadi</li>
+                            <li>• Strumenti: ngoma, zeze, marimba</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-xl p-5 border-2 border-blue-200">
+                        <h5 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                            <span>✍️</span> Andishi (Written)
+                        </h5>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• Fissata in testo, invariabile</li>
+                            <li>• Autore individuale riconosciuto</li>
+                            <li>• Lettura solitaria o teatrale</li>
+                            <li>• Generi: riwaya, tamthilia, ushairi wa vifo</li>
+                            <li>• Media: vitabu, magazeti, mtandao</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi sulla Letteratura Swahili</h2>
+                <p class="text-gray-600">Complete with the correct literary terms</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-purple-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-purple-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-purple-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Swahili Literature
+        const exercises = [
+            // Genres & Forms (1-15)
+            { id: 1, text: "La letteratura swahili si divide in _____ (orale) e andishi (scritta). (Swahili literature is divided into _____ (oral) and written)", answer: "simulizi", hint: "orale" },
+            { id: 2, text: "La poesia epica cantata si chiama _____. (Epic sung poetry is called _____)", answer: "tendi", hint: "epica" },
+            { id: 3, text: "I racconti popolari con animali parlanti sono _____. (Folktales with talking animals are _____)", answer: "ngano", hint: "fiabe" },
+            { id: 4, text: "La forma poetica base è il _____, quatrain di 4 versi. (The basic poetic form is _____, 4-line stanza)", answer: "shairi", hint: "quatrain" },
+            { id: 5, text: "L'_____ è il poema epico in stanze concatenate. (_____ is the epic poem in linked stanzas)", answer: "utenzi", hint: "epica" },
+            { id: 6, text: "Il teatro moderno si chiama _____. (Modern drama is called _____)", answer: "tamthilia", hint: "teatro" },
+            { id: 7, text: "Il romanzo moderno è la _____. (The modern novel is _____)", answer: "riwaya", hint: "romanzo" },
+            { id: 8, text: "Le _____ sono poesie di lode o elegia. (_____ are poems of praise or elegy)", answer: "gabar", hint: "lodi" },
+            { id: 9, text: "La poesia libera moderna è _____. (Modern free verse is _____)", answer: "mishairi ya uhuru", hint: "poesia libera" },
+            { id: 10, text: "Gli _____ sono proverbi letterari. (_____ are literary proverbs)", answer: "misemo", hint: "proverbi" },
+            { id: 11, text: "Le _____ sono storie con morale. (_____ are stories with moral)", answer: "hadithi", hint: "racconti" },
+            { id: 12, text: "Il _____ è il cantastorie tradizionale. (_____ is the traditional storyteller)", answer: "mhadhiri", hint: "cantastorie" },
+            { id: 13, text: "La _____ è la poesia lirica d'amore. (_____ is love lyric poetry)", answer: "malenga", hint: "lirica" },
+            { id: 14, text: "Gli _____ sono spiriti nei racconti. (_____ are spirits in tales)", answer: "mizimu", hint: "spiriti" },
+            { id: 15, text: "La _____ è la satira poetica. (_____ is poetic satire)", answer: "mivugo", hint: "satira" },
+            
+            // Authors (16-30)
+            { id: 16, text: "_____ Liongo è il poeta-eroe leggendario di Pate. (_____ Liongo is the legendary poet-hero of Pate)", answer: "fumo", hint: "Fumo" },
+            { id: 17, text: "Muyaka bin Haji al-_____ è il poeta di Mombasa. (Muyaka bin Haji al-_____ is the poet of Mombasa)", answer: "ghassaniy", hint: "Ghassaniy" },
+            { id: 18, text: "_____ Robert è il poeta nazionale della Tanzania. (_____ Robert is the national poet of Tanzania)", answer: "shaaban", hint: "Shaaban" },
+            { id: 19, text: "Euphrase _____ è il poeta sperimentale. (Euphrase _____ is the experimental poet)", answer: "kezilahabi", hint: "Kezilahabi" },
+            { id: 20, text: "Mohamed _____ è il romanziere contemporaneo. (Mohamed _____ is the contemporary novelist)", answer: "suleiman", hint: "Suleiman" },
+            { id: 21, text: "Penina _____ è la drammaturga pioniera. (Penina _____ is the pioneer playwright)", answer: "muhando", hint: "Muhando" },
+            { id: 22, text: "Sayyid Abdallah ha scritto _____, poesia sulla caduta di Pate. (Sayyid Abdallah wrote _____, poem on fall of Pate)", answer: "inkishafi", hint: "Inkishafi" },
+            { id: 23, text: "Kezilahabi ha scritto _____, romanzo sperimentale. (Kezilahabi wrote _____, experimental novel)", answer: "nagona", hint: "Nagona" },
+            { id: 24, text: "_____ na Nduguze è opera di Shaaban Robert. (_____ and His Brothers is by Shaaban Robert)", answer: "adili", hint: "Adili" },
+            { id: 25, text: "Mfalme _____ è famosa commedia. (King _____ is a famous comedy)", answer: "juha", hint: "Juha" },
+            { id: 26, text: "_____ ya Rehema è romanzo di Suleiman. (_____ of Rehema is Suleiman's novel)", answer: "nyota", hint: "Nyota" },
+            { id: 27, text: "_____ la Nyoka è romanzo di Kezilahabi. (_____ of the Snake is Kezilahabi's novel)", answer: "gamba", hint: "Gamba" },
+            { id: 28, text: "_____ ya Mpunguti è primo romanzo swahili (1948). (_____ of Mpunguti is first Swahili novel)", answer: "swifa", hint: "Swifa" },
+            { id: 29, text: "_____ Mama è dramma di Penina Muhando. (_____ Mother is Penina Muhando's drama)", answer: "nguzo", hint: "Nguzo" },
+            { id: 30, text: "_____ za Sungura sono favole con coniglio. (_____ of Sungura are tales with hare)", answer: "hadithi", hint: "Hadithi" },
+            
+            // Works & Techniques (31-40)
+            { id: 31, text: "Utendi wa _____ è poema epico del 1728. (Utendi wa _____ is epic poem of 1728)", answer: "tambuka", hint: "Tambuka" },
+            { id: 32, text: "_____ è allegoria politica di Shaaban Robert. (_____ is political allegory by Shaaban Robert)", answer: "kusadikika", hint: "Kusadikika" },
+            { id: 33, text: "La rima dello shairi è _____. (The rhyme of shairi is _____)", answer: "aaba", hint: "aaba" },
+            { id: 34, text: "Il metro base è _____-8-8-8 o 8-4-8-4. (Basic meter is 8-8-8-8 or _____-4-8-4)", answer: "nane", hint: "otto" },
+            { id: 35, text: "_____ è la similitudine ("come"). (_____ is simile ("like"))", answer: "tashbihi", hint: "similitudine" },
+            { id: 36, text: "_____ è la personificazione. (_____ is personification)", answer: "chuki", hint: "personificazione" },
+            { id: 37, text: "_____ è la ripetizione per enfasi. (_____ is repetition for emphasis)", answer: "rudia", hint: "ripetizione" },
+            { id: 38, text: "_____ è l'onomatopea. (_____ is onomatopoeia)", answer: "sauti", hint: "suono" },
+            { id: 39, text: "Lo shairi usa la rima _____. (Shairi uses _____ rhyme)", answer: "mwanzo", hint: "iniziale/finale" },
+            { id: 40, text: "L'utenzi usa rima _____. (Utenzi uses _____ rhyme)", answer: "mshikamano", hint: "concatenata" },
+            
+            // History & Context (41-50)
+            { id: 41, text: "La letteratura orale usa l'alfabeto _____. (Oral literature uses _____ script)", answer: "ajami", hint: "arabo" },
+            { id: 42, text: "I caratteri latini furono introdotti dai _____. (Latin characters were introduced by _____)", answer: "wamisionari", hint: "missionari" },
+            { id: 43, text: "Il poema _____ lamenta la caduta di Pate. (_____ poem laments fall of Pate)", answer: "inkishafi", hint: "Inkishafi" },
+            { id: 44, text: "_____ è il "poeta nazionale" tanzaniano. (_____ is the "national poet" of Tanzania)", answer: "shaaban robert", hint: "Shaaban Robert" },
+            { id: 45, text: "La letteratura swahili fiorisce dal secolo _____. (Swahili literature flourishes from _____ century)", answer: "xvii", hint: "17" },
+            { id: 46, text: "_____ Flava è musica moderna influenzata dalla letteratura. (_____ Flava is modern music influenced by literature)", answer: "bongo", hint: "Bongo" },
+            { id: 47, text: "Le _____ sono raccolte di poesia. (_____ are poetry collections)", answer: "diwani", hint: "diwan" },
+            { id: 48, text: "_____ è il canto funebre. (_____ is funeral song)", answer: "mchezo wa kuigiza", hint: "lamento" },
+            { id: 49, text: "Il _____ è il pubblico-partecipante nella poesia orale. (_____ is the participating audience in oral poetry)", answer: "watazamaji", hint: "pubblico" },
+            { id: 50, text: "_____ ya Uhuru è poesia post-indipendenza. (_____ of Freedom is post-independence poetry)", answer: "mishairi", hint: "Mishairi" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-800 to-violet-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-purple-800 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-purple-800 hover:text-purple-900 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>
