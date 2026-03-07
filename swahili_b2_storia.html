@@ -1,0 +1,797 @@
+continua <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storia e Civiltà Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com "></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300 ;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #b45309;
+            --accent: #047857;
+            --bg-warm: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(30, 58, 138, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(180, 83, 9, 0.08) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-history {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .history-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .history-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .history-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .era-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .era-ancient { background: #fef3c7; color: #92400e; }
+        .era-medieval { background: #fee2e2; color: #991b1b; }
+        .era-early { background: #dbeafe; color: #1e40af; }
+        .era-colonial { background: #d1fae5; color: #065f46; }
+        .era-modern { background: #fce7f3; color: #9d174d; }
+        
+        .timeline-main {
+            position: relative;
+            padding-left: 3rem;
+        }
+        
+        .timeline-main::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .timeline-period {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+        
+        .timeline-period::before {
+            content: '';
+            position: absolute;
+            left: -3.25rem;
+            top: 0.5rem;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            z-index: 10;
+        }
+        
+        .civilization-layer {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 2px solid #cbd5e1;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .layer-indicator {
+            position: absolute;
+            left: -2px;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            border-radius: 1rem 0 0 1rem;
+        }
+        
+        .layer-bantu { background: #dc2626; }
+        .layer-arab { background: #059669; }
+        .layer-persian { background: #7c3aed; }
+        .layer-indian { background: #ea580c; }
+        .layer-portuguese { background: #0891b2; }
+        .layer-british { background: #4338ca; }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .trade-route {
+            stroke-dasharray: 10;
+            animation: dash 20s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        
+        .city-state {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .city-state:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-900 to-amber-700 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    🏛️
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-blue-900">History</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-blue-900">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-blue-900">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-blue-900 to-amber-700 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-blue-900">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Historia na Utamaduni</h2>
+                <p class="text-xl text-gray-600 mb-2">History and Civilization of the Swahili Coast</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-900 to-amber-700 mx-auto rounded-full mt-6"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Mille anni di storia, commercio e sincretismo culturale sulla costa orientale africana</p>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-blue-900">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-900">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        La <strong>civiltà swahili</strong> (dal I secolo d.C. al presente) rappresenta uno dei più affascinanti esempi di <strong>sincretismo culturale</strong> africano. Sviluppatasi lungo 3.000 km di costa (Somalia, Kenya, Tanzania, Mozambico), ha intrecciato radici bantu con influenze arabe, persiane, indiane, portoghesi e britanniche, creando una cultura urbana, mercantile e cosmopolita unica nel continente africano.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: Città-stato indipendenti unite dal commercio monsonico e dalla lingua swahili.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-amber-700">
+                    <h3 class="text-2xl font-bold mb-4 text-amber-700">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The <strong>Swahili civilization</strong> (from 1st century AD to present) represents one of the most fascinating examples of African <strong>cultural syncretism</strong>. Developed along 3,000 km of coast (Somalia, Kenya, Tanzania, Mozambique), it intertwined Bantu roots with Arab, Persian, Indian, Portuguese and British influences, creating a unique urban, mercantile and cosmopolitan culture in the African continent.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: Independent city-states united by monsoon trade and Swahili language.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Historical Timeline -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Historia - Linea del Tempo / Historical Timeline</h3>
+                
+                <div class="timeline-main max-w-4xl mx-auto">
+                    <!-- Period 1 -->
+                    <div class="timeline-period">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="era-badge era-ancient">I-VII secolo d.C.</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Kipindi cha Awali / Formative Period</h4>
+                        <p class="text-gray-600 mb-3">Insediamenti bantu costieri. Primo commercio con mercanti arabi e persiani. Nascita della lingua swahili (proto-swahili).</p>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-amber-50 p-3 rounded-lg">
+                                <span class="font-bold text-amber-800">Shanga (Kenya)</span>
+                                <div class="text-gray-600">Primo insediamento documentato</div>
+                            </div>
+                            <div class="bg-amber-50 p-3 rounded-lg">
+                                <span class="font-bold text-amber-800">Manda (Lamu)</span>
+                                <div class="text-gray-600">Centro commerciale precoce</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Period 2 -->
+                    <div class="timeline-period">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="era-badge era-medieval">VIII-XV secolo</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Zama za Kati / Golden Age</h4>
+                        <p class="text-gray-600 mb-3">Fioritura delle città-stato. Adozione dell'Islam. Commercio oro, avorio, schiavi, spezie. Architettura in pietra corallina.</p>
+                        <div class="grid md:grid-cols-3 gap-3 text-sm">
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <span class="font-bold text-red-800">Kilwa Kisiwani</span>
+                                <div class="text-gray-600">"Regina delle città" - moneta propria</div>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <span class="font-bold text-red-800">Mogadiscio</span>
+                                <div class="text-gray-600">Porto principale del nord</div>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <span class="font-bold text-red-800">Sofala</span>
+                                <div class="text-gray-600">Accesso all'oro dello Zimbabwe</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Period 3 -->
+                    <div class="timeline-period">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="era-badge era-early">XVI-XVIII secolo</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Uenezaji wa Wareno na Waomani / Portuguese and Omani Expansion</h4>
+                        <p class="text-gray-600 mb-3">Conquista portoghese (1505), resistenza, poi dominio del Sultanato di Oman (1698). Intensificazione commercio schiavi.</p>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <span class="font-bold text-blue-800">Francisco de Almeida</span>
+                                <div class="text-gray-600">1505: conquista di Kilwa e Mombasa</div>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <span class="font-bold text-blue-800">Said bin Sultan</span>
+                                <div class="text-gray-600">1840: trasferimento capitale a Zanzibar</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Period 4 -->
+                    <div class="timeline-period">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="era-badge era-colonial">XIX secolo</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Ukolooni na Biashara ya Watumwa / Colonialism and Slave Trade</h4>
+                        <p class="text-gray-600 mb-3">Divisione coloniale (Germania e Gran Bretagna). Abolizione schiavitù (1873). Standardizzazione swahili in caratteri latini.</p>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-emerald-50 p-3 rounded-lg">
+                                <span class="font-bold text-emerald-800">Berlino 1884-85</span>
+                                <div class="text-gray-600">Conferenza che divide l'Africa</div>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg">
+                                <span class="font-bold text-emerald-800">Ludwig Krapf</span>
+                                <div class="text-gray-600">Primo dizionario swahili-inglese</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Period 5 -->
+                    <div class="timeline-period">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="era-badge era-modern">XX-XXI secolo</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Uhuru na Maendeleo / Independence and Development</h4>
+                        <p class="text-gray-600 mb-3">Indipendenza Tanzania (1961) e Kenya (1963). Swahili come lingua nazionale e veicolo di unità panafricana. Patrimonio UNESCO.</p>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-pink-50 p-3 rounded-lg">
+                                <span class="font-bold text-pink-800">Julius Nyerere</span>
+                                <div class="text-gray-600">Ujaama: socialismo africano</div>
+                            </div>
+                            <div class="bg-pink-50 p-3 rounded-lg">
+                                <span class="font-bold text-pink-800">UNESCO 1981</span>
+                                <div class="text-gray-600">Kilwa e Lamu diventano Patrimonio</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultural Layers -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Tabaka za Utamaduni / Cultural Layers</h3>
+                
+                <div class="space-y-4">
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-bantu"></div>
+                        <h4 class="font-bold text-red-800 mb-2 ml-4">🌍 Msingi wa Bantu / Bantu Foundation</h4>
+                        <p class="text-gray-600 ml-4">Lingua bantu, agricoltura, ferro, villaggi matrilineari, culti ancestrali, ngoma, oralità.</p>
+                    </div>
+                    
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-arab"></div>
+                        <h4 class="font-bold text-emerald-800 mb-2 ml-4">☪️ Uislamu wa Kiarabu / Arab Islam</h4>
+                        <p class="text-gray-600 ml-4">Religione islamica, scrittura ajami, architettura moschee, diritto sharia, commercio, poesia.</p>
+                    </div>
+                    
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-persian"></div>
+                        <h4 class="font-bold text-violet-800 mb-2 ml-4">🏛️ Uajemi / Persian Influence</h4>
+                        <p class="text-gray-600 ml-4">Architettura monumentale, giardini, sistema urbano, letteratura epica (Shahnameh), tappeti.</p>
+                    </div>
+                    
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-indian"></div>
+                        <h4 class="font-bold text-orange-800 mb-2 ml-4">🕌 Uhindi / Indian Subcontinent</h4>
+                        <p class="text-gray-600 ml-4">Cucina (curry, chapati), musica taarab, tessuti (vitenge), commercianti gujarati, architettura.</p>
+                    </div>
+                    
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-portuguese"></div>
+                        <h4 class="font-bold text-cyan-800 mb-2 ml-4">⚔️ Wareno / Portuguese Impact</h4>
+                        <p class="text-gray-600 ml-4">Fortificazioni (Fort Jesus), cibo (viazi karai), schiavitù intensificata, resistenza swahili.</p>
+                    </div>
+                    
+                    <div class="civilization-layer">
+                        <div class="layer-indicator layer-british"></div>
+                        <h4 class="font-bold text-indigo-800 mb-2 ml-4">🇬🇧 Waingereza / British Colonialism</h4>
+                        <p class="text-gray-600 ml-4">Alfabeto latino, missioni cristiane, sistema scolastico, ferrovia, economia coloniale, indipendenza.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Major City-States -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">🏺</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Kilwa Kisiwani</h4>
+                    <p class="text-sm text-gray-600 mb-3">"Regina delle città" (IX-XVI sec.). Moneta propria, Grande Moschea, Husuni Kubwa (palazzo).</p>
+                    <div class="text-xs text-purple-700 font-semibold">UNESCO 1981</div>
+                </div>
+                
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">🌴</div>                 <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">🌴</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Lamu</h4>
+                    <p class="text-sm text-gray-600 mb-3">Centro culturale swahili per eccellenza. Architettura in legno e pietra, festival Maulidi, poesia.</p>
+                    <div class="text-xs text-purple-700 font-semibold">UNESCO 2001</div>
+                </div>
+                
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">⚓</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Mombasa</h4>
+                    <p class="text-sm text-gray-600 mb-3">Porto strategico del Kenya. Fort Jesus (1593), centro commerciale, sultanato indipendente.</p>
+                    <div class="text-xs text-blue-700 font-semibold">Porto principale</div>
+                </div>
+                
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">🕌</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Zanzibar</h4>
+                    <p class="text-sm text-gray-600 mb-3">"Isola delle spezie". Sultanato di Oman (1840-1890), Stone Town, mercato schiavi.</p>
+                    <div class="text-xs text-purple-700 font-semibold">UNESCO 2000</div>
+                </div>
+                
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">🏛️</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Mogadiscio</h4>
+                    <p class="text-sm text-gray-600 mb-3">Capitale somala. Porto antico, moschea Fakr ad-Din (1269), centro islamico.</p>
+                    <div class="text-xs text-blue-700 font-semibold">Capitale storica</div>
+                </div>
+                
+                <div class="history-card bg-white rounded-xl p-5 shadow-md">
+                    <div class="text-3xl mb-3">💎</div>
+                    <h4 class="font-bold text-lg swahili-history mb-2">Sofala</h4>
+                    <p class="text-sm text-gray-600 mb-3">Porto dell'oro del Monomotapa. Collegamento con Great Zimbabwe, commercio arabo.</p>
+                    <div class="text-xs text-amber-700 font-semibold">Commercio oro</div>
+                </div>
+            </div>
+
+            <!-- Language Section -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Lugha ya Kiswahili / The Swahili Language</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-blue-900">Struttura e Caratteristiche</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-600">▸</span>
+                                <span><strong>Classi nominali:</strong> 15 classi (m-/wa-, ki-/vi-, n-...)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-600">▸</span>
+                                <span><strong>Aggettivalità:</strong> Concordanza con prefissi</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-600">▸</span>
+                                <span><strong>Tempi verbali:</strong> -li- (passato), -na- (presente), -ta- (futuro)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-600">▸</span>
+                                <span><strong>Vocabolario:</strong> 35% arabo, 10% indoeuropeo, resto bantu</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-amber-700">Evoluzione Storica</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg">
+                                <span class="font-bold text-amber-800">I-X sec.</span>
+                                <span class="text-sm text-gray-600">Proto-swahili (Kiswahili cha Kale)</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg">
+                                <span class="font-bold text-amber-800">XI-XV sec.</span>
+                                <span class="text-sm text-gray-600">Swahili classico (Kiswahili cha Kati)</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg">
+                                <span class="font-bold text-amber-800">XVI-XIX sec.</span>
+                                <span class="text-sm text-gray-600">Swahili moderno precoloniale</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg">
+                                <span class="font-bold text-amber-800">XX sec.</span>
+                                <span class="text-sm text-gray-600">Standardizzazione (Kiswahili Sanifu)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+                    <p class="text-center text-gray-700 italic">
+                        "Kiswahili" deriva dall'arabo <strong>sāhil</strong> (costa) + suffisso bantu <strong>-i</strong> = "lingua della costa"
+                    </p>
+                </div>
+            </div>
+
+            <!-- Trade Routes Visualization -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Njia za Biashara / Trade Routes</h3>
+                
+                <div class="relative bg-blue-50 rounded-2xl p-6 overflow-hidden">
+                    <svg viewBox="0 0 800 400" class="w-full h-auto">
+                        <!-- Ocean -->
+                        <rect x="0" y="0" width="800" height="400" fill="#dbeafe" opacity="0.3"/>
+                        
+                        <!-- Coast line -->
+                        <path d="M 50 200 Q 200 180 350 200 T 650 220 T 750 200" stroke="#1e3a8a" stroke-width="3" fill="none"/>
+                        
+                        <!-- Cities -->
+                        <circle cx="100" cy="190" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="100" y="175" text-anchor="middle" font-size="12" font-weight="bold">Mogadiscio</text>
+                        
+                        <circle cx="250" cy="185" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="250" y="170" text-anchor="middle" font-size="12" font-weight="bold">Lamu</text>
+                        
+                        <circle cx="400" cy="195" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="400" y="180" text-anchor="middle" font-size="12" font-weight="bold">Mombasa</text>
+                        
+                        <circle cx="550" cy="210" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="550" y="195" text-anchor="middle" font-size="12" font-weight="bold">Zanzibar</text>
+                        
+                        <circle cx="650" cy="215" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="650" y="200" text-anchor="middle" font-size="12" font-weight="bold">Kilwa</text>
+                        
+                        <circle cx="720" cy="225" r="8" fill="#dc2626" class="city-state"/>
+                        <text x="720" y="210" text-anchor="middle" font-size="12" font-weight="bold">Sofala</text>
+                        
+                        <!-- Trade routes -->
+                        <path d="M 100 190 Q 400 100 700 50" stroke="#b45309" stroke-width="2" fill="none" class="trade-route" marker-end="url(#arrowhead)"/>
+                        <text x="400" y="80" text-anchor="middle" font-size="11" fill="#b45309">Arabia & Persia</text>
+                        
+                        <path d="M 250 185 Q 450 120 750 80" stroke="#b45309" stroke-width="2" fill="none" class="trade-route"/>
+                        <text x="500" y="110" text-anchor="middle" font-size="11" fill="#b45309">India</text>
+                        
+                        <path d="M 650 215 Q 700 300 750 350" stroke="#b45309" stroke-width="2" fill="none" class="trade-route"/>
+                        <text x="720" y="320" text-anchor="middle" font-size="11" fill="#b45309">Great Zimbabwe</text>
+                        
+                        <!-- Goods -->
+                        <text x="50" y="350" font-size="10" fill="#1e3a8a">Esportazioni: Oro, avorio, schiavi, legno, spezie</text>
+                        <text x="50" y="365" font-size="10" fill="#1e3a8a">Importazioni: Stoffe, porcellana, perline, vetro</text>
+                    </svg>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Mazoezi / Exercises</h2>
+                <p class="text-gray-600">Completa le frasi / Complete the sentences (2 punti each)</p>
+            </div>
+
+            <form id="exercise-form" class="space-y-6">
+                
+                <!-- Esercizi 1-50 (struttura identica, variano solo domande e risposte) -->
+                <!-- Esempio primi 5 esercizi: -->
+                
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-blue-900 text-white px-3 py-1 rounded-full text-sm font-bold">1</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La civiltà swahili si è sviluppata lungo la costa orientale dell'Africa per circa <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="3000 km|3.000 km|3000km">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="2">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-blue-900 text-white px-3 py-1 rounded-full text-sm font-bold">2</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il termine "swahili" deriva dalla parola araba <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="sahil|sāhil"> che significa "costa".</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- ... (esercizi 3-49 con struttura identica) ... -->
+
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="50">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-blue-900 text-white px-3 py-1 rounded-full text-sm font-bold">50</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La civiltà swahili è un esempio di <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="sincretismo|sincretismo culturale|syncretism"> tra culture africane e orientali.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="glass-panel rounded-2xl p-8 text-center mt-8">
+                    <button type="button" onclick="checkAllAnswers()" class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg mb-4">
+                        Verifica Tutte le Risposte / Check All Answers
+                    </button>
+                    
+                    <div id="final-results" class="hidden mt-6 p-6 bg-blue-50 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-4">Risultati Finali / Final Results</h3>
+                        <div class="text-4xl font-bold text-blue-900 mb-2" id="final-score">0/100</div>
+                        <p class="text-gray-600 mb-4" id="final-message"></p>
+                        
+                        <div class="bg-white p-4 rounded-lg mb-4 text-left">
+                            <p class="font-semibold mb-2">Invia i risultati via email:</p>
+                            <a id="email-link" href="#" class="text-blue-600 hover:underline break-all"></a>
+                        </div>
+                        
+                        <button type="button" onclick="resetExercises()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold">
+                            Ricomincia / Restart
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        // Navigation
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navExercises.classList.add('tab-active');
+                navTheory.classList.remove('tab-active');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // Exercise Logic
+        let currentScore = 0;
+        let answeredQuestions = new Set();
+
+        document.querySelectorAll('.input-swahili').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkAnswer(this);
+                }
+            });
+            input.addEventListener('blur', function() {
+                if (this.value.trim() !== '') checkAnswer(this);
+            });
+        });
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[^a-z0-9\s]/g, '').trim();
+        }
+
+        function checkAnswer(input) {
+            const card = input.closest('.exercise-card');
+            const questionNum = card.dataset.question;
+            const userAnswer = input.value.trim();
+            const correctAnswers = input.dataset.answer.split('|').map(a => a.trim());
+            const feedback = card.querySelector('.feedback');
+            
+            if (!userAnswer) return;
+            
+            const normalizedUser = normalizeAnswer(userAnswer);
+            const isCorrect = correctAnswers.some(ans => normalizeAnswer(ans) === normalizedUser);
+            
+            input.classList.remove('correct', 'incorrect');
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            feedback.classList.remove('hidden');
+            feedback.className = 'feedback mt-3 p-3 rounded-lg ' + (isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800');
+            feedback.innerHTML = isCorrect ? '✓ Corretto! / Correct!' : `✗ Sbagliato. Risposta: <strong>${correctAnswers[0]}</strong>`;
+            
+            if (!answeredQuestions.has(questionNum)) {
+                if (isCorrect) currentScore += 2;
+                answeredQuestions.add(questionNum);
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = answeredQuestions.size;
+            document.getElementById('progress-text').textContent = `${answered}/50`;
+            document.getElementById('progress-bar').style.width = `${(answered/50)*100}%`;
+            document.getElementById('current-score').textContent = currentScore;
+        }
+
+        function checkAllAnswers() {
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                if (input.value.trim() !== '') checkAnswer(input);
+            });
+            showFinalResults();
+        }
+
+        function showFinalResults() {
+            const finalResults = document.getElementById('final-results');
+            const finalScore = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            const emailLink = document.getElementById('email-link');
+            
+            finalResults.classList.remove('hidden');
+            finalScore.textContent = `${currentScore}/100`;
+            
+            let message = '';
+            if (currentScore >= 90) message = 'Eccellente! / Excellent! 🌟';
+            else if (currentScore >= 70) message = 'Molto bene! / Very good! 👏';
+            else if (currentScore >= 60) message = 'Sufficiente. / Pass. ✅';
+            else message = 'Da migliorare. / Needs improvement. 📚';
+            finalMessage.textContent = message;
+            
+            const subject = `Risultati Esercizi Swahili - ${currentScore}/100`;
+            const body = `Salve,\n\nHo completato gli esercizi sulla Storia e Civiltà Swahili.\n\nPunteggio: ${currentScore}/100\nRisposte corrette: ${currentScore/2}/50\n\nCordiali saluti`;
+            emailLink.href = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            emailLink.textContent = 'Clicca qui per inviare email / Click here to send email';
+            
+            finalResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetExercises() {
+            currentScore = 0;
+            answeredQuestions.clear();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(fb => fb.classList.add('hidden'));
+            document.getElementById('final-results').classList.add('hidden');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
