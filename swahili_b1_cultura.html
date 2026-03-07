@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c2d12;
+            --secondary: #a16207;
+            --accent: #059669;
+            --bg-warm: #fef3c7;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(124, 45, 18, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(161, 98, 7, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-culture {
+            background: linear-gradient(135deg, var(--primary), #92400e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 45, 18, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #92400e);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 45, 18, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .culture-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .culture-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .culture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .tradition-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .tradition-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.25rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+        }
+        
+        .value-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+        
+        .proverb-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 0 1rem 1rem 0;
+            position: relative;
+            font-style: italic;
+        }
+        
+        .proverb-box::before {
+            content: '"';
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            font-size: 4rem;
+            color: var(--secondary);
+            opacity: 0.3;
+            font-family: serif;
+        }
+        
+        .map-region {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .map-region:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+        
+        .artifact-card {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 2px solid #fed7aa;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .cat-history { background: #fee2e2; color: #991b1b; }
+        .cat-values { background: #dbeafe; color: #1e40af; }
+        .cat-traditions { background: #d1fae5; color: #065f46; }
+        .cat-arts { background: #fce7f3; color: #9d174d; }
+        .cat-society { background: #fef3c7; color: #92400e; }
+        
+        .dhow-silhouette {
+            width: 100px;
+            height: 60px;
+            background: linear-gradient(to bottom, #7c2d12 0%, #92400e 100%);
+            clip-path: polygon(0 40%, 20% 40%, 30% 20%, 70% 20%, 80% 40%, 100% 40%, 90% 100%, 10% 100%);
+            position: relative;
+        }
+        
+        .dhow-silhouette::after {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 50px;
+            background: #7c2d12;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-amber-700 to-orange-800 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    🌍
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-amber-700">Culture</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-amber-700">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-amber-700">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-amber-700 to-orange-800 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-amber-700">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Utamaduni wa Kiswahili</h2>
+                <p class="text-xl text-gray-600 mb-2">Swahili Culture & Civilization</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-amber-700 to-orange-800 mx-auto rounded-full mt-6"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Dalla costa orientale dell'Africa, un mosaico di culture bantu, arabe, persiane, indiane e portoghesi</p>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-amber-700">
+                    <h3 class="text-2xl font-bold mb-4 text-amber-700">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        La <strong>civiltà swahili</strong> si è sviluppata lungo la costa orientale africana (Kenya, Tanzania, Mozambico) dal I secolo d.C., fiorendo con il commercio dell'oceano Indiano. Il termine "swahili" deriva dall'arabo <em>sawahil</em> (coste), indicando la posizione geografica di questa cultura cosmopolita.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: La lingua swahili è diventata il veicolo di una cultura urbana, mercantile e islamica moderata.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-orange-800">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-800">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        <strong>Swahili civilization</strong> developed along the East African coast (Kenya, Tanzania, Mozambique) from the 1st century AD, flourishing with Indian Ocean trade. The term "swahili" comes from Arabic <em>sawahil</em> (coasts), indicating the geographical position of this cosmopolitan culture.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: The Swahili language became the vehicle of an urban, mercantile and moderate Islamic culture.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-6 text-center">Utu - Valori Fondamentali / Core Values</h3>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-8">
+                    <span class="value-badge bg-red-100 text-red-800">🔴 Heshima (Rispetto)</span>
+                    <span class="value-badge bg-blue-100 text-blue-800">🔵 Utu (Umanità/Dignità)</span>
+                    <span class="value-badge bg-green-100 text-green-800">🟢 Amani (Pace)</span>
+                    <span class="value-badge bg-yellow-100 text-yellow-800">🟡 Umoja (Unità)</span>
+                    <span class="value-badge bg-purple-100 text-purple-800">🟣 Subira (Pazienza)</span>
+                    <span class="value-badge bg-pink-100 text-pink-800">🩷 Ukarimu (Generosità)</span>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="culture-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="category-badge cat-values mb-3">Valore</div>
+                        <h4 class="font-bold text-lg swahili-culture mb-2">Heshima</h4>
+                        <p class="text-gray-600 text-sm mb-3">Il rispetto verso anziani, ospiti e autorità è fondamentale. Si esprime attraverso linguaggio cortese, gesti e rituali di saluto.</p>
+                        <div class="text-xs text-amber-700 font-semibold">Respect for elders, guests, authority</div>
+                    </div>
+
+                    <div class="culture-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="category-badge cat-values mb-3">Valore</div>
+                        <h4 class="font-bold text-lg swahili-culture mb-2">Utu</h4>
+                        <p class="text-gray-600 text-sm mb-3">La qualità di essere umano, con dignità e compassione. "Mtoto ni kijito cha mti" - Il bambino è il germoglio dell'albero.</p>
+                        <div class="text-xs text-amber-700 font-semibold">Humanity, dignity, compassion</div>
+                    </div>
+
+                    <div class="culture-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="category-badge cat-values mb-3">Valore</div>
+                        <h4 class="font-bold text-lg swahili-culture mb-2">Ukarimu</h4>
+                        <p class="text-gray-600 text-sm mb-3">La generosità, specialmente verso gli ospiti. Un ospite è considerato dono di Dio (mgeni ni kibaraka).</p>
+                        <div class="text-xs text-amber-700 font-semibold">Generosity, hospitality</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical Timeline -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Historia - Linea del Tempo / Historical Timeline</h3>
+                
+                <div class="tradition-timeline max-w-3xl mx-auto">
+                    <div class="timeline-item">
+                        <div class="font-bold text-amber-800 text-lg">Sec. I-X d.C. - Periodo Formativo</div>
+                        <p class="text-gray-600">Commercio bantu con mercanti arabi e persiani. Nascita dei primi insediamenti costieri.</p>
+                        <div class="text-sm text-gray-500 mt-1">Bantu trade with Arab and Persian merchants</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-bold text-amber-800 text-lg">Sec. XI-XV - Età d'Oro</div>
+                        <p class="text-gray-600">Fioritura delle città-stato (Kilwa, Mombasa, Zanzibar). Arrivo dell'Islam. Costruzione delle prime moschee di pietra.</p>
+                        <div class="text-sm text-gray-500 mt-1">Flourishing of city-states, arrival of Islam</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-bold text-amber-800 text-lg">Sec. XVI-XVIII - Influenze Portoghesi e Omani</div>
+                        <p class="text-gray-600">Conquista portoghese, poi dominio del Sultanato di Oman. Intensificazione del commercio degli schiavi e dell'avorio.</p>
+                        <div class="text-sm text-gray-500 mt-1">Portuguese and Omani influences</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-bold text-amber-800 text-lg">Sec. XIX - Coloniazione Europea</div>
+                        <p class="text-gray-600">Partecipazione al commercio long-distance. Germania e Gran Bretagna dividono il territorio. Standardizzazione dello swahili.</p>
+                        <div class="text-sm text-gray-500 mt-1">European colonization, standardization of Swahili</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-bold text-amber-800 text-lg">1961-Oggi - Indipendenza e Panafrikanismo</div>
+                        <p class="text-gray-600">Swahili come lingua nazionale in Tanzania e Kenya. Simbolo di unità africana e resistenza culturale.</p>
+                        <div class="text-sm text-gray-500 mt-1">Independence, Pan-Africanism, national language</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Cities -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                <div class="artifact-card">
+                    <div class="text-3xl mb-2">🏛️</div>
+                    <h4 class="font-bold text-amber-800">Kilwa Kisiwani</h4>
+                    <p class="text-sm text-gray-600">Centro commerciale dell'oro e dell'avorio dal sec. IX. Patrimonio UNESCO.</p>
+                </div>
+                
+                <div class="artifact-card">
+                    <div class="text-3xl mb-2">🌴</div>
+                    <h4 class="font-bold text-amber-800">Zanzibar</h4>
+                    <p class="text-sm text-gray-600">"Isola delle spezie". Centro del commercio delle spezie e degli schiavi.</p>
+                </div>
+                
+                <div class="artifact-card">
+                    <div class="text-3xl mb-2">⚓</div>
+                    <h4 class="font-bold text-amber-800">Mombasa</div>
+                    <p class="text-sm text-gray-600">Porto strategico dal sec. XII. Forte Jesus (portoghese, 1593).</p>
+                </div>
+                
+                <div class="artifact-card">
+                    <div class="text-3xl mb-2">🏺</div>
+                    <h4 class="font-bold text-amber-800">Lamu</h4>
+                    <p class="text-sm text-gray-600">Città più antica della costa. Festival annuale delle dhow.</p>
+                </div>
+            </div>
+
+            <!-- Proverbs & Wisdom -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Methali - Proverbi e Saggezza / Proverbs & Wisdom</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="proverb-box">
+                        <p class="text-lg font-bold text-amber-900 mb-2 relative z-10">Haraka haraka haina baraka</p>
+                        <p class="text-gray-700 italic relative z-10">"Fretta fretta non ha benedizione"</p>
+                        <p class="text-sm text-gray-600 mt-2 relative z-10">Hurry hurry has no blessing - La pazienza è virtù</p>
+                    </div>
+                    
+                    <div class="proverb-box">
+                        <p class="text-lg font-bold text-amber-900 mb-2 relative z-10">Samaki mkunje angali mbichi</p>
+                        <p class="text-gray-700 italic relative z-10">"Piega il pesce mentre è ancora crudo"</p>
+                        <p class="text-sm text-gray-600 mt-2 relative z-10">Shape the fish while still raw - Educa i giovani presto</p>
+                    </div>
+                    
+                    <div class="proverb-box">
+                        <p class="text-lg font-bold text-amber-900 mb-2 relative z-10">Mgeni ni kibaraka</p>
+                        <p class="text-gray-700 italic relative z-10">"L'ospite è un dono di Dio"</p>
+                        <p class="text-sm text-gray-600 mt-2 relative z-10">The guest is a blessing from God - L'ospitalità sacra</p>
+                    </div>
+                    
+                    <div class="proverb-box">
+                        <p class="text-lg font-bold text-amber-900 mb-2 relative z-10">Umoja ni nguvu, utengano ni udhaifu</p>
+                        <p class="text-gray-700 italic relative z-10">"L'unità è forza, la divisione è debolezza"</p>
+                        <p class="text-sm text-gray-600 mt-2 relative z-10">Unity is strength - Valore comunitario</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arts & Traditions -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-amber-700 flex items-center gap-2">
+                        <span>🎭</span> Sanaa - Arti / Arts
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 p-4 rounded-lg">
+                            <div class="font-bold text-amber-800 mb-1">Taarab</div>
+                            <p class="text-sm text-gray-600">Musica tradizionale di Zanzibar, fusione di influenze arabe, indiane e africane. Orchestra con qanun, oud, violini e percussioni.</p>
+                        </div>
+                        
+                        <div class="bg-amber-50 p-4 rounded-lg">
+                            <div class="font-bold text-amber-800 mb-1">Ngoma</div>
+                            <p class="text-sm text-gray-600">Danze rituali e cerimoniali accompagnate da tamburi. Ogni occasione ha la sua ngoma (nuziale, funebre, iniziazione).</p>
+                        </div>
+                        
+                        <div class="bg-amber-50 p-4 rounded-lg">
+                            <div class="font-bold text-amber-800 mb-1">Ushonaji wa Vitenge</div>
+                            <p class="text-sm text-gray-600">Tessitura dei vitenge (kangas), stoffe colorate con proverbi stampati (jina la kanga).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-orange-800 flex items-center gap-2">
+                        <span>🕌</span> Dini na Jadi - Religione e Tradizioni
+                    </h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="font-bold text-orange-800 mb-1">Uislamu wa Waswahili</div>
+                            <p class="text-sm text-gray-600">Islam moderato suffita, con elementi pre-islamici. Le donne partecipano attivamente alla vita pubblica (scontrandosi con wahhabiti).</p>
+                        </div>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="font-bold text-orange-800 mb-1">Maulidi</div>
+                            <p class="text-sm text-gray-600">Festa di compleanno del Profeta, con processioni, canti taarab e cibo.</p>
+                        </div>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="font-bold text-orange-800 mb-1">Jando na Unyago</div>
+                            <p class="text-sm text-gray-600">Riti di passaggio (circumcisione e istruzione sessuale/educativa per ragazzi e ragazze).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Life & Architecture -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Maisha ya Kila Siku / Daily Life</h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">🏠</div>
+                        <h4 class="font-bold text-amber-800 mb-2">Nyumba za Waswahili</h4>
+                        <p class="text-sm text-gray-600">Case in pietra corallina con cortili interni (vibango), balconi intagliati (mashrabiya), porte decorate (vibao).</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">🍽️</div>
+                        <h4 class="font-bold text-amber-800 mb-2">Chakula cha Jadi</h4>
+                        <p class="text-sm text-gray-600">Pilau, biryani, samaki wa kupaka (pesce al cocco), viazi karai (patate dolci fritte), halua, mandazi.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">🚢</div>
+                        <h4 class="font-bold text-amber-800 mb-2">Jahazi - Le Dhow</h4>
+                        <p class="text-sm text-gray-600">Imbarcazioni tradizionali in legno con vela latina. Simbolo del commercio monsonico e della cultura marittima.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-center">
+                    <div class="dhow-silhouette"></div>
+                </div>
+            </div>
+
+            <!-- Modern Swahili Culture -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-xl font-bold mb-4 text-center">Utamaduni wa Kisasa / Modern Swahili Culture</h4>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-bold text-amber-800 mb-3">🎵 Muziki - Musica</h5>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li>• <strong>Bongo Flava</strong>: Hip-hop tanzaniano (Diamond Platnumz, Ali Kiba)</li>
+                            <li>• <strong>Kapuka</strong>: Musica dance keniana</li>
+                            <li>• <strong>Taarab moderno</strong>: Siti binti Saad (pioniera), moderni orchestra</li>
+                            <li>• <strong>Bongo Movies</strong>: Industria cinematografica di Dar es Salaam</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold text-amber-800 mb-3">📚 Fasihi - Letteratura</h5>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li>• <strong>Shaaban Robert</strong>: Poeta nazionale della Tanzania</li>
+                            <li>• <strong>Mohamed Suleiman</strong>: Romanziere contemporaneo</li>
+                            <li>• <strong>Euphrase Kezilahabi</strong>: Poeta sperimentale</li>
+                            <li>• <strong>Swahili Wikipedia</strong>: Più di 100.000 voci</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi sulla Cultura Swahili</h2>
+                <p class="text-gray-600">Complete with the correct cultural terms</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-amber-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-amber-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-amber-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Swahili Culture
+        const exercises = [
+            // Geography & Identity (1-10)
+            { id: 1, text: "La parola 'swahili' deriva dall'arabo _____, che significa 'coste'. (The word 'swahili' comes from Arabic _____, meaning 'coasts')", answer: "sawahil", hint: "sawahil" },
+            { id: 2, text: "La civiltà swahili si sviluppa lungo la _____ orientale africana. (Swahili civilization develops along the African _____ coast)", answer: "pwani", hint: "costa" },
+            { id: 3, text: "Kilwa Kisiwani era un importante centro commerciale di _____ e avorio. (Kilwa was an important trade center for _____ and ivory)", answer: "dhahabu", hint: "oro" },
+            { id: 4, text: "Zanzibar è conosciuta come 'Isola delle _____'. (Zanzibar is known as 'Island of _____')", answer: "spishi", hint: "spezie" },
+            { id: 5, text: "La lingua swahili appartiene alla famiglia linguistica _____. (Swahili language belongs to the _____ language family)", answer: "bantu", hint: "bantu" },
+            { id: 6, text: "Il swahili è lingua nazionale in Tanzania e _____. (Swahili is national language in Tanzania and _____)", answer: "kenya", hint: "Kenya" },
+            { id: 7, text: "Le città swahili erano organizzate come _____, indipendenti ma connesse dal commercio. (Swahili cities were organized as _____, independent but connected by trade)", answer: "majimbo", hint: "città-stato" },
+            { id: 8, text: "Il commercio swahili si basava sui _____ monsonici. (Swahili trade was based on _____ monsoons)", answer: "pepo", hint: "venti" },
+            { id: 9, text: "Lamu ospita ogni anno il festival delle _____, imbarcazioni tradizionali. (Lamu hosts every year the festival of _____, traditional boats)", answer: "jahazi", hint: "dhow" },
+            { id: 10, text: "Il forte Jesus a Mombasa fu costruito dai _____. (Fort Jesus in Mombasa was built by the _____)", answer: "wareno", hint: "portoghesi" },
+            
+            // Values & Society (11-20)
+            { id: 11, text: "_____ significa 'rispetto' ed è valore fondamentale. (_____ means 'respect' and is a fundamental value)", answer: "heshima", hint: "rispetto" },
+            { id: 12, text: "_____ indica la qualità di essere umano con dignità. (_____ indicates the quality of being human with dignity)", answer: "utu", hint: "umanità" },
+            { id: 13, text: "La generosità verso gli ospiti si chiama _____. (Generosity towards guests is called _____)", answer: "ukarimu", hint: "generosità" },
+            { id: 14, text: "_____ significa pazienza, virtù essenziale nella cultura swahili. (_____ means patience, essential virtue in Swahili culture)", answer: "subira", hint: "pazienza" },
+            { id: 15, text: "L'unità e la solidarietà si esprimono con _____. (Unity and solidarity are expressed with _____)", answer: "umoja", hint: "unità" },
+            { id: 16, text: "_____ è la pace, saluto rituale nelle conversazioni. (_____ is peace, ritual greeting in conversations)", answer: "amani", hint: "pace" },
+            { id: 17, text: "Un ospite è considerato _____, dono di Dio. (A guest is considered _____, gift from God)", answer: "kibaraka", hint: "benedizione" },
+            { id: 18, text: "Il proverbio dice: '_____ haraka haina baraka' (Hurry hurry has no blessing)", answer: "haraka", hint: "fretta" },
+            { id: 19, text: "_____ ni nguvu, utengano ni udhaifu (Unity is strength, division is weakness)", answer: "umoja", hint: "unità" },
+            { id: 20, text: "La saggezza si trasmette attraverso le _____, proverbi. (Wisdom is transmitted through _____, proverbs)", answer: "methali", hint: "proverbi" },
+            
+            // Arts & Traditions (21-30)
+            { id: 21, text: "Il _____ è la musica tradizionale di Zanzibar, fusione di culture. (_____ is traditional music of Zanzibar, fusion of cultures)", answer: "taarab", hint: "taarab" },
+            { id: 22, text: "Le _____ sono danze rituali accompagnate da tamburi. (_____ are ritual dances accompanied by drums)", answer: "ngoma", hint: "danze" },
+            { id: 23, text: "I _____ sono panni colorati con proverbi stampati. (_____ are colored cloths with printed proverbs)", answer: "vitenge", hint: "kangas" },
+            { id: 24, text: "L'_____ è lo strumento a corde arabo usato nel taarab. (_____ is the Arab string instrument used in taarab)", answer: "oudi", hint: "oud" },
+            { id: 25, text: "La _____ è la festa di compleanno del Profeta. (_____ is the Prophet's birthday celebration)", answer: "maulidi", hint: "maulid" },
+            { id: 26, text: "Il _____ è il rito di passaggio per i ragazzi. (_____ is the rite of passage for boys)", answer: "jando", hint: "circumcisione maschile" },
+            { id: 27, text: "L'_____ è il rito di passaggio per le ragazze. (_____ is the rite of passage for girls)", answer: "unyago", hint: "istruzione femminile" },
+            { id: 28, text: "Le case swahili hanno cortili interni chiamati _____. (Swahili houses have inner courtyards called _____)", answer: "vibango", hint: "cortili" },
+            { id: 29, text: "I balconi intagliati si chiamano _____. (Carved balconies are called _____)", answer: "mashrabiya", hint: "mashrabiya" },
+            { id: 30, text: "Il _____ è l'hip-hop tanzaniano moderno. (_____ is modern Tanzanian hip-hop)", answer: "bongo flava", hint: "bongo flava" },
+            
+            // Religion & Daily Life (31-40)
+            { id: 31, text: "La religione predominante è l'_____ moderato suffita. (The predominant religion is moderate _____ Sufism)", answer: "uislamu", hint: "islam" },
+            { id: 32, text: "Il pesce al cocco si chiama _____ wa kupaka. (Fish with coconut is called _____ wa kupaka)", answer: "samaki", hint: "pesce" },
+            { id: 33, text: "Il riso speziato si chiama _____. (Spiced rice is called _____)", answer: "pilau", hint: "pilau" },
+            { id: 34, text: "I dolci semolina si chiamano _____. (Semolina sweets are called _____)", answer: "halua", hint: "halwa" },
+            { id: 35, text: "Le patate dolci fritte sono _____. (Fried sweet potatoes are _____)", answer: "viazi karai", hint: "viazi karai" },
+            { id: 36, text: "I fagioli in salsa di cocco sono _____. (Beans in coconut sauce are _____)", answer: "maharage ya nazi", hint: "maharage" },
+            { id: 37, text: "Il pane fritto dolce si chiama _____. (Sweet fried bread is called _____)", answer: "mandazi", hint: "mandazi" },
+            { id: 38, text: "Shaaban Robert è considerato il _____ nazionale. (Shaaban Robert is considered the national _____)", answer: "shairi", hint: "poeta" },
+            { id: 39, text: "La _____ swahili è famosa per le porte decorate. (_____ Swahili is famous for carved doors)", answer: "misimbo", hint: "falegnameria" },
+            { id: 40, text: "Il _____ è il cinema tanzaniano. (_____ is Tanzanian cinema)", answer: "bongo movie", hint: "bongo movies" },
+            
+            // History & Trade (41-50)
+            { id: 41, text: "I mercanti _____ influenzarono la cultura swahili dal sec. I d.C. (_____ merchants influenced Swahili culture from 1st century AD)", answer: "waarabu", hint: "arabi" },
+            { id: 42, text: "I _____ portarono l'Islam e la costruzione in pietra. (_____ brought Islam and stone building)", answer: "wapersi", hint: "persiani" },
+            { id: 43, text: "Il commercio di _____ fu tragico ma redditizio. (The trade of _____ was tragic but profitable)", answer: "watumwa", hint: "schiavi" },
+            { id: 44, text: "L'_____ era la moneta di scambio per le spezie. (_____ was the currency for spices trade)", answer: "avorio", hint: "avorio" },
+            { id: 45, text: "La _____ standardizzò lo swahili nel sec. XIX. (_____ standardized Swahili in 19th century)", answer: "kanisa", hint: "missioni" },
+            { id: 46, text: "Julius _____ promosse lo swahili come lingua nazionale. (Julius _____ promoted Swahili as national language)", answer: "nyerere", hint: "Nyerere" },
+            { id: 47, text: "Il _____ è il festival annuale di Lamu. (_____ is Lamu's annual festival)", answer: "mawlid", hint: "maulid" },
+            { id: 48, text: "Le _____ erano monete di conchiglie usate nel commercio. (_____ were cowrie shells used in trade)", answer: "kauri", hint: "conchiglie" },
+            { id: 49, text: "Il _____ è il sistema di parentela estesa. (_____ is the extended family system)", answer: "ujamaa", hint: "familismo" },
+            { id: 50, text: "_____ Robert scrisse 'Kusadikika', romanzo allegorico. (_____ Robert wrote 'Kusadikika', allegorical novel)", answer: "shaaban", hint: "Shaaban" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-amber-700 to-orange-800 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-amber-700 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-amber-700 hover:text-amber-800 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>
