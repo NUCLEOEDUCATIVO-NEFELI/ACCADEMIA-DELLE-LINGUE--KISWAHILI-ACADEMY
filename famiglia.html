@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   title>Famiglia in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #1A659E;
+            --bg-warm: #F7F5F0;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 78, 137, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-word {
+            background: linear-gradient(135deg, var(--primary), #FF8C61);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #FF8C61);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .family-card {
+            transition: all 0.3s ease;
+        }
+        
+        .family-card:hover {
+            transform: translateY(-5px) rotate(1deg);
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .relation-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    F
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-purple-600">Family</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-purple-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-purple-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-500 to-pink-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-purple-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Famiglia in Swahili</h2>
+                <p class="text-xl text-gray-600 mb-2">Family in Swahili</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-600 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        In swahili, i termini di parentela riflettono sia la struttura nucleare che quella estesa della famiglia africana. Esistono distinzioni specifiche per parenti paterni e materni, e l'età relativa influenza il vocabolario utilizzato.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Nota: Il concetto di "famiglia" in swahili (ndugu/jamii) è più ampio e include parenti stretti e adottivi.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-blue-600">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        In Swahili, kinship terms reflect both the nuclear and extended African family structure. There are specific distinctions for paternal and maternal relatives, and relative age influences the vocabulary used.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Note: The concept of "family" in Swahili (ndugu/jamii) is broader and includes close and adoptive relatives.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Immediate Family -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Famiglia Nucleare / Nuclear Family</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                        <div class="text-4xl mb-3">👨</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">baba</div>
+                        <div class="text-sm text-gray-600 font-semibold">padre / father</div>
+                    </div>
+                    
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                        <div class="text-4xl mb-3">👩</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">mama</div>
+                        <div class="text-sm text-gray-600 font-semibold">madre / mother</div>
+                    </div>
+                    
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                        <div class="text-4xl mb-3">👶</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">mtoto</div>
+                        <div class="text-sm text-gray-600 font-semibold">bambino / child</div>
+                    </div>
+                    
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+                        <div class="text-4xl mb-3">👦</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">mwanaume</div>
+                        <div class="text-sm text-gray-600 font-semibold">uomo / man</div>
+                        <div class="text-xs text-gray-500 mt-1">(anche: figlio maschio)</div>
+                    </div>
+                    
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-rose-500"></div>
+                        <div class="text-4xl mb-3">👧</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">mwanamke</div>
+                        <div class="text-sm text-gray-600 font-semibold">donna / woman</div>
+                        <div class="text-xs text-gray-500 mt-1">(anche: figlia femmina)</div>
+                    </div>
+                    
+                    <div class="family-card bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                        <div class="text-4xl mb-3">👨‍👩‍👧‍👦</div>
+                        <div class="text-2xl font-bold swahili-word mb-1">familia</div>
+                        <div class="text-sm text-gray-600 font-semibold">famiglia / family</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Siblings -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-4 text-center">Fratelli e Sorelle / Siblings</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+                    <span class="italic">In swahili si distinguono i fratelli maggiori da quelli minori.</span><br>
+                    <span class="italic text-sm">In Swahili, older and younger siblings are distinguished.</span>
+                </p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
+                        <h4 class="text-xl font-bold mb-4 text-blue-800">Fratello / Brother</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">kaka</span>
+                                <span class="text-sm text-gray-600">fratello maggiore / older brother</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">ndugu</span>
+                                <span class="text-sm text-gray-600">fratello (generale) / brother (general)</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">dogo</span>
+                                <span class="text-sm text-gray-600">fratello minore / younger brother</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-6">
+                        <h4 class="text-xl font-bold mb-4 text-pink-800">Sorella / Sister</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">dada</span>
+                                <span class="text-sm text-gray-600">sorella maggiore / older sister</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">ndugu</span>
+                                <span class="text-sm text-gray-600">sorella (generale) / sister (general)</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span class="font-bold text-lg">dogo</span>
+                                <span class="text-sm text-gray-600">sorella minore / younger sister</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extended Family -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Famiglia Allargata / Extended Family</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-purple-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">babu</div>
+                        <div class="text-sm text-gray-600">nonno (paterno) / grandfather</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-purple-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">nyanya</div>
+                        <div class="text-sm text-gray-600">nonna (paterna) / grandmother</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-indigo-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">mjomba</div>
+                        <div class="text-sm text-gray-600">zio (materno) / uncle (maternal)</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-indigo-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">shangazi</div>
+                        <div class="text-sm text-gray-600">zia (paterna) / aunt (paternal)</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-teal-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">binamu</div>
+                        <div class="text-sm text-gray-600">cugino/a / cousin</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-teal-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">mpwa</div>
+                        <div class="text-sm text-gray-600">nipote (di zii) / nephew/niece</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">mkwe</div>
+                        <div class="text-sm text-gray-600">suocero/a / parent-in-law</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">mke</div>
+                        <div class="text-sm text-gray-600">moglie / wife</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                        <div class="text-2xl font-bold swahili-word mb-1">mume</div>
+                        <div class="text-sm text-gray-600">marito / husband</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pronouns & Possessives -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm">1</span>
+                        Pronomi Possessivi
+                    </h4>
+                    <p class="text-gray-700 mb-2"><strong>IT:</strong> Si formano con prefisso + radice (-angu = mio, -ako = tuo, -ake = suo)</p>
+                    <p class="text-gray-700"><strong>EN:</strong> Formed with prefix + root (-angu = my, -ako = your, -ake = his/her)</p>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <div class="bg-purple-50 p-2 rounded">baba<span class="font-bold text-purple-600">angu</span> = mio padre</div>
+                        <div class="bg-purple-50 p-2 rounded">mama<span class="font-bold text-purple-600">ako</span> = tua madre</div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center text-sm">2</span>
+                        Plurali
+                    </h4>
+                    <p class="text-gray-700 mb-2"><strong>IT:</strong> Il prefisso wa- indica il plurale umano</p>
+                    <p class="text-gray-700"><strong>EN:</strong> The prefix wa- indicates human plural</p>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <div class="bg-pink-50 p-2 rounded">mtoto → <span class="font-bold text-pink-600">wa</span>toto (bambini)</div>
+                        <div class="bg-pink-50 p-2 rounded">ndugu → <span class="font-bold text-pink-600">wa</span>ndugu (parenti)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi di Completamento</h2>
+                <p class="text-gray-600">Complete the sentences with the correct Swahili family terms</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <!-- Exercises will be injected here by JavaScript -->
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-purple-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-purple-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-purple-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Family
+        const exercises = [
+            { id: 1, text: "_____ yangu anafanya kazi hospitalini. (My father works in a hospital)", answer: "baba", hint: "padre" },
+            { id: 2, text: "_____ yangu anapika chakula kitamu. (My mother cooks delicious food)", answer: "mama", hint: "madre" },
+            { id: 3, text: "Nina _____ wawili wadogo. (I have two younger siblings)", answer: "ndugu", hint: "fratelli/sorelle" },
+            { id: 4, text: "_____ yangu ni mwalimu. (My older brother is a teacher)", answer: "kaka", hint: "fratello maggiore" },
+            { id: 5, text: "_____ yangu anaoa mwaka huu. (My older sister is getting married this year)", answer: "dada", hint: "sorella maggiore" },
+            { id: 6, text: "_____ wangu ana miaka mitano. (My child is five years old)", answer: "mtoto", hint: "bambino" },
+            { id: 7, text: "_____ yangu ni mkurugenzi wa kampuni. (My husband is a company director)", answer: "mume", hint: "marito" },
+            { id: 8, text: "_____ yangu ni daktari. (My wife is a doctor)", answer: "mke", hint: "moglie" },
+            { id: 9, text: "Ninakaa na _____ zangu wazee. (I live with my grandparents)", answer: "nyanya", hint: "nonni (forma plurale: wazazi wazee)" },
+            { id: 10, text: "_____ yangu ananifundisha historia. (My grandfather teaches me history)", answer: "babu", hint: "nonno" },
+            { id: 11, text: "_____ yangu ni mchumba wangu. (My partner is my fiancé)", answer: "mchumba", hint: "fidanzato/a" },
+            { id: 12, text: "Nina _____ wengi mjini Dodoma. (I have many relatives in Dodoma)", answer: "ndugu", hint: "parenti" },
+            { id: 13, text: "_____ yangu wa kiume ana gari jipya. (My brother-in-law has a new car)", answer: "shemeji", hint: "cognato" },
+            { id: 14, text: "_____ yangu wa kike anafanya biashara. (My sister-in-law runs a business)", answer: "shemeji", hint: "cognata" },
+            { id: 15, text: "_____ zangu wote walikuwa kwenye harusi. (All my cousins were at the wedding)", answer: "binamu", hint: "cugini" },
+            { id: 16, text: "_____ yangu wa kike ni mwanafunzi. (My niece is a student)", answer: "mpwa", hint: "nipote femmina" },
+            { id: 17, text: "_____ yangu wa kiume anaicheza mpira. (My nephew plays football)", answer: "mpwa", hint: "nipote maschio" },
+            { id: 18, text: "_____ yangu wa kiume ni mwanasheria. (My uncle is a lawyer)", answer: "mjomba", hint: "zio materno" },
+            { id: 19, text: "_____ yangu wa kike ni mwalimu. (My aunt is a teacher)", answer: "shangazi", hint: "zia paterna" },
+            { id: 20, text: "Ninamwita _____ yangu kila Jumapili. (I call my grandmother every Sunday)", answer: "nyanya", hint: "nonna" },
+            { id: 21, text: "_____ yetu inakaa katika nyumba kubwa. (Our family lives in a big house)", answer: "familia", hint: "famiglia" },
+            { id: 22, text: "_____ wangu wa kiume anafanya kazi benki. (My paternal uncle works in a bank)", answer: "baba", hint: "zio paterno (pia: baba mdogo)" },
+            { id: 23, text: "_____ yangu wa kike ananilea. (My maternal aunt raised me)", answer: "mama", hint: "zia materna (pia: mama mdogo)" },
+            { id: 24, text: "Nina _____ watatu wa kiume. (I have three sons)", answer: "watoto", hint: "figli (plurale di mtoto)" },
+            { id: 25, text: "_____ zangu wawili wa kike wanaolewa. (My two daughters are getting married)", answer: "watoto", hint: "figlie" },
+            { id: 26, text: "_____ yangu mkubwa ni mhandisi. (My older brother is an engineer)", answer: "kaka", hint: "fratello maggiore" },
+            { id: 27, text: "_____ yangu mdogo bado anasoma shule. (My younger sister is still in school)", answer: "dada", hint: "sorella (qui: dogo implicito)" },
+            { id: 28, text: "_____ zangu wote walikusanyika kwa Krismasi. (All my siblings gathered for Christmas)", answer: "ndugu", hint: "fratelli e sorelle" },
+            { id: 29, text: "_____ yangu wa kiume alifariki mwaka jana. (My father-in-law passed away last year)", answer: "mkwe", hint: "suocero" },
+            { id: 30, text: "_____ yangu wa kike anapenda kupika. (My mother-in-law loves cooking)", answer: "mkwe", hint: "suocera" },
+            { id: 31, text: "Ninamwona _____ yangu kila siku. (I see my spouse every day)", answer: "mume", hint: "partner (maschile)" },
+            { id: 32, text: "_____ wangu wa kiume ni mlinzi. (My stepson is a security guard)", answer: "mtoto", hint: "figliastro" },
+            { id: 33, text: "_____ yangu wa kike ni mtoto wa kambo. (My stepdaughter is my wife's daughter)", answer: "mtoto", hint: "figliastra" },
+            { id: 34, text: "_____ yangu mpya ni mzuri sana. (My new husband is very good)", answer: "mume", hint: "marito" },
+            { id: 35, text: "_____ wangu wa kwanza aliniacha. (My first wife left me)", answer: "mke", hint: "moglie (in contesto poligamico)" },
+            { id: 36, text: "Nina _____ wawili wa kiume na mmoja wa kike. (I have two brothers and one sister)", answer: "ndugu", hint: "fratelli" },
+            { id: 37, text: "_____ yangu wa kiume ni mlezi wangu. (My uncle is my guardian)", answer: "mjomba", hint: "zio" },
+            { id: 38, text: "_____ yangu wa kike ananipa zawadi. (My aunt gives me gifts)", answer: "shangazi", hint: "zia" },
+            { id: 39, text: "_____ zangu wote wanaishi mjini. (All my cousins live in the city)", answer: "binamu", hint: "cugini" },
+            { id: 40, text: "_____ wangu wa kiume anacheza na mimi. (My nephew plays with me)", answer: "mpwa", hint: "nipote maschio" },
+            { id: 41, text: "_____ yangu wa kike ananifundisha kupika. (My niece teaches me to cook)", answer: "mpwa", hint: "nipote femmina" },
+            { id: 42, text: "_____ zetu ni kubwa na yenye upendo. (Our family is big and loving)", answer: "familia", hint: "famiglia" },
+            { id: 43, text: "_____ yangu wa kiume ni mwanzoni mwa familia. (My father is the head of the family)", answer: "baba", hint: "padre" },
+            { id: 44, text: "_____ yangu wa kike ni nguzo ya familia. (My mother is the pillar of the family)", answer: "mama", hint: "madre" },
+            { id: 45, text: "_____ wangu wa kiume ananifundisha kuendesha gari. (My older brother teaches me to drive)", answer: "kaka", hint: "fratello maggiore" },
+            { id: 46, text: "_____ yangu wa kike ananisaidia kufanya kazi za nyumbani. (My older sister helps me with housework)", answer: "dada", hint: "sorella maggiore" },
+            { id: 47, text: "_____ wangu mdogo wa kiume bado ni mtoto. (My younger brother is still a child)", answer: "ndugu", hint: "fratello minore" },
+            { id: 48, text: "_____ yangu wa kike wa kambo ananipenda. (My stepmother loves me)", answer: "mama", hint: "matrigna" },
+            { id: 49, text: "_____ yangu wa kiume wa kambo ni mkali. (My stepfather is strict)", answer: "baba", hint: "patrigno" },
+            { id: 50, text: "Ninawapenda _____ wangu wote. (I love all my family members)", answer: "ndugu", hint: "parenti/familiari" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        // Initialize exercises
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex, index) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-purple-600 min-w-[120px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-purple-600 hover:text-purple-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            // Clamp score between 0 and 100
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score)); // Min 60, Max 100
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+            
+            // Auto-fill email subject suggestion
+            const emailSubject = `Swahili Family Test - Score: ${clampedScore}/100`;
+            console.log('Email subject:', emailSubject);
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

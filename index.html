@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SWAHILI ACADEMY - Livello A1 - C2 QCER</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #1e3a5f;
+            --primary-dark: #152a45;
+            --secondary: #8b0000;
+            --success: #276749;
+            --error: #c53030;
+            --bg-primary: #f5f5f0;
+            --bg-card: #ffffff;
+            --border: #d4d4c8;
+            --text-primary: #2c3e50;
+            --text-secondary: #5a6c7d;
+            --accent: #c9a227;
+            --swahili: #006400;
+            --swahili-light: #228b22;
+            --level-a1: #276749;
+            --level-a2: #2563eb;
+            --level-b1: #c9a227;
+            --level-b2: #dc2626;
+        }
+        
+        body { 
+            font-family: 'Georgia', 'Times New Roman', serif; 
+            background: var(--bg-primary); 
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* LOGIN STYLES */
+        .login-section { 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #e8f5e9 100%);
+            padding: 20px; 
+        }
+        
+        .login-container { 
+            width: 100%; 
+            max-width: 480px; 
+            background: var(--bg-card); 
+            border-radius: 0; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--swahili);
+        }
+        
+        .login-header { 
+            background: var(--primary); 
+            padding: 40px 30px; 
+            text-align: center; 
+            color: white;
+            position: relative;
+        }
+
+        .login-header::after {
+            content: "🌍";
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        .login-logo { 
+            font-size: 3rem; 
+            margin-bottom: 16px; 
+        }
+        
+        .login-body { 
+            padding: 32px; 
+        }
+        
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        
+        .form-label { 
+            display: block; 
+            font-size: 0.875rem; 
+            font-weight: 600; 
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-input { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border: 1px solid var(--border); 
+            border-radius: 0; 
+            font-size: 1rem;
+            font-family: inherit;
+            background: #fafafa;
+        }
+        
+        .form-input:focus { 
+            outline: none; 
+            border-color: var(--swahili);
+            background: white;
+        }
+        
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--swahili); 
+            color: white; 
+            border: none; 
+            border-radius: 0; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover { 
+            background: var(--swahili-light);
+        }
+        
+        .btn-secondary { 
+            background: transparent; 
+            color: var(--swahili); 
+            border: 2px solid var(--swahili); 
+        }
+
+        .btn-secondary:hover {
+            background: var(--swahili);
+            color: white;
+        }
+        
+        .btn-success { 
+            background: var(--success); 
+        }
+
+        .btn-danger {
+            background: var(--error);
+        }
+        
+        .btn-a1 { background: var(--level-a1); }
+        .btn-a2 { background: var(--level-a2); }
+        .btn-b1 { background: var(--level-b1); color: #000; }
+        .btn-b2 { background: var(--level-b2); }
+        
+        .form-footer { 
+            text-align: center; 
+            margin-top: 24px; 
+            padding-top: 24px; 
+            border-top: 1px solid var(--border); 
+        }
+        
+        .form-footer a { 
+            color: var(--swahili); 
+            font-weight: 600; 
+            text-decoration: none; 
+            cursor: pointer;
+        }
+        
+        .form-footer a:hover { 
+            text-decoration: underline; 
+        }
+
+        .alert { 
+            padding: 12px 16px; 
+            border-radius: 0; 
+            margin-bottom: 16px; 
+            display: none;
+            border-left: 4px solid;
+        }
+        
+        .alert-error { 
+            background: #fed7d7; 
+            color: var(--error); 
+            display: block;
+            border-left-color: var(--error);
+        }
+        
+        .alert-success { 
+            background: #c6f6d5; 
+            color: var(--success); 
+            display: block;
+            border-left-color: var(--success);
+        }
+
+        .password-strength-indicator {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            height: 4px;
+        }
+        
+        .strength-bar {
+            flex: 1;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .strength-bar.weak { background: var(--error); }
+        .strength-bar.medium { background: var(--accent); }
+        .strength-bar.strong { background: var(--success); }
+
+        /* DASHBOARD STYLES */
+        .dashboard { 
+            display: none; 
+            min-height: 100vh; 
+            flex-direction: column;
+        }
+        
+        .top-nav { 
+            background: var(--primary); 
+            color: white; 
+            padding: 0 24px; 
+            height: 64px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            border-bottom: 3px solid var(--swahili);
+            flex-shrink: 0;
+        }
+        
+        .main-container { 
+            display: flex; 
+            flex: 1;
+            min-height: calc(100vh - 64px);
+        }
+        
+        .sidebar { 
+            width: 300px; 
+            background: var(--bg-card); 
+            border-right: 1px solid var(--border); 
+            padding: 24px 0;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        .nav-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding: 12px 16px; 
+            margin: 0 12px 4px 12px;
+            border-radius: 0; 
+            cursor: pointer; 
+            color: var(--text-secondary);
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .nav-item:hover { 
+            background: var(--bg-primary); 
+            color: var(--text-primary);
+            border-left-color: var(--border);
+        }
+        
+        .nav-item.active { 
+            background: var(--bg-primary); 
+            color: var(--swahili);
+            border-left-color: var(--swahili);
+            font-weight: 600;
+        }
+
+        .nav-level {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 2px 6px;
+            border-radius: 0;
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        .level-a1 { background: var(--level-a1); color: white; }
+        .level-a2 { background: var(--level-a2); color: white; }
+        .level-b1 { background: var(--level-b1); color: #000; }
+        .level-b2 { background: var(--level-b2); color: white; }
+        
+        .content { 
+            flex: 1; 
+            background: var(--bg-primary);
+            overflow-y: auto;
+            padding: 32px;
+        }
+        
+        .section { 
+            display: none; 
+        }
+        
+        .section.active { 
+            display: block; 
+        }
+        
+        .card { 
+            background: var(--bg-card); 
+            border-radius: 0; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08); 
+            border: 1px solid var(--border); 
+            margin-bottom: 24px; 
+        }
+        
+        .card-header { 
+            padding: 20px 24px; 
+            border-bottom: 2px solid var(--border); 
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+        
+        .card-body { 
+            padding: 24px; 
+        }
+        
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 24px; 
+        }
+        
+        .game-card { 
+            background: var(--bg-card); 
+            border-radius: 0; 
+            overflow: hidden; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08); 
+            border: 1px solid var(--border); 
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .game-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            border-color: var(--swahili);
+        }
+
+        .game-level-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .game-image { 
+            height: 160px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 3.5rem;
+            border-bottom: 3px solid;
+        }
+
+        .bg-a1 { background: linear-gradient(135deg, var(--level-a1) 0%, #1e5c3e 100%); border-color: var(--level-a1); color: white; }
+        .bg-a2 { background: linear-gradient(135deg, var(--level-a2) 0%, #1e40af 100%); border-color: var(--level-a2); color: white; }
+        .bg-b1 { background: linear-gradient(135deg, var(--level-b1) 0%, #a88c1c 100%); border-color: var(--level-b1); color: #000; }
+        .bg-b2 { background: linear-gradient(135deg, var(--level-b2) 0%, #b91c1c 100%); border-color: var(--level-b2); color: white; }
+        .bg-swahili { background: linear-gradient(135deg, var(--swahili) 0%, var(--swahili-light) 100%); border-color: var(--swahili); color: white; }
+        
+        .game-content { 
+            padding: 20px; 
+        }
+        
+        .game-title { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .game-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .breadcrumbs {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: -32px -32px 24px -32px;
+        }
+
+        .breadcrumbs strong {
+            color: var(--text-primary);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            border-left: 4px solid var(--swahili);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--swahili);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            color: var(--primary);
+            font-weight: normal;
+            margin-bottom: 8px;
+            border-bottom: 2px solid var(--swahili);
+            padding-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 24px;
+        }
+
+        .level-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .level-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .level-card:hover, .level-card.active {
+            border-color: var(--swahili);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .level-card.active {
+            background: #e8f5e9;
+        }
+
+        .level-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .level-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .level-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-category {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 16px 12px 8px 12px;
+            padding-left: 12px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-completed { background: var(--success); color: white; }
+        .status-pending { background: var(--accent); color: #000; }
+
+        /* Language tabs */
+        .lang-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .lang-tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .lang-tab.active {
+            color: var(--swahili);
+            border-bottom-color: var(--swahili);
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+
+        /* Swahili specific styles */
+        .swahili-word {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2rem;
+            color: var(--swahili);
+            font-weight: 600;
+        }
+
+        .pronunciation {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ADMIN STYLES */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 32px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table tr:hover {
+            background: var(--bg-primary);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .badge-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .password-box {
+            background: #f0fdf4;
+            border: 2px dashed var(--success);
+            padding: 2rem;
+            text-align: center;
+        }
+        .password-display {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            color: var(--primary);
+            background: white;
+            padding: 1rem;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+            border: 2px solid var(--border);
+        }
+
+        /* MOBILE MENU TOGGLE */
+        .mobile-menu-toggle {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* SIDEBAR OVERLAY */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 280px;
+            }
+            .level-selector {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                height: auto;
+                min-height: 64px;
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -300px;
+                width: 280px;
+                height: 100vh;
+                z-index: 999;
+                transition: left 0.3s ease;
+                padding-top: 60px;
+            }
+
+            .sidebar.mobile-open {
+                left: 0;
+                box-shadow: 4px 0 12px rgba(0,0,0,0.3);
+            }
+
+            .content {
+                padding: 16px;
+                width: 100%;
+            }
+
+            .breadcrumbs {
+                margin: -16px -16px 16px -16px;
+                padding: 10px 16px;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .level-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .level-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY FOR MOBILE -->
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<!-- ==================== LOGIN SECTION ==================== -->
+<div id="loginSection" class="login-section">
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">🦁</div>
+            <h1 style="font-size: 1.3rem; line-height: 1.3; font-weight: normal;">SWAHILI ACADEMY</h1>
+            <p style="font-size: 0.8rem; margin-top: 8px; font-style: italic;">Jifunze Kiswahili - Impara lo Swahili</p>
+            <p style="font-size: 0.75rem; margin-top: 4px; opacity: 0.8;">Livello A1 - C2 QCER</p>
+        </div>
+        <div class="login-body">
+            <form id="loginForm">
+                <div class="alert alert-error" id="loginError"></div>
+                <div class="form-group">
+                    <label class="form-label">Indirizzo Email / Email Address</label>
+                    <input type="email" id="loginEmail" class="form-input" required placeholder="nome@email.com"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password / Nywila</label>
+                    <input type="password" id="loginPassword" class="form-input" required placeholder="Inserire password" oninput="checkPasswordStrength()"/>
+                    
+                    <div class="password-strength-indicator" id="strengthIndicator">
+                        <div class="strength-bar" id="bar1"></div>
+                        <div class="strength-bar" id="bar2"></div>
+                        <div class="strength-bar" id="bar3"></div>
+                        <div class="strength-bar" id="bar4"></div>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;" id="strengthText">
+                        Digita la password per vedere la forza / Andika nywila kuona nguvu
+                    </div>
+                </div>
+                <button type="submit" class="btn">Accedi alla Piattaforma / Ingia</button>
+                
+                <div style="margin-top: 20px; padding: 16px; background: #f7fafc; border: 1px solid var(--border); font-size: 0.8rem;">
+                    <strong>🔧 Modalità Debug:</strong> Per testare, inserisci qualsiasi email e una password di almeno 6 caratteri. Il sistema funzionerà in modalità demo.
+                </div>
+
+                <div class="form-footer">
+                    <p>Non si possiedono credenziali? / Huna akaunti? <a onclick="showRequestAccess()">Richiedi accesso / Omba ufikiaji</a></p>
+                    <p style="margin-top: 8px;"><a onclick="showAdminLogin()">Accesso Amministratore / Msimamizi</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== RICHIESTA ACCESSO SECTION ==================== -->
+<div id="requestAccess" class="login-section" style="display: none;">
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">📝</div>
+            <h1 style="font-size: 1.3rem; line-height: 1.3; font-weight: normal;">RICHIESTA ACCESSO / OMBA UFIKIAJI</h1>
+            <p style="font-size: 0.8rem; margin-top: 8px; font-style: italic;">Compila il modulo per richiedere le credenziali</p>
+        </div>
+        <div class="login-body">
+            <div id="requestAlert" class="alert"></div>
+            <form id="requestForm">
+                <div class="form-group">
+                    <label class="form-label">Nome completo / Jina kamili *</label>
+                    <input type="text" id="reqName" class="form-input" placeholder="Mario Rossi" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email / Barua pepe *</label>
+                    <input type="email" id="reqEmail" class="form-input" placeholder="mario.rossi@email.it" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Motivazione / Sababu *</label>
+                    <textarea id="reqMotivation" class="form-input" placeholder="Spiega perché vuoi imparare lo Swahili..." required></textarea>
+                </div>
+                <button type="submit" class="btn">📤 Invia Richiesta / Tuma Ombi</button>
+                <div class="form-footer">
+                    <p><a onclick="backToLogin()">← Torna al login / Rudi</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== ADMIN LOGIN SECTION ==================== -->
+<div id="adminLoginSection" class="login-section" style="display: none;">
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">⚙️</div>
+            <h1 style="font-size: 1.3rem; line-height: 1.3; font-weight: normal;">PANNELLO AMMINISTRAZIONE / MSIMAMIZI</h1>
+            <p style="font-size: 0.8rem; margin-top: 8px; font-style: italic;">Swahili Academy</p>
+        </div>
+        <div class="login-body">
+            <div id="adminLoginError" class="alert alert-error" style="display: none;"></div>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Amministratore</label>
+                    <input type="email" id="adminEmail" class="form-input" required placeholder="admin@swahili.it"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password / Nywila</label>
+                    <input type="password" id="adminPassword" class="form-input" required placeholder="Inserire password"/>
+                </div>
+                <button type="submit" class="btn">Accedi all'Area Riservata / Ingia</button>
+                <div class="form-footer">
+                    <p><a onclick="backToLogin()">← Torna al login studenti / Rudi</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== STUDENT DASHBOARD ==================== -->
+<div id="dashboard" class="dashboard">
+    <nav class="top-nav">
+        <div style="display:flex;align-items:center;gap:12px; flex: 1;">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+            <span style="font-size:1.5rem;">🦁</span>
+            <div>
+                <div style="font-weight:600; letter-spacing: 0.5px;">SWAHILI ACADEMY</div>
+                <div style="font-size:0.7rem; opacity:0.8; font-style:italic;">Jifunze Kiswahili - Impara lo Swahili</div>
+                <div style="font-size:0.65rem; opacity:0.7;">Livello A1 - C2 QCER</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;">
+            <div style="text-align:right;">
+                <div id="userNameDisplay" style="font-weight:600; font-family: Georgia, serif;">Studente</div>
+                <div id="userClassDisplay" style="font-size:0.8rem;opacity:0.8;">Livello QCER</div>
+            </div>
+            <button onclick="logout()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:8px 16px;cursor:pointer; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="menu-category">Generale / Jumla</div>
+            <a href="index2.html" class="nav-item active" id="nav-home">
+                <span>🏠</span><span>Cruscotto / Dashibodi</span>
+            </a>
+            <a href="risultati_swahili.html" target="_blank" class="nav-item" id="nav-results">
+                <span>📊</span><span>Registro Valutazioni / Matokeo</span>
+            </a>
+
+            <div class="menu-category" style="color: var(--swahili); border-bottom-color: var(--swahili);">🎓 Simulazioni Esami / Mitihani</div>
+            <a href="simulazioni_swahili.html" target="_blank" class="nav-item" id="nav-simulazioni">
+                <span>📝</span><span>Simulazioni Complete / Mitihani Kamili</span><span class="nav-level" style="background: var(--swahili); color: white;">ALL</span>
+            </a>
+
+            <div class="menu-category">Livello A1 - Principiante / Mwanzo</div>
+            <a href="alfabeto.html" target="_blank" class="nav-item" id="nav-a1-alfabeto">
+                <span>🔤</span><span>Alfabeto e Pronuncia / Herufi</span><span class="nav-level level-a1">A1</span>
+            </a>
+            <a href="saluti.html" target="_blank" class="nav-item" id="nav-a1-saluti">
+                <span>👋</span><span>Saluti e Presentazioni / Salamu</span><span class="nav-level level-a1">A1</span>
+            </a>
+            <a href="numeri.html" target="_blank" class="nav-item" id="nav-a1-numeri">
+                <span>🔢</span><span>Numeri / Nambari</span><span class="nav-level level-a1">A1</span>
+            </a>
+            <a href="famiglia.html" target="_blank" class="nav-item" id="nav-a1-famiglia">
+                <span>👨‍👩‍👧‍👦</span><span>Famiglia e Persone / Familia</span><span class="nav-level level-a1">A1</span>
+            </a>
+            <a href="verbiessenziali.html" target="_blank" class="nav-item" id="nav-a1-verbi">
+                <span>✏️</span><span>Verbi Essenziali / Vitenzi vya Msingi</span><span class="nav-level level-a1">A1</span>
+            </a>
+
+            <div class="menu-category">Livello A2 - Elementare / Msingi</div>
+            <a href="tempiverbali.html" target="_blank" class="nav-item" id="nav-a2-tempi">
+                <span>⏰</span><span>Tempi Verbali / Nyakati za Vitenzi</span><span class="nav-level level-a2">A2</span>
+            </a>
+            <a href="aggettivi.html" target="_blank" class="nav-item" id="nav-a2-aggettivi">
+                <span>🎨</span><span>Aggettivi / Vivumishi</span><span class="nav-level level-a2">A2</span>
+            </a>
+            <a href="preposizioni.html" target="_blank" class="nav-item" id="nav-a2-prep">
+                <span>🔗</span><span>Preposizioni / Viambishi</span><span class="nav-level level-a2">A2</span>
+            </a>
+            <a href="cibo.html" target="_blank" class="nav-item" id="nav-a2-cibo">
+                <span>🍽️</span><span>Cibo e Ristorante / Chakula</span><span class="nav-level level-a2">A2</span>
+            </a>
+
+            <div class="menu-category">Livello B1 - Intermedio / Kati</div>
+            <a href="swahili_b1_conversazione.html" target="_blank" class="nav-item" id="nav-b1-conversazione">
+                <span>💬</span><span>Conversazione Quotidiana / Mazungumzo</span><span class="nav-level level-b1">B1</span>
+            </a>
+            <a href="cultura.html" target="_blank" class="nav-item" id="nav-b1-cultura">
+                <span>🏛️</span><span>Cultura Swahili / Utamaduni</span><span class="nav-level level-b1">B1</span>
+            </a>
+            <a href="swahili_b1_letteratura.html" target="_blank" class="nav-item" id="nav-b1-letteratura">
+                <span>📚</span><span>Letteratura di Base / Fasihi</span><span class="nav-level level-b1">B1</span>
+            </a>
+
+            <div class="menu-category">Livello B2 - Avanzato / Juu</div>
+            <a href="swahili_b2_storia.html" target="_blank" class="nav-item" id="nav-b2-storia">
+                <span>📜</span><span>Storia e Civiltà / Historia</span><span class="nav-level level-b2">B2</span>
+            </a>
+            <a href="swahili_b2_economia.html" target="_blank" class="nav-item" id="nav-b2-economia">
+                <span>💼</span><span>Economia e Commercio / Uchumi</span><span class="nav-level level-b2">B2</span>
+            </a>
+            <a href="swahili_b2_media.html" target="_blank" class="nav-item" id="nav-b2-media">
+                <span>📰</span><span>Media e Attualità / Habari</span><span class="nav-level level-b2">B2</span>
+            </a>
+        </aside>
+
+        <main class="content">
+            <!-- HOME -->
+            <div id="home" class="section active">
+                <div class="breadcrumbs">
+                    <strong>Seleziona Livello QCER / Chagua Kiwango</strong>
+                </div>
+                <div style="margin-bottom:32px;">
+                    <h1 class="section-title">Benvenuto / Karibu, <span id="welcomeName">Studente</span></h1>
+                    <p class="section-subtitle">Selezionare il livello di competenza linguistico per accedere ai moduli didattici<br>Chagua kiwango cha lugha kufikia moduli za kujifunza</p>
+                </div>
+
+                <div class="level-selector">
+                    <div class="level-card active" onclick="showLevel('a1')">
+                        <div class="level-icon" style="color: var(--level-a1);">🌱</div>
+                        <div class="level-name" style="color: var(--level-a1);">A1</div>
+                        <div class="level-desc">Principiante / Mwanzo<br>5 moduli</div>
+                    </div>
+                    <div class="level-card" onclick="showLevel('a2')">
+                        <div class="level-icon" style="color: var(--level-a2);">🌿</div>
+                        <div class="level-name" style="color: var(--level-a2);">A2</div>
+                        <div class="level-desc">Elementare / Msingi<br>4 moduli</div>
+                    </div>
+                    <div class="level-card" onclick="showLevel('b1')">
+                        <div class="level-icon" style="color: var(--level-b1);">🌳</div>
+                        <div class="level-name" style="color: var(--level-b1);">B1</div>
+                        <div class="level-desc">Intermedio / Kati<br>3 moduli</div>
+                    </div>
+                    <div class="level-card" onclick="showLevel('b2')">
+                        <div class="level-icon" style="color: var(--level-b2);">🏆</div>
+                        <div class="level-name" style="color: var(--level-b2);">B2</div>
+                        <div class="level-desc">Avanzato / Juu<br>3 moduli</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard A1 -->
+                <div id="dashboard-a1" class="level-dashboard">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:32px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Moduli Completati / Moduli Zilizokamilika</div>
+                            <div class="stat-value" id="statTotalA1">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Media / Wastani</div>
+                            <div class="stat-value" id="statAvgA1">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Progresso / Maendeleo</div>
+                            <div class="stat-value" id="statProgressA1">0/5</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" style="background: var(--level-a1); color: white; border-color: var(--level-a1);">
+                            Programma Formativo A1 - Principiante / Mwanzo (QCER)
+                        </div>
+                        <div class="card-body">
+                            <div class="lang-tabs">
+                                <button class="lang-tab active" onclick="switchLang('it', 'a1')">🇮🇹 Italiano</button>
+                                <button class="lang-tab" onclick="switchLang('en', 'a1')">🇬🇧 English</button>
+                            </div>
+                            
+                            <div id="lang-it-a1" class="lang-content active">
+                                <div class="games-grid">
+                                    <a href="alfabeto.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">🔤</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 1: Alfabeto e Pronuncia</div>
+                                            <p class="game-desc">Le 24 lettere dell'alfabeto latino usate nello Swahili. Pronuncia fonetica e regole di lettura.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="saluti.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">👋</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 2: Saluti e Presentazioni</div>
+                                            <p class="game-desc">Jambo, Habari, Hujambo - Come salutare e presentarsi in Swahili. Formule di cortesia.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="numeri.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">🔢</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 3: Numeri e Conteggio</div>
+                                            <p class="game-desc">Sistema numerico swahili da 1 a 100. Numeri ordinali e cardinali.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="famiglia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">👨‍👩‍👧‍👦</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 4: Famiglia e Persone</div>
+                                            <p class="game-desc">Vocabolario familiare: mama, baba, ndugu. Parentela e relazioni sociali.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="verbiessenziali.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">✏️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 5: Verbi Essenziali</div>
+                                            <p class="game-desc">Kula (mangiare), kunywa (bere), kwenda (andare). Coniugazione di base.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="lang-en-a1" class="lang-content">
+                                <div class="games-grid">
+                                    <a href="swahili_a1_alfabeto.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">🔤</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 1: Alphabet and Pronunciation</div>
+                                            <p class="game-desc">The 24 Latin letters used in Swahili. Phonetic pronunciation and reading rules.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a1_saluti.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">👋</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 2: Greetings and Introductions</div>
+                                            <p class="game-desc">Jambo, Habari, Hujambo - How to greet and introduce yourself in Swahili. Polite formulas.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a1_numeri.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">🔢</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 3: Numbers and Counting</div>
+                                            <p class="game-desc">Swahili number system from 1 to 100. Ordinal and cardinal numbers.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a1_famiglia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">👨‍👩‍👧‍👦</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 4: Family and People</div>
+                                            <p class="game-desc">Family vocabulary: mama, baba, ndugu. Kinship and social relationships.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a1_verbi_base.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a1">A1</span>
+                                        <div class="game-image bg-a1">✏️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 5: Essential Verbs</div>
+                                            <p class="game-desc">Kula (to eat), kunywa (to drink), kwenda (to go). Basic conjugation.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard A2 -->
+                <div id="dashboard-a2" class="level-dashboard" style="display: none;">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:32px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Moduli Completati / Moduli Zilizokamilika</div>
+                            <div class="stat-value" id="statTotalA2">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Media / Wastani</div>
+                            <div class="stat-value" id="statAvgA2">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Progresso / Maendeleo</div>
+                            <div class="stat-value" id="statProgressA2">0/4</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" style="background: var(--level-a2); color: white; border-color: var(--level-a2);">
+                            Programma Formativo A2 - Elementare / Msingi (QCER)
+                        </div>
+                        <div class="card-body">
+                            <div class="lang-tabs">
+                                <button class="lang-tab active" onclick="switchLang('it', 'a2')">🇮🇹 Italiano</button>
+                                <button class="lang-tab" onclick="switchLang('en', 'a2')">🇬🇧 English</button>
+                            </div>
+
+                            <div id="lang-it-a2" class="lang-content active">
+                                <div class="games-grid">
+                                    <a href="tempiverbali.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">⏰</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 1: Tempi Verbali</div>
+                                            <p class="game-desc">Presente, passato e futuro. Il prefisso temporale nello Swahili (na-, li-, ta-).</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="aggettivi.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🎨</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 2: Aggettivi e Descrizioni</div>
+                                            <p class="game-desc">Concordanza degli aggettivi con i nomi. Colori, dimensioni, qualità.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="preposizioni.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🔗</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 3: Preposizioni e Congiunzioni</div>
+                                            <p class="game-desc">Viambishi wa mahali (preposizioni locali). Struttura della frase semplice.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="cibo.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🍽️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 4: Cibo e Ristorante</div>
+                                            <p class="game-desc">Vocabolario culinario. Ordinare al ristorante. Cibi tradizionali swahili.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="lang-en-a2" class="lang-content">
+                                <div class="games-grid">
+                                    <a href="swahili_a2_tempi.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">⏰</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 1: Verb Tenses</div>
+                                            <p class="game-desc">Present, past and future. Temporal prefixes in Swahili (na-, li-, ta-).</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a2_aggettivi.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🎨</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 2: Adjectives and Descriptions</div>
+                                            <p class="game-desc">Adjective-noun agreement. Colors, sizes, qualities.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a2_preposizioni.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🔗</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 3: Prepositions and Conjunctions</div>
+                                            <p class="game-desc">Viambishi wa mahali (locative prepositions). Simple sentence structure.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_a2_cibo.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-a2">A2</span>
+                                        <div class="game-image bg-a2">🍽️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 4: Food and Restaurant</div>
+                                            <p class="game-desc">Culinary vocabulary. Ordering at a restaurant. Traditional Swahili foods.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard B1 -->
+                <div id="dashboard-b1" class="level-dashboard" style="display: none;">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:32px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Moduli Completati / Moduli Zilizokamilika</div>
+                            <div class="stat-value" id="statTotalB1">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Media / Wastani</div>
+                            <div class="stat-value" id="statAvgB1">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Progresso / Maendeleo</div>
+                            <div class="stat-value" id="statProgressB1">0/3</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" style="background: var(--level-b1); color: #000; border-color: var(--level-b1);">
+                            Programma Formativo B1 - Intermedio / Kati (QCER)
+                        </div>
+                        <div class="card-body">
+                            <div class="lang-tabs">
+                                <button class="lang-tab active" onclick="switchLang('it', 'b1')">🇮🇹 Italiano</button>
+                                <button class="lang-tab" onclick="switchLang('en', 'b1')">🇬🇧 English</button>
+                            </div>
+
+                            <div id="lang-it-b1" class="lang-content active">
+                                <div class="games-grid">
+                                    <a href="swahili_b1_conversazione.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">💬</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 1: Conversazione Quotidiana</div>
+                                            <p class="game-desc">Dialoghi complessi. Espressioni idiomatiche. Slang contemporaneo.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b1_cultura.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">🏛️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 2: Cultura Swahili</div>
+                                            <p class="game-desc">Tradizioni della costa orientale africana. Musica taarab, poesia.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b1_letteratura.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">📚</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 3: Letteratura di Base</div>
+                                            <p class="game-desc">Lettura di testi semplici. Comprensione di racconti tradizionali (hadithi).</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="lang-en-b1" class="lang-content">
+                                <div class="games-grid">
+                                    <a href="swahili_b1_conversazione.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">💬</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 1: Daily Conversation</div>
+                                            <p class="game-desc">Complex dialogues. Idiomatic expressions. Contemporary slang.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b1_cultura.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">🏛️</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 2: Swahili Culture</div>
+                                            <p class="game-desc">Traditions of the East African coast. Taarab music, poetry.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b1_letteratura.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b1">B1</span>
+                                        <div class="game-image bg-b1">📚</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 3: Basic Literature</div>
+                                            <p class="game-desc">Reading simple texts. Understanding traditional stories (hadithi).</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard B2 -->
+                <div id="dashboard-b2" class="level-dashboard" style="display: none;">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:32px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Moduli Completati / Moduli Zilizokamilika</div>
+                            <div class="stat-value" id="statTotalB2">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Media / Wastani</div>
+                            <div class="stat-value" id="statAvgB2">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Progresso / Maendeleo</div>
+                            <div class="stat-value" id="statProgressB2">0/3</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" style="background: var(--level-b2); color: white; border-color: var(--level-b2);">
+                            Programma Formativo B2 - Avanzato / Juu (QCER)
+                        </div>
+                        <div class="card-body">
+                            <div class="lang-tabs">
+                                <button class="lang-tab active" onclick="switchLang('it', 'b2')">🇮🇹 Italiano</button>
+                                <button class="lang-tab" onclick="switchLang('en', 'b2')">🇬🇧 English</button>
+                            </div>
+
+                            <div id="lang-it-b2" class="lang-content active">
+                                <div class="games-grid">
+                                    <a href="swahili_b2_storia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b2">B2</span>
+                                        <div class="game-image bg-b2">📜</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 1: Storia e Civiltà Swahili</div>
+                                            <p class="game-desc">Storia dei city-states della costa. Commercio dell'oro e degli schiavi. Colonialismo.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b2_economia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b2">B2</span>
+                                        <div class="game-image bg-b2">💼</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 2: Economia e Commercio</div>
+                                            <p class="game-desc">Linguaggio economico. Business in Africa orientale. Turismo sostenibile.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b2_media.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b2">B2</span>
+                                        <div class="game-image bg-b2">📰</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Modulo 3: Media e Attualità</div>
+                                            <p class="game-desc">Comprensione di notizie radio/TV. Articoli di giornale. Dibattiti politici.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Esercizi in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id="lang-en-b2" class="lang-content">
+                                <div class="games-grid">
+                                    <a href="swahili_b2_storia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b2">B2</span>
+                                        <div class="game-image bg-b2">📜</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 1: Swahili History and Civilization</div>
+                                            <p class="game-desc">History of the coastal city-states. Gold and slave trade. Colonialism.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="swahili-word">Kiswahili</span></p>
+                                        </div>
+                                    </a>
+                                    <a href="swahili_b2_economia.html" target="_blank" class="game-card">
+                                        <span class="game-level-badge level-b2">B2</span>
+                                        <div class="game-image bg-b2">💼</div>
+                                        <div class="game-content">
+                                            <div class="game-title">Module 2: Economy and Commerce</div>
+                                            <p class="game-desc">Economic language. Business in East Africa. Sustainable tourism.</p>
+                                            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--swahili);"><strong>Exercises in:</strong> <span class="
+                                                    <!-- RESULTS -->
+        <div id="results" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showSection('home')" style="cursor: pointer;">Home / Nyumbani</span> / <strong>Registro Valutazioni / Matokeo</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title">Registro Valutazioni / Matokeo</h1>
+                <p class="section-subtitle">Riepilogo dei punteggi e del progresso formativo per livello QCER<br>Muhtasari wa alama na maendeleo kwa kiwango cha QCER</p>
+            </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                <button class="btn" onclick="filterResults('all')" style="width: auto; padding: 10px 20px; font-size: 0.85rem;">Tutti / Wote</button>
+                <button class="btn btn-a1" onclick="filterResults('a1')" style="width: auto; padding: 10px 20px; font-size: 0.85rem;">A1</button>
+                <button class="btn btn-a2" onclick="filterResults('a2')" style="width: auto; padding: 10px 20px; font-size: 0.85rem;">A2</button>
+                <button class="btn btn-b1" onclick="filterResults('b1')" style="width: auto; padding: 10px 20px; font-size: 0.85rem; color: #000;">B1</button>
+                <button class="btn btn-b2" onclick="filterResults('b2')" style="width: auto; padding: 10px 20px; font-size: 0.85rem;">B2</button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--border);">
+                                <th style="text-align: left; padding: 12px; font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary);">Modulo / Moduli</th>
+                                <th style="text-align: center; padding: 12px; font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary);">Livello / Kiwango</th>
+                                <th style="text-align: center; padding: 12px; font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary);">Data / Tarehe</th>
+                                <th style="text-align: center; padding: 12px; font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary);">Punteggio / Alama</th>
+                                <th style="text-align: center; padding: 12px; font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary);">Stato / Hali</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMULAZIONI ESAMI -->
+        <div id="simulazioni-swahili" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showSection('home')" style="cursor: pointer;">Home / Nyumbani</span> / <strong>Simulazioni Esami / Mitihani</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title" style="border-color: var(--swahili);">🎓 Simulazioni Esami / Mitihani ya Majaribio</h1>
+                <p class="section-subtitle">Prova simulazioni complete per la certificazione QCER - Tutti i livelli A1-B2<br>Jaribu mitihani kamili ya majaribio ya QCER - Viwanja vyote vya A1-B2</p>
+            </div>
+
+            <!-- Livello A1 -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header" style="background: var(--level-a1); color: white; border-color: var(--level-a1);">
+                    Simulazione Livello A1 - Principiante / Mwanzo
+                </div>
+                <div class="card-body">
+                    <div class="games-grid">
+                        <a href="esame_swahili_a1.html" target="_blank" class="game-card">
+                            <span class="game-level-badge level-a1">A1</span>
+                            <div class="game-image bg-a1">📝</div>
+                            <div class="game-content">
+                                <div class="game-title">Esame Completo A1 / Mtihani Kamili A1</div>
+                                <p class="game-desc">Simulazione completa esame livello A1 - Lettura, scrittura, ascolto / Mtihani kamili wa kiwango cha A1</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Livello A2 -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header" style="background: var(--level-a2); color: white; border-color: var(--level-a2);">
+                    Simulazione Livello A2 - Elementare / Msingi
+                </div>
+                <div class="card-body">
+                    <div class="games-grid">
+                        <a href="esame_swahili_a2.html" target="_blank" class="game-card">
+                            <span class="game-level-badge level-a2">A2</span>
+                            <div class="game-image bg-a2">📝</div>
+                            <div class="game-content">
+                                <div class="game-title">Esame Completo A2 / Mtihani Kamili A2</div>
+                                <p class="game-desc">Simulazione completa esame livello A2 - Tutte le competenze / Mtihani kamili wa kiwango cha A2</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Livello B1 -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header" style="background: var(--level-b1); color: #000; border-color: var(--level-b1);">
+                    Simulazione Livello B1 - Intermedio / Kati
+                </div>
+                <div class="card-body">
+                    <div class="games-grid">
+                        <a href="esame_swahili_b1.html" target="_blank" class="game-card">
+                            <span class="game-level-badge level-b1">B1</span>
+                            <div class="game-image bg-b1">📝</div>
+                            <div class="game-content">
+                                <div class="game-title">Esame Completo B1 / Mtihani Kamili B1</div>
+                                <p class="game-desc">Simulazione completa esame livello B1 - Certificazione intermedia / Mtihani kamili wa kiwango cha B1</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Livello B2 -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header" style="background: var(--level-b2); color: white; border-color: var(--level-b2);">
+                    Simulazione Livello B2 - Avanzato / Juu
+                </div>
+                <div class="card-body">
+                    <div class="games-grid">
+                        <a href="esame_swahili_b2.html" target="_blank" class="game-card">
+                            <span class="game-level-badge level-b2">B2</span>
+                            <div class="game-image bg-b2">📝</div>
+                            <div class="game-content">
+                                <div class="game-title">Esame Completo B2 / Mtihani Kamili B2</div>
+                                <p class="game-desc">Simulazione completa esame livello B2 - Avanzato / Mtihani kamili wa kiwango cha B2</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- ==================== ADMIN DASHBOARD ==================== -->
+<div id="adminDashboard" class="dashboard" style="display: none;">
+    <nav class="top-nav">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:1.5rem;">⚙️</span>
+            <div>
+                <div style="font-weight:600; letter-spacing: 0.5px;">PANNELLO AMMINISTRAZIONE / MSIMAMIZI</div>
+                <div style="font-size:0.7rem; opacity:0.8; font-style:italic;">Swahili Academy</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;">
+            <div style="text-align:right;">
+                <div style="font-weight:600; font-family: Georgia, serif;">Amministratore / Msimamizi</div>
+                <div style="font-size:0.8rem;opacity:0.8;">Area Riservata / Eneo la Siri</div>
+            </div>
+            <button onclick="adminLogout()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:8px 16px;cursor:pointer; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Logout</button>
+        </div>
+    </nav>
+<div class="main-container">
+    <aside class="sidebar">
+        <div class="menu-category">Generale / Jumla</div>
+        <div class="nav-item active" onclick="showAdminSection('admin-home')" id="nav-admin-home">
+            <span>📊</span><span>Dashboard / Dashibodi</span>
+        </div>
+        <div class="menu-category">Gestione Accessi / Usimamizi wa Ufikiaji</div>
+        <div class="nav-item" onclick="showAdminSection('admin-requests')" id="nav-admin-requests">
+            <span>📝</span><span>Richieste Accesso / Maombi ya Ufikiaji</span>
+        </div>
+        <div class="nav-item" onclick="showAdminSection('admin-users')" id="nav-admin-users">
+            <span>👥</span><span>Gestione Utenti / Usimamizi wa Watumiaji</span>
+        </div>
+        <div class="menu-category">Dati e Report / Data na Ripoti</div>
+        <div class="nav-item" onclick="showAdminSection('admin-scores')" id="nav-admin-scores">
+            <span>📈</span><span>Punteggi Studenti / Alama za Wanafunzi</span>
+        </div>
+        <div class="nav-item" onclick="showAdminSection('admin-passwords')" id="nav-admin-passwords">
+            <span>🔐</span><span>Generatore Password / Kizalishaji Nywila</span>
+        </div>
+        <div class="menu-category">Sistema / Mfumo</div>
+        <div class="nav-item" onclick="backToLogin()">
+            <span>🎓</span><span>Torna alla Piattaforma / Rudi kwa Jukwaa</span>
+        </div>
+    </aside>
+
+    <main class="content">
+        <!-- ADMIN HOME -->
+        <div id="admin-home" class="section active">
+            <div class="breadcrumbs">
+                <strong>Dashboard Amministrativa / Dashibodi ya Msimamizi</strong>
+            </div>
+            <div style="margin-bottom:32px;">
+                <h1 class="section-title">Pannello di Controllo / Jukwaa la Kusimamia</h1>
+                <p class="section-subtitle">Gestione completa della piattaforma e monitoraggio studenti<br>Usimamizi kamili wa jukwaa na ufuatiliaji wa wanafunzi</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Utenti Totali / Watumiaji Wote</div>
+                    <div class="stat-value" id="admin-stat-users">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Richieste in Attesa / Maombi Yanayosubiri</div>
+                    <div class="stat-value" id="admin-stat-pending">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Test Completati / Mitihani Iliyokamilika</div>
+                    <div class="stat-value" id="admin-stat-scores">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Media Punteggi / Wastani wa Alama</div>
+                    <div class="stat-value" id="admin-stat-avg">0%</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">📤 Esportazione Dati / Uhamishaji Data</div>
+                <div class="card-body">
+                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">Scarica i dati della piattaforma in formato Excel (CSV)<br>Pakua data ya jukwaa katika formati ya Excel (CSV)</p>
+                    <button class="btn btn-success" onclick="exportScores()" style="width: auto; display: inline-block; margin-right: 1rem;">📊 Esporta Punteggi / Alama</button>
+                    <button class="btn" onclick="exportUsers()" style="width: auto; display: inline-block;">👥 Esporta Utenti / Watumiaji</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN REQUESTS -->
+        <div id="admin-requests" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showAdminSection('admin-home')" style="cursor: pointer;">Dashboard / Dashibodi</span> / <strong>Richieste Accesso / Maombi ya Ufikiaji</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title">Richieste di Accesso / Maombi ya Ufikiaji</h1>
+                <p class="section-subtitle">Approva o rifiuta le richieste di registrazione degli studenti<br>Kubali au kataa maombi ya usajili ya wanafunzi</p>
+            </div>
+            
+            <script>
+// ==================== DATABASE ====================
+let db = { users: [], requests: [], scores: [] };
+
+function initDB() {
+    const stored = localStorage.getItem('swahili_academy_data');
+    if (stored) {
+        db = JSON.parse(stored);
+    } else {
+        db.users.push({
+            id: 'admin001',
+            email: 'admin@swahili.it',
+            password: 'Admin2024!',
+            name: 'Amministratore / Msimamizi',
+            role: 'admin',
+            created: new Date().toISOString()
+        });
+        saveDB();
+    }
+}
+
+function saveDB() {
+    localStorage.setItem('swahili_academy_data', JSON.stringify(db));
+}
+
+// Module info for tracking - Swahili modules
+const moduleInfo = {
+    'swahili_a1_alfabeto.html': { name: 'Alfabeto e Pronuncia / Herufi', level: 'A1' },
+    'swahili_a1_saluti.html': { name: 'Saluti e Presentazioni / Salamu', level: 'A1' },
+    'swahili_a1_numeri.html': { name: 'Numeri / Nambari', level: 'A1' },
+    'swahili_a1_famiglia.html': { name: 'Famiglia e Persone / Familia', level: 'A1' },
+    'swahili_a1_verbi_base.html': { name: 'Verbi Essenziali / Vitenzi vya Msingi', level: 'A1' },
+    'swahili_a2_tempi.html': { name: 'Tempi Verbali / Nyakati za Vitenzi', level: 'A2' },
+    'swahili_a2_aggettivi.html': { name: 'Aggettivi / Vivumishi', level: 'A2' },
+    'swahili_a2_preposizioni.html': { name: 'Preposizioni / Viambishi', level: 'A2' },
+    'swahili_a2_cibo.html': { name: 'Cibo e Ristorante / Chakula', level: 'A2' },
+    'swahili_b1_conversazione.html': { name: 'Conversazione / Mazungumzo', level: 'B1' },
+    'swahili_b1_cultura.html': { name: 'Cultura Swahili / Utamaduni', level: 'B1' },
+    'swahili_b1_letteratura.html': { name: 'Letteratura / Fasihi', level: 'B1' },
+    'swahili_b2_storia.html': { name: 'Storia e Civiltà / Historia', level: 'B2' },
+    'swahili_b2_economia.html': { name: 'Economia e Commercio / Uchumi', level: 'B2' },
+    'swahili_b2_media.html': { name: 'Media e Attualità / Habari', level: 'B2' }
+};
+
+// ==================== PASSWORD FUNCTIONS ====================
+function checkPasswordStrength() {
+    const password = document.getElementById('loginPassword').value;
+    const bars = [
+        document.getElementById('bar1'),
+        document.getElementById('bar2'),
+        document.getElementById('bar3'),
+        document.getElementById('bar4')
+    ];
+    const strengthText = document.getElementById('strengthText');
+    
+    bars.forEach(bar => bar.className = 'strength-bar');
+    
+    if (password.length === 0) {
+        strengthText.textContent = 'Digita la password per vedere la forza / Andika nywila kuona nguvu';
+        strengthText.style.color = 'var(--text-secondary)';
+        return;
+    }
+    
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password) && /[^a-zA-Z0-9]/.test(password)) strength++;
+    
+    for (let i = 0; i < strength; i++) {
+        if (bars[i]) {
+            if (strength <= 2) bars[i].classList.add('weak');
+            else if (strength === 3) bars[i].classList.add('medium');
+            else bars[i].classList.add('strong');
+        }
+    }
+    
+    const texts = [
+        'Password molto debole / Nywila dhaifu sana', 
+        'Password debole / Nywila dhaifu', 
+        'Password media / Nywila ya wastani', 
+        'Password buona / Nywila nzuri', 
+        'Password eccellente / Nywila bora sana'
+    ];
+    strengthText.textContent = texts[strength] || 'Digita la password / Andika nywila';
+    strengthText.style.color = strength <= 2 ? 'var(--error)' : strength === 3 ? 'var(--accent)' : 'var(--success)';
+}
+
+// ==================== LOGIN FUNCTIONS ====================
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    if (password.length < 6) {
+        document.getElementById('loginError').textContent = 'La password deve essere di almeno 6 caratteri / Nywila lazima iwe na herufi 6';
+        document.getElementById('loginError').style.display = 'block';
+        return;
+    }
+    
+    // Check if user exists in DB
+    const user = db.users.find(u => u.email === email && u.password === password && u.role !== 'admin');
+    if (!user) {
+        // Demo mode - allow any login
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'flex';
+        
+        const name = email.split('@')[0].replace(/\./g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        document.getElementById('welcomeName').textContent = name;
+        document.getElementById('userNameDisplay').textContent = name;
+        
+        let level = 'A1';
+        if (password.includes('B2')) level = 'B2';
+        else if (password.includes('B1')) level = 'B1';
+        else if (password.includes('A2')) level = 'A2';
+        document.getElementById('userClassDisplay').textContent = 'Livello ' + level + ' QCER / Kiwango ' + level;
+    } else {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'flex';
+        document.getElementById('welcomeName').textContent = user.name;
+        document.getElementById('userNameDisplay').textContent = user.name;
+        document.getElementById('userClassDisplay').textContent = 'Livello QCER / Kiwango QCER';
+    }
+    
+    loadResults();
+    updateStats();
+});
+
+function logout() {
+    document.getElementById('loginSection').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginEmail').value = '';
+    checkPasswordStrength();
+}
+
+function backToLogin() {
+    document.getElementById('requestAccess').style.display = 'none';
+    document.getElementById('adminLoginSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = 'flex';
+}
+
+function showAdminLogin() {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('adminLoginSection').style.display = 'flex';
+}
+
+function showRequestAccess() {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('requestAccess').style.display = 'flex';
+}
+
+// ==================== REQUEST ACCESS ====================
+document.getElementById('requestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('reqName').value.trim();
+    const email = document.getElementById('reqEmail').value.trim();
+    const motivation = document.getElementById('reqMotivation').value.trim();
+
+    if (!name || !email || !motivation) {
+        showRequestAlert('error', 'Compila tutti i campi obbligatori / Jaza sehemu zote muhimu');
+        return;
+    }
+
+    const requestData = {
+        id: 'req_' + Date.now(),
+        name: name,
+        email: email,
+        motivation: motivation,
+        status: 'pending',
+        created: new Date().toISOString()
+    };
+
+    if (!db.requests) db.requests = [];
+    db.requests.push(requestData);
+    saveDB();
+
+    showRequestAlert('success', 'Richiesta inviata con successo! / Ombi limetumwa kwa mafanikio!');
+    document.getElementById('requestForm').reset();
+    
+    setTimeout(function() {
+        backToLogin();
+    }, 3000);
+});
+
+function showRequestAlert(type, message) {
+    const alertBox = document.getElementById('requestAlert');
+    alertBox.className = 'alert alert-' + type;
+    alertBox.textContent = (type === 'success' ? '✅ ' : '❌ ') + message;
+    alertBox.style.display = 'block';
+}
+
+// ==================== ADMIN LOGIN ====================
+document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('adminEmail').value;
+    const password = document.getElementById('adminPassword').value;
+
+    if (email === 'admin@swahili.it' && password === 'Admin2024!') {
+        document.getElementById('adminLoginSection').style.display = 'none';
+        document.getElementById('adminDashboard').style.display = 'flex';
+        updateAdminStats();
+        loadAdminRequests();
+        loadAdminUsers();
+        loadAdminScores();
+    } else {
+        document.getElementById('adminLoginError').textContent = 'Credenziali non valide / Akreditifsio si sahihi';
+        document.getElementById('adminLoginError').style.display = 'block';
+    }
+});
+
+function adminLogout() {
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('adminLoginSection').style.display = 'flex';
+    document.getElementById('adminPassword').value = '';
+}
+
+// ==================== NAVIGATION ====================
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Update nav items
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    const navItem = document.getElementById('nav-' + sectionId);
+    if (navItem) navItem.classList.add('active');
+}
+
+function showAdminSection(sectionId) {
+    document.querySelectorAll('#adminDashboard .section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('#adminDashboard .nav-item').forEach(n => n.classList.remove('active'));
+    
+    document.getElementById(sectionId).classList.add('active');
+    document.getElementById('nav-' + sectionId).classList.add('active');
+    
+    if (sectionId === 'admin-requests') loadAdminRequests();
+    if (sectionId === 'admin-users') loadAdminUsers();
+    if (sectionId === 'admin-scores') loadAdminScores();
+}
+
+function showLevel(level) {
+    document.querySelectorAll('.level-dashboard').forEach(d => d.style.display = 'none');
+    const targetDashboard = document.getElementById('dashboard-' + level);
+    if (targetDashboard) targetDashboard.style.display = 'block';
+    
+    document.querySelectorAll('.level-card').forEach(card => card.classList.remove('active'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('active');
+}
+
+// Language switcher
+function switchLang(lang, level) {
+    // Hide all language contents for this level
+    document.getElementById('lang-it-' + level).classList.remove('active');
+    document.getElementById('lang-en-' + level).classList.remove('active');
+    
+    // Show selected language
+    document.getElementById('lang-' + lang + '-' + level).classList.add('active');
+    
+    // Update tabs
+    const tabs = document.querySelectorAll('.lang-tab');
+    tabs.forEach(tab => {
+        if (tab.getAttribute('onclick').includes("'" + lang + "', '" + level + "'")) {
+            tab.classList.add('active');
+        } else if (tab.getAttribute('onclick').includes("'" + level + "'")) {
+            tab.classList.remove('active');
+        }
+    });
+}
+
+// ==================== MOBILE SIDEBAR TOGGLE ====================
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('mobile-open');
+        overlay.classList.toggle('active');
+    }
+}
+
+// Chiudi sidebar quando si clicca su un link (mobile)
+document.addEventListener('DOMContentLoaded', function() {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (sidebar && sidebar.classList.contains('mobile-open')) {
+                    sidebar.classList.remove('mobile-open');
+                    if (overlay) overlay.classList.remove('active');
+                }
+            }
+        });
+    });
+});
+
+// ==================== RESULTS ====================
+let userResults = [];
+
+function loadResults() {
+    const userEmail = document.getElementById('loginEmail').value || 'demo@student.it';
+    const userScores = db.scores ? db.scores.filter(s => s.userEmail === userEmail) : [];
+    
+    userResults = Object.keys(moduleInfo).map(url => {
+        const info = moduleInfo[url];
+        const score = userScores.find(s => s.moduleName === info.name);
+        return {
+            moduleUrl: url,
+            score: score ? score.percentage : 0,
+            date: score ? new Date(score.completedAt).toLocaleDateString('it-IT') : '-',
+            completed: !!score
+        };
+    });
+    
+    renderResultsTable(userResults);
+}
+
+function renderResultsTable(results) {
+    const tbody = document.getElementById('resultsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    results.forEach(result => {
+        const info = moduleInfo[result.moduleUrl];
+        if (!info) return;
+        
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid var(--border)';
+        
+        const statusClass = result.completed ? 'status-completed' : 'status-pending';
+        const statusText = result.completed ? 'Completato / Kumalizika' : 'In corso / Inaendelea';
+        
+        row.innerHTML = `
+            <td style="padding: 12px; font-weight: 500;">${info.name}</td>
+            <td style="padding: 12px; text-align: center;">
+                <span class="nav-level level-${info.level.toLowerCase()}">${info.level}</span>
+            </td>
+            <td style="padding: 12px; text-align: center; color: var(--text-secondary);">${result.date}</td>
+            <td style="padding: 12px; text-align: center; font-weight: 600; color: ${result.score >= 80 ? 'var(--success)' : result.score >= 60 ? 'var(--accent)' : 'var(--text-primary)'};">
+                ${result.completed ? result.score + '%' : '-'}
+            </td>
+            <td style="padding: 12px; text-align: center;">
+                <span class="status-badge ${statusClass}">${statusText}</span>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function filterResults(level) {
+    if (level === 'all') {
+        renderResultsTable(userResults);
+    } else {
+        const filtered = userResults.filter(r => {
+            const info = moduleInfo[r.moduleUrl];
+            return info && info.level.toLowerCase() === level;
+        });
+        renderResultsTable(filtered);
+    }
+}
+
+function updateStats() {
+    const a1Modules = Object.keys(moduleInfo).filter(k => moduleInfo[k].level === 'A1');
+    const a2Modules = Object.keys(moduleInfo).filter(k => moduleInfo[k].level === 'A2');
+    const b1Modules = Object.keys(moduleInfo).filter(k => moduleInfo[k].level === 'B1');
+    const b2Modules = Object.keys(moduleInfo).filter(k => moduleInfo[k].level === 'B2');
+    
+    const a1Completed = userResults.filter(r => a1Modules.includes(r.moduleUrl) && r.completed);
+    const a2Completed = userResults.filter(r => a2Modules.includes(r.moduleUrl) && r.completed);
+    const b1Completed = userResults.filter(r => b1Modules.includes(r.moduleUrl) && r.completed);
+    const b2Completed = userResults.filter(r => b2Modules.includes(r.moduleUrl) && r.completed);
+    
+    const a1Scores = a1Completed.map(r => r.score);
+    const a2Scores = a2Completed.map(r => r.score);
+    const b1Scores = b1Completed.map(r => r.score);
+    const b2Scores = b2Completed.map(r => r.score);
+    
+    const a1Avg = a1Scores.length > 0 ? Math.round(a1Scores.reduce((a, b) => a + b, 0) / a1Scores.length) : 0;
+    const a2Avg = a2Scores.length > 0 ? Math.round(a2Scores.reduce((a, b) => a + b, 0) / a2Scores.length) : 0;
+    const b1Avg = b1Scores.length > 0 ? Math.round(b1Scores.reduce((a, b) => a + b, 0) / b1Scores.length) : 0;
+    const b2Avg = b2Scores.length > 0 ? Math.round(b2Scores.reduce((a, b) => a + b, 0) / b2Scores.length) : 0;
+    
+    const statTotalA1 = document.getElementById('statTotalA1');
+    const statAvgA1 = document.getElementById('statAvgA1');
+    const statProgressA1 = document.getElementById('statProgressA1');
+    const statTotalA2 = document.getElementById('statTotalA2');
+    const statAvgA2 = document.getElementById('statAvgA2');
+    const statProgressA2 = document.getElementById('statProgressA2');
+    const statTotalB1 = document.getElementById('statTotalB1');
+    const statAvgB1 = document.getElementById('statAvgB1');
+    const statProgressB1 = document.getElementById('statProgressB1');
+    const statTotalB2 = document.getElementById('statTotalB2');
+    const statAvgB2 = document.getElementById('statAvgB2');
+    const statProgressB2 = document.getElementById('statProgressB2');
+    
+    if (statTotalA1) statTotalA1.textContent = a1Completed.length;
+    if (statAvgA1) statAvgA1.textContent = a1Avg + '%';
+    if (statProgressA1) statProgressA1.textContent = a1Completed.length + '/' + a1Modules.length;
+    if (statTotalA2) statTotalA2.textContent = a2Completed.length;
+    if (statAvgA2) statAvgA2.textContent = a2Avg + '%';
+    if (statProgressA2) statProgressA2.textContent = a2Completed.length + '/' + a2Modules.length;
+    if (statTotalB1) statTotalB1.textContent = b1Completed.length;
+    if (statAvgB1) statAvgB1.textContent = b1Avg + '%';
+    if (statProgressB1) statProgressB1.textContent = b1Completed.length + '/' + b1Modules.length;
+    if (statTotalB2) statTotalB2.textContent = b2Completed.length;
+    if (statAvgB2) statAvgB2.textContent = b2Avg + '%';
+    if (statProgressB2) statProgressB2.textContent = b2Completed.length + '/' + b2Modules.length;
+}
+
+// ==================== ADMIN FUNCTIONS ====================
+function updateAdminStats() {
+    const statUsers = document.getElementById('admin-stat-users');
+    const statPending = document.getElementById('admin-stat-pending');
+    const statScores = document.getElementById('admin-stat-scores');
+    const statAvg = document.getElementById('admin-stat-avg');
+    
+    if (statUsers) statUsers.textContent = db.users.filter(u => u.role !== 'admin').length;
+    if (statPending) statPending.textContent = db.requests.filter(r => r.status === 'pending').length;
+    if (statScores) statScores.textContent = db.scores.length;
+    
+    const avg = db.scores.length > 0 
+        ? Math.round(db.scores.reduce((a, s) => a + s.percentage, 0) / db.scores.length)
+        : 0;
+    if (statAvg) statAvg.textContent = avg + '%';
+}
+
+function loadAdminRequests() {
+    const tbody = document.querySelector('#requests-table tbody');
+    const pending = db.requests.filter(r => r.status === 'pending');
+    
+    if (!tbody) return;
+    
+    if (pending.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">Nessuna richiesta in attesa / Hakuna maombi yanayosubiri</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = pending.map(r => `
+        <tr>
+            <td>${new Date(r.created).toLocaleDateString('it-IT')}</td>
+            <td>${r.name}</td>
+            <td>${r.email}</td>
+            <td>${r.motivation.substring(0, 50)}...</td>
+            <td>
+                <button class="btn btn-success" onclick="approveRequest('${r.id}')" style="width: auto; padding: 6px 12px; font-size: 0.8rem; margin-right: 0.5rem;">✓ Approva / Kubali</button>
+                <button class="btn btn-danger" onclick="rejectRequest('${r.id}')" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">✗ Rifiuta / Kataa</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function approveRequest(id) {
+    const req = db.requests.find(r => r.id === id);
+    if (!req) return;
+    
+    const password = generateRandomPassword();
+    
+    db.users.push({
+        id: 'user_' + Date.now(),
+        email: req.email,
+        password: password,
+        name: req.name,
+        role: 'student',
+        created: new Date().toISOString()
+    });
+    
+    req.status = 'approved';
+    saveDB();
+    
+    alert(`✅ RICHIESTA APPROVATA / OMBI LIMEKUBALIWA\n\nStudente / Mwanafunzi: ${req.name}\nEmail: ${req.email}\nPassword / Nywila: ${password}\n\nComunica queste credenziali allo studente. / Wasiliana na mwanafunzi kwa akreditifsio hizi.`);
+    
+    loadAdminRequests();
+    updateAdminStats();
+}
+
+function rejectRequest(id) {
+    const req = db.requests.find(r => r.id === id);
+    if (req) {
+        req.status = 'rejected';
+        saveDB();
+        loadAdminRequests();
+    }
+}
+
+function loadAdminUsers() {
+    const tbody = document.querySelector('#users-table tbody');
+    const students = db.users.filter(u => u.role !== 'admin');
+    
+    if (!tbody) return;
+    
+    if (students.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">Nessuno studente registrato / Hakuna mwanafunzi aliyesajiliwa</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = students.map(u => `
+        <tr>
+            <td>${u.id}</td>
+            <td>${u.name}</td>
+            <td>${u.email}</td>
+            <td><code style="background: var(--bg-primary); padding: 4px 8px; font-family: monospace;">${u.password}</code></td>
+            <td><button class="btn btn-danger" onclick="deleteUser('${u.id}')" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">🗑️ Elimina / Futa</button></td>
+        </tr>
+    `).join('');
+}
+
+function deleteUser(id) {
+    if (!confirm('Sei sicuro di voler eliminare questo utente? / Una uhakika wa kufuta mtumiaji huyu?')) return;
+    db.users = db.users.filter(u => u.id !== id);
+    saveDB();
+    loadAdminUsers();
+    updateAdminStats();
+}
+
+function addUser() {
+    const name = prompt('Nome completo / Jina kamili:');
+    if (!name) return;
+    const email = prompt('Email / Barua pepe:');
+    if (!email) return;
+    
+    const password = generateRandomPassword();
+    
+    db.users.push({
+        id: 'user_' + Date.now(),
+        email: email,
+        password: password,
+        name: name,
+        role: 'student',
+        created: new Date().toISOString()
+    });
+    
+    saveDB();
+    alert(`✅ Utente creato! / Mtumiaji ameundwa!\n\nEmail: ${email}\nPassword / Nywila: ${password}`);
+    loadAdminUsers();
+    updateAdminStats();
+}
+
+function loadAdminScores() {
+    const tbody = document.querySelector('#scores-table tbody');
+    
+    if (!tbody) return;
+    
+    if (db.scores.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 2rem;">Nessun punteggio registrato / Hakuna alama zilizosajiliwa</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = db.scores.map(s => `
+        <tr>
+            <td>${new Date(s.completedAt).toLocaleDateString('it-IT')}</td>
+            <td>${s.userName}</td>
+            <td>${s.userEmail}</td>
+            <td>${s.moduleName}</td>
+            <td>${s.score}/${s.maxScore}</td>
+            <td><strong>${s.percentage}%</strong></td>
+        </tr>
+    `).join('');
+}
+
+function generatePassword() {
+    const pwd = generateRandomPassword();
+    const display = document.getElementById('generated-password');
+    if (display) display.textContent = pwd;
+}
+
+function generateRandomPassword() {
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+    let pwd = "";
+    for (let i = 0; i < 12; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return pwd;
+}
+
+function copyPassword() {
+    const pwd = document.getElementById('generated-password').textContent;
+    if (pwd && pwd !== '...') {
+        navigator.clipboard.writeText(pwd);
+        alert('Password copiata negli appunti! / Nywila imenakiliwa!');
+    }
+}
+
+function exportScores() {
+    if (db.scores.length === 0) {
+        alert('Nessun punteggio da esportare / Hakuna alama za kuhama');
+        return;
+    }
+    
+    const data = db.scores.map(s => ({
+        Data: new Date(s.completedAt).toLocaleString('it-IT'),
+        Studente: s.userName,
+        Email: s.userEmail,
+        Modulo: s.moduleName,
+        Punteggio: s.score,
+        Max: s.maxScore,
+        Percentuale: s.percentage + '%'
+    }));
+    
+    downloadCSV(data, 'punteggi_swahili_academy');
+}
+
+function exportUsers() {
+    const students = db.users.filter(u => u.role !== 'admin');
+    if (students.length === 0) {
+        alert('Nessun utente da esportare / Hakuna watumiaji wa kuhama');
+        return;
+    }
+    
+    const data = students.map(u => ({
+        ID: u.id,
+        Nome: u.name,
+        Email: u.email,
+        Ruolo: u.role,
+        'Data Registrazione': new Date(u.created).toLocaleString('it-IT')
+    }));
+    
+    downloadCSV(data, 'utenti_swahili_academy');
+}
+
+function downloadCSV(data, filename) {
+    const headers = Object.keys(data[0]);
+    let csv = headers.join(';') + '\n';
+    
+    data.forEach(row => {
+        csv += headers.map(h => row[h]).join(';') + '\n';
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename + '_' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click();
+}
+
+// ==================== INIT ====================
+window.onload = function() {
+    initDB();
+    checkPasswordStrength();
+};
+</script>
+</body>
+</html>
+```
+            <div class="card">
+                <div class="card-header">Elenco Richieste in Attesa / Orodha ya Maombi Yanayosubiri</div>
+                <div class="card-body">
+                    <table class="data-table" id="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Data / Tarehe</th>
+                                <th>Nome / Jina</th>
+                                <th>Email / Barua pepe</th>
+                                <th>Motivazione / Sababu</th>
+                                <th>Azioni / Vitendo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN USERS -->
+        <div id="admin-users" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showAdminSection('admin-home')" style="cursor: pointer;">Dashboard / Dashibodi</span> / <strong>Gestione Utenti / Usimamizi wa Watumiaji</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title">Utenti Registrati / Watumiaji Waliosajiliwa</h1>
+                <p class="section-subtitle">Visualizza e gestisci gli account degli studenti<br>Tazama na simamia akaunti za wanafunzi</p>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Elenco Studenti / Orodha ya Wanafunzi</span>
+                        <button class="btn btn-success" onclick="addUser()" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">➕ Aggiungi Utente / Ongeza Mtumiaji</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="data-table" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome / Jina</th>
+                                <th>Email / Barua pepe</th>
+                                <th>Password / Nywila</th>
+                                <th>Azioni / Vitendo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN SCORES -->
+        <div id="admin-scores" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showAdminSection('admin-home')" style="cursor: pointer;">Dashboard / Dashibodi</span> / <strong>Punteggi Studenti / Alama za Wanafunzi</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title">Registro Valutazioni / Matokeo</h1>
+                <p class="section-subtitle">Monitora i progressi e i results degli studenti<br>Fuatilia maendeleo na matokeo ya wanafunzi</p>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Elenco Punteggi / Orodha ya Alama</span>
+                        <button class="btn btn-success" onclick="exportScores()" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">📊 Esporta Excel</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="data-table" id="scores-table">
+                        <thead>
+                            <tr>
+                                <th>Data / Tarehe</th>
+                                <th>Studente / Mwanafunzi</th>
+                                <th>Email / Barua pepe</th>
+                                <th>Modulo / Moduli</th>
+                                <th>Punteggio / Alama</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN PASSWORDS -->
+        <div id="admin-passwords" class="section">
+            <div class="breadcrumbs">
+                <span onclick="showAdminSection('admin-home')" style="cursor: pointer;">Dashboard / Dashibodi</span> / <strong>Generatore Password / Kizalishaji Nywila</strong>
+            </div>
+            <div style="margin:24px 0;">
+                <h1 class="section-title">Generatore Password Sicure / Kizalishaji Nywila Salama</h1>
+                <p class="section-subtitle">Crea password robuste per gli account degli studenti<br>Tengeneza nywila thabiti kwa akaunti za wanafunzi</p>
+            </div>
+            <div class="card">
+                <div class="card-header">Genera Nuova Password / Tengeneza Nywila Mpya</div>
+                <div class="card-body">
+                    <div class="password-box">
+                        <p style="margin-bottom: 1rem;">Clicca il pulsante per generare una password sicura di 12 caratteri<br>Bonyeza kitufe cha kuzalisha nywila salama ya herufi 12</p>
+                        <div class="password-display" id="generated-password">...</div>
+                        <button class="btn" onclick="generatePassword()" style="width: auto; display: inline-block; margin-right: 1rem;">🔄 Genera Password / Zalisha Nywila</button>
+                        <button class="btn btn-success" onclick="copyPassword()" style="width: auto; display: inline-block;">📋 Copia / Nakili</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

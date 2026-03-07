@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cibo e Ristorante in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ea580c;
+            --secondary: #f59e0b;
+            --accent: #84cc16;
+            --bg-warm: #fff7ed;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(234, 88, 12, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(132, 204, 22, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-food {
+            background: linear-gradient(135deg, var(--primary), #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #f97316);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .food-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-5px) rotate(1deg);
+        }
+        
+        .food-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px dashed #e5e7eb;
+            transition: all 0.2s;
+        }
+        
+        .menu-item:hover {
+            background: #fff7ed;
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary), #f97316);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .dialogue-bubble {
+            position: relative;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .dialogue-waiter {
+            background: #fef3c7;
+            border-bottom-left-radius: 0;
+            margin-left: 2rem;
+        }
+        
+        .dialogue-customer {
+            background: #dbeafe;
+            border-bottom-right-radius: 0;
+            margin-right: 2rem;
+        }
+        
+        .spice-level {
+            display: inline-flex;
+            gap: 2px;
+        }
+        
+        .chili {
+            width: 16px;
+            height: 16px;
+            background: #ef4444;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+        }
+        
+        .chili.empty {
+            background: #e5e7eb;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .cat-staple { background: #fef3c7; color: #92400e; }
+        .cat-meat { background: #fee2e2; color: #991b1b; }
+        .cat-veg { background: #d1fae5; color: #065f46; }
+        .cat-drink { background: #dbeafe; color: #1e40af; }
+        .cat-dessert { background: #fce7f3; color: #9d174d; }
+        
+        .order-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .order-step {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .order-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    🍽️
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-orange-600">Food</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-orange-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-orange-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-orange-500 to-amber-500 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-orange-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Chakula na Mgahawa</h2>
+                <p class="text-xl text-gray-600 mb-2">Food and Restaurant</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-orange-500 to-amber-500 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        La cucina swahili è un mosaico di influenze africane, arabe, indiane e persiane. I piatti base includono <strong>ugali</strong> (polenta di mais), <strong>wali</strong> (riso), <strong>nyama choma</strong> (carne arrostita) e <strong>pilau</strong> (riso speziato). Il ristorante si chiama <em>mgahawa</em> o <em>hoteli</em>, mentre il bar è <em>baa</em>.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Cultura: Mangiare con la mano destra è tradizionale, lavarsi le mani prima e dopo è essenziale.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-amber-500">
+                    <h3 class="text-2xl font-bold mb-4 text-amber-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Swahili cuisine is a mosaic of African, Arab, Indian and Persian influences. Staple dishes include <strong>ugali</strong> (maize porridge), <strong>wali</strong> (rice), <strong>nyama choma</strong> (grilled meat) and <strong>pilau</strong> (spiced rice). A restaurant is called <em>mgahawa</em> or <em>hoteli</em>, while a bar is <em>baa</em>.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Culture: Eating with the right hand is traditional, washing hands before and after is essential.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Food Categories -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Categorie di Cibo / Food Categories</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Staples -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🌽</span>
+                            <span class="category-badge cat-staple">Base</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Chakula cha Kila Siku</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">ugali</span>
+                                <span class="text-gray-600">polenta di mais</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">wali</span>
+                                <span class="text-gray-600">riso bianco</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">chapati</span>
+                                <span class="text-gray-600">pane piatto</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">ndizi</span>
+                                <span class="text-gray-600">banane/platano</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">mahindi</span>
+                                <span class="text-gray-600">mais</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meat & Fish -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🍖</span>
+                            <span class="category-badge cat-meat">Carne</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Nyama na Samaki</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">nyama</span>
+                                <span class="text-gray-600">carne</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">kuku</span>
+                                <span class="text-gray-600">pollo</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">samaki</span>
+                                <span class="text-gray-600">pesce</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">mbuzi</span>
+                                <span class="text-gray-600">capra</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">ng'ombe</span>
+                                <span class="text-gray-600">manzo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vegetables -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🥬</span>
+                            <span class="category-badge cat-veg">Verdure</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Mboga</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">mboga</span>
+                                <span class="text-gray-600">verdure</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">matunda ya chai</span>
+                                <span class="text-gray-600">spinaci</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">nyanya</span>
+                                <span class="text-gray-600">pomodori</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">kitunguu</span>
+                                <span class="text-gray-600">cipolle</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">karoti</span>
+                                <span class="text-gray-600">carote</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Drinks -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🥤</span>
+                            <span class="category-badge cat-drink">Bevande</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Vinywaji</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">maji</span>
+                                <span class="text-gray-600">acqua</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">chai</span>
+                                <span class="text-gray-600">tè</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">kahawa</span>
+                                <span class="text-gray-600">caffè</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">maziwa</span>
+                                <span class="text-gray-600">latte</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">bia</span>
+                                <span class="text-gray-600">birra</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fruits -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🥭</span>
+                            <span class="category-badge cat-dessert">Frutta</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Matunda</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">embe</span>
+                                <span class="text-gray-600">mango</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">nanasi</span>
+                                <span class="text-gray-600">ananas</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">tikitimaji</span>
+                                <span class="text-gray-600">anguria</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">limau</span>
+                                <span class="text-gray-600">limone</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">tofaa</span>
+                                <span class="text-gray-600">mela</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spices & Flavors -->
+                    <div class="food-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🌶️</span>
+                            <span class="category-badge cat-staple">Spezie</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Vipishi na Ladha</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">chungu</span>
+                                <span class="text-gray-600">sale</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">sukari</span>
+                                <span class="text-gray-600">zucchero</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">pilipili</span>
+                                <span class="text-gray-600">peperoncino</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">pilipili manga</span>
+                                <span class="text-gray-600">pepe</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-food">manjano</span>
+                                <span class="text-gray-600">curcuma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant Dialogue -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Dialogo al Ristorante / Restaurant Dialogue</h3>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="dialogue-waiter dialogue-bubble">
+                        <div class="font-bold text-amber-800 mb-1">Mhudumu (Cameriere):</div>
+                        <div class="text-gray-700">Karibu mgahawani! Tafadhali kaa. Unataka kunywa nini?</div>
+                        <div class="text-sm text-gray-500 mt-1">Welcome to the restaurant! Please sit down. What would you like to drink?</div>
+                    </div>
+                    
+                    <div class="dialogue-customer dialogue-bubble">
+                        <div class="font-bold text-blue-800 mb-1">Mteja (Cliente):</div>
+                        <div class="text-gray-700">Asante. Nataka chai na maji baridi. Menyu iko wapi?</div>
+                        <div class="text-sm text-gray-500 mt-1">Thank you. I want tea and cold water. Where is the menu?</div>
+                    </div>
+                    
+                    <div class="dialogue-waiter dialogue-bubble">
+                        <div class="font-bold text-amber-800 mb-1">Mhudumu:</div>
+                        <div class="text-gray-700">Hapa. Leo tunalo ugali na samaki, wali na kuku, au pilau. Unataka nini?</div>
+                        <div class="text-sm text-gray-500 mt-1">Here it is. Today we have ugali with fish, rice with chicken, or pilau. What do you want?</div>
+                    </div>
+                    
+                    <div class="dialogue-customer dialogue-bubble">
+                        <div class="font-bold text-blue-800 mb-1">Mteja:</div>
+                        <div class="text-gray-700">Ninataka pilau na mboga. Naomba pilipili kidogo. Bei gani?</div>
+                        <div class="text-sm text-gray-500 mt-1">I want pilau with vegetables. I'd like a little pepper. How much is it?</div>
+                    </div>
+                    
+                    <div class="dialogue-waiter dialogue-bubble">
+                        <div class="font-bold text-amber-800 mb-1">Mhudumu:</div>
+                        <div class="text-gray-700">Shilingi elfu tatu. Chakula kitakuja hivi karibuni.</div>
+                        <div class="text-sm text-gray-500 mt-1">Three thousand shillings. The food will come very soon.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Phrases -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-orange-600">🗣️ Frasi Essenziali / Key Phrases</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Nataka kula...</div>
+                            <div class="text-sm text-gray-600">I want to eat...</div>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Nina njaa</div>
+                            <div class="text-sm text-gray-600">I'm hungry</div>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Nina kiu</div>
+                            <div class="text-sm text-gray-600">I'm thirsty</div>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Tafadhali, naomba...</div>
+                            <div class="text-sm text-gray-600">Please, I'd like...</div>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Chakula kizuri!</div>
+                            <div class="text-sm text-gray-600">Delicious food!</div>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Lipa bili</div>
+                            <div class="text-sm text-gray-600">Pay the bill</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-amber-600">🍽️ Al Ristorante / At the Restaurant</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Mgahawa / Hoteli</div>
+                            <div class="text-sm text-gray-600">Restaurant</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Mhudumu</div>
+                            <div class="text-sm text-gray-600">Waiter/Waitress</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Menyu</div>
+                            <div class="text-sm text-gray-600">Menu</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Bili / Hesabu</div>
+                            <div class="text-sm text-gray-600">Bill</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Meza / Kiti</div>
+                            <div class="text-sm text-gray-600">Table / Chair</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold swahili-food">Sahani / Kijiko</div>
+                            <div class="text-sm text-gray-600">Plate / Spoon</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cooking Methods -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Metodi di Cottura / Cooking Methods</h3>
+                
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-gradient-to-br from-red-50 to-orange-100 rounded-xl">
+                        <div class="text-3xl mb-2">🔥</div>
+                        <div class="font-bold swahili-food text-lg">choma</div>
+                        <div class="text-sm text-gray-600">arrostire / grill</div>
+                        <div class="text-xs text-gray-500 mt-1">nyama choma</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-xl">
+                        <div class="text-3xl mb-2">🍳</div>
+                        <div class="font-bold swahili-food text-lg">karanga</div>
+                        <div class="text-sm text-gray-600">friggere / fry</div>
+                        <div class="text-xs text-gray-500 mt-1">mayai ya kukaranga</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-cyan-100 rounded-xl">
+                        <div class="text-3xl mb-2">💧</div>
+                        <div class="font-bold swahili-food text-lg">chemsha</div>
+                        <div class="text-sm text-gray-600">bollire / boil</div>
+                        <div class="text-xs text-gray-500 mt-1">maji ya kuchemsha</div>
+                    </div>
+                    
+                    <div class="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl">
+                        <div class="text-3xl mb-2">🌿</div>
+                        <div class="font-bold swahili-food text-lg">tibu</div>
+                        <div class="text-sm text-gray-600">stufare / stew</div>
+                        <div class="text-xs text-gray-500 mt-1">mboga za kutibu</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Menu -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">☰ Menyu ya Sampuli / Sample Menu</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-orange-800 mb-4 border-b-2 border-orange-200 pb-2">Vyanzo / Starters</h4>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Supu ya pweza</div>
+                                <div class="text-sm text-gray-600">Octopus soup</div>
+                            </div>
+                            <span class="price-tag">1,500/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Mishkaki</div>
+                                <div class="text-sm text-gray-600">Skewers (meat)</div>
+                                <div class="spice-level mt-1">
+                                    <div class="chili"></div>
+                                    <div class="chili"></div>
+                                    <div class="chili empty"></div>
+                                </div>
+                            </div>
+                            <span class="price-tag">2,000/=</span>
+                        </div>
+                        
+                        <h4 class="font-bold text-orange-800 mb-4 mt-6 border-b-2 border-orange-200 pb-2">Chakula Kikuu / Main Courses</h4>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Ugali na samaki</div>
+                                <div class="text-sm text-gray-600">Ugali with fried fish</div>
+                                <div class="spice-level mt-1">
+                                    <div class="chili"></div>
+                                    <div class="chili empty"></div>
+                                    <div class="chili empty"></div>
+                                </div>
+                            </div>
+                            <span class="price-tag">5,000/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Wali na kuku</div>
+                                <div class="text-sm text-gray-600">Rice with chicken</div>
+                                <div class="spice-level mt-1">
+                                    <div class="chili"></div>
+                                    <div class="chili"></div>
+                                    <div class="chili"></div>
+                                </div>
+                            </div>
+                            <span class="price-tag">6,500/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Pilau nyama</div>
+                                <div class="text-sm text-gray-600">Spiced rice with meat</div>
+                                <div class="spice-level mt-1">
+                                    <div class="chili"></div>
+                                    <div class="chili"></div>
+                                    <div class="chili"></div>
+                                </div>
+                            </div>
+                            <span class="price-tag">7,000/=</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-orange-800 mb-4 border-b-2 border-orange-200 pb-2">Vinywaji / Drinks</h4>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Maji baridi</div>
+                                <div class="text-sm text-gray-600">Cold water</div>
+                            </div>
+                            <span class="price-tag">500/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Soda</div>
+                                <div class="text-sm text-gray-600">Soft drink</div>
+                            </div>
+                            <span class="price-tag">1,000/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Chai masala</div>
+                                <div class="text-sm text-gray-600">Spiced tea</div>
+                            </div>
+                            <span class="price-tag">800/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Kahawa</div>
+                                <div class="text-sm text-gray-600">Coffee</div>
+                            </div>
+                            <span class="price-tag">1,200/=</span>
+                        </div>
+                        
+                        <h4 class="font-bold text-orange-800 mb-4 mt-6 border-b-2 border-orange-200 pb-2">Kitoweo / Dessert</h4>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Matunda ya zambarau</div>
+                                <div class="text-sm text-gray-600">Seasonal fruits</div>
+                            </div>
+                            <span class="price-tag">2,000/=</span>
+                        </div>
+                        <div class="menu-item">
+                            <div>
+                                <div class="font-bold">Halua</div>
+                                <div class="text-sm text-gray-600">Sweet semolina</div>
+                            </div>
+                            <span class="price-tag">1,500/=</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Process -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-xl font-bold mb-6 text-center">Flusso dell'Ordine / Order Flow</h4>
+                
+                <div class="order-flow">
+                    <div class="order-step">
+                        <div class="order-icon">1️⃣</div>
+                        <div class="font-bold text-sm">Kaa</div>
+                        <div class="text-xs text-gray-600">Siediti / Sit down</div>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="order-step">
+                        <div class="order-icon">2️⃣</div>
+                        <div class="font-bold text-sm">Chagua</div>
+                        <div class="text-xs text-gray-600">Scegli / Choose</div>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="order-step">
+                        <div class="order-icon">3️⃣</div>
+                        <div class="font-bold text-sm">Agiza</div>
+                        <div class="text-xs text-gray-600">Ordina / Order</div>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="order-step">
+                        <div class="order-icon">4️⃣</div>
+                        <div class="font-bold text-sm">Kula</div>
+                        <div class="text-xs text-gray-600">Mangia / Eat</div>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="order-step">
+                        <div class="order-icon">5️⃣</div>
+                        <div class="font-bold text-sm">Lipa</div>
+                        <div class="text-xs text-gray-600">Paga / Pay</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi su Cibo e Ristorante</h2>
+                <p class="text-gray-600">Complete the sentences with the correct food/restaurant vocabulary</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-orange-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-orange-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-orange-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Food and Restaurant
+        const exercises = [
+            // Food Items
+            { id: 1, text: "Ninapenda kula _____ kila siku. (I like to eat rice every day)", answer: "wali", hint: "riso" },
+            { id: 2, text: "_____ ni chakula kikuu cha watu wengi Tanzania. (Ugali is the main food of many people in Tanzania)", answer: "ugali", hint: "polenta di mais" },
+            { id: 3, text: "Ninakunywa _____ asubuhi. (I drink tea in the morning)", answer: "chai", hint: "tè" },
+            { id: 4, text: "_____ ni nzuri kwa afya. (Fish is good for health)", answer: "samaki", hint: "pesce" },
+            { id: 5, text: "Ninataka _____ mbili, tafadhali. (I want two chapatis, please)", answer: "chapati", hint: "pane piatto" },
+            { id: 6, text: "_____ ni tamu sana. (Mango is very tasty)", answer: "embe", hint: "mango" },
+            { id: 7, text: "Anapenda kunywa _____ baridi. (He likes to drink cold water)", answer: "maji", hint: "acqua" },
+            { id: 8, text: "_____ ni nyama nzuri ya kuchoma. (Goat is good meat for grilling)", answer: "mbuzi", hint: "capra" },
+            { id: 9, text: "Ninakula _____ na sukari. (I eat porridge with sugar)", answer: "uji", hint: "porridge" },
+            { id: 10, text: "_____ ni nzuri kwa macho. (Carrots are good for eyes)", answer: "karoti", hint: "carote" },
+            { id: 11, text: "Ninapenda _____ ya kukaranga. (I like fried eggs)", answer: "mayai", hint: "uova" },
+            { id: 12, text: "Tunakula _____ Jumapasi. (We eat pilau on Sunday)", answer: "pilau", hint: "riso speziato" },
+            { id: 13, text: "_____ ni matunda ya majini. (Watermelon is a water fruit)", answer: "tikitimaji", hint: "anguria" },
+            { id: 14, text: "Ninakunywa _____ usiku. (I drink coffee at night)", answer: "kahawa", hint: "caffè" },
+            { id: 15, text: "_____ ni chakula cha asubuhi. (Bread is breakfast food)", answer: "mkate", hint: "pane" },
+            
+            // Restaurant Context
+            { id: 16, text: "Tutaonana _____ jioni. (We will meet at the restaurant in the evening)", answer: "mgahawani", hint: "al ristorante" },
+            { id: 17, text: "_____ anakuja kuchukua agizo lako. (The waiter is coming to take your order)", answer: "mhudumu", hint: "cameriere" },
+            { id: 18, text: "Tafadhali nipe _____. (Please give me the menu)", answer: "menyu", hint: "menu" },
+            { id: 19, text: "Ninataka kukaa _____ karibu na dirisha. (I want to sit at a table near the window)", answer: "meza", hint: "tavolo" },
+            { id: 20, text: "_____ ni shilingi elfu tano. (The bill is five thousand shillings)", answer: "bili", hint: "conto" },
+            { id: 21, text: "Ninaomba _____, si tungule. (I'd like a spoon, not a fork)", answer: "kijiko", hint: "cucchiaio" },
+            { id: 22, text: "Chakula kiko _____. (The food is on the plate)", answer: "sahani", hint: "piatto" },
+            { id: 23, text: "Tafadhali leta _____ ya maji. (Please bring a glass of water)", answer: "glasi", hint: "bicchiere" },
+            { id: 24, text: "Ninataka _____ ya kuchana. (I want a knife to cut with)", answer: "kisu", hint: "coltello" },
+            { id: 25, text: "_____ ni safi. (The napkin is clean)", answer: "taulo", hint: "tovagliolo" },
+            
+            // Ordering
+            { id: 26, text: "_____ ugali na samaki. (I want ugali and fish)", answer: "ninataka", hint: "voglio" },
+            { id: 27, text: "Ninaomba _____ kidogo. (I'd like a little pepper)", answer: "pilipili", hint: "peperoncino" },
+            { id: 28, text: "Tafadhali _____ bila chungu. (Please prepare without salt)", answer: "tengeneza", hint: "prepara" },
+            { id: 29, text: "_____ chakula kikubwa. (Bring a large portion of food)", answer: "leta", hint: "porta" },
+            { id: 30, text: "Ninataka _____ ya matunda. (I want a fruit salad)", answer: "saladi", hint: "insalata" },
+            { id: 31, text: "_____ iko wapi? (Where is my order?)", answer: "agizo", hint: "ordine" },
+            { id: 32, text: "Tafadhali _____ chapati zaidi. (Please add more chapatis)", answer: "ongeza", hint: "aggiungi" },
+            { id: 33, text: "_____ chakula kupikwa. (Wait for the food to be cooked)", answer: "subiri", hint: "aspetta" },
+            { id: 34, text: "Chakula _____ sasa hivi. (The food is coming right now)", answer: "kinakuja", hint: "sta arrivando" },
+            { id: 35, text: "_____ vizuri! (Enjoy your meal! / Eat well!)", answer: "kula", hint: "mangia" },
+            
+            // States and Preferences
+            { id: 36, text: "Nina _____ sana. (I'm very hungry)", answer: "njaa", hint: "fame" },
+            { id: 37, text: "Nina _____ ya kunywa maji. (I'm thirsty for drinking water)", answer: "kiu", hint: "sete" },
+            { id: 38, text: "Chakula ni _____ sana! (The food is very delicious!)", answer: "kitamu", hint: "delizioso" },
+            { id: 39, text: "_____ hili ni moto sana. (This soup is very hot)", answer: "supu", hint: "zuppa" },
+            { id: 40, text: "Nimeshiba, _____. (I'm full, thank you)", answer: "asante", hint: "grazie" },
+            { id: 41, text: "_____ hii ni baridi. (This beer is cold)", answer: "bia", hint: "birra" },
+            { id: 42, text: "Ninapenda chakula _____. (I like spicy food)", answer: "chenye pilipili", hint: "piccante" },
+            { id: 43, text: "_____ hii ni tamu. (This juice is tasty)", answer: "juisi", hint: "succo" },
+            { id: 44, text: "Ninakunywa _____ na siagi. (I drink milk with butter)", answer: "maziwa", hint: "latte" },
+            { id: 45, text: "_____ ni nzuri kwa afya. (Vegetables are good for health)", answer: "mboga", hint: "verdure" },
+            
+            // Payment and Closing
+            { id: 46, text: "Tafadhali _____. (Please pay the bill)", answer: "lipa bili", hint: "paga il conto" },
+            { id: 47, text: "Nina _____ ya kutosha? (Do I have enough money?)", answer: "pesa", hint: "soldi" },
+            { id: 48, text: "_____ ni mingi sana. (The tip is very much)", answer: "bakshishi", hint: "mancia" },
+            { id: 49, text: "_____ kwa huduma nzuri. (Thanks for the good service)", answer: "asante", hint: "grazie" },
+            { id: 50, text: "_____ tena! (Come again!)", answer: "karibu", hint: "benvenuto/rivieni" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-orange-600 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-orange-600 hover:text-orange-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

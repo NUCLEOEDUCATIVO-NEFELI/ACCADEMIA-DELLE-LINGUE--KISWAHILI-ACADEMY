@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preposizioni in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0891b2;
+            --secondary: #0ea5e9;
+            --accent: #6366f1;
+            --bg-warm: #ecfeff;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(8, 145, 178, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-prep {
+            background: linear-gradient(135deg, var(--primary), #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #22d3ee);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(8, 145, 178, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .prep-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prep-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .prep-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .location-visual {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(to bottom, #bae6fd 0%, #fef3c7 50%, #78350f 100%);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        
+        .location-point {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 3px solid var(--primary);
+        }
+        
+        .motion-arrow {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--primary);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .prep-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .prep-table th,
+        .prep-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .prep-table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+        }
+        
+        .prep-table tr:hover {
+            background-color: #ecfeff;
+        }
+        
+        .example-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .particle-highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 4px;
+            font-weight: 600;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .cat-location { background: #dbeafe; color: #1e40af; }
+        .cat-time { background: #fef3c7; color: #92400e; }
+        .cat-instrument { background: #d1fae5; color: #065f46; }
+        .cat-reason { background: #fce7f3; color: #9d174d; }
+        .cat-accompaniment { background: #e0e7ff; color: #3730a3; }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    P
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-cyan-600">Prepositions</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-cyan-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-cyan-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-cyan-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Preposizioni</h2>
+                <p class="text-xl text-gray-600 mb-2">Prepositions in Swahili</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-cyan-500">
+                    <h3 class="text-2xl font-bold mb-4 text-cyan-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Le preposizioni swahili sono principalmente <strong>particelle invariabili</strong> che precedono il nome. A differenza dell'italiano, molte relazioni spaziali si esprimono tramite <strong>sostantivi locativi</strong> (nyuma, mbele, juu, chini) combinati con la preposizione <em>ya</em> (di).
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: Uso estensivo di "kw-" per indicare "a/al/alla" + locativo.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-blue-600">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Swahili prepositions are mainly <strong>invariable particles</strong> preceding the noun. Unlike English, many spatial relations are expressed through <strong>locative nouns</strong> (nyuma, mbele, juu, chini) combined with the preposition <em>ya</em> (of).
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: Extensive use of "kw-" to indicate "to/at" + locative.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Prepositions -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Preposizioni Essenziali / Core Prepositions</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Katika -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">katika</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">in, dentro, all'interno di / in, inside, within</div>
+                        <div class="example-box">
+                            <span class="font-mono">katika nyumba</span>
+                            <div class="text-sm text-gray-500">nella casa / in the house</div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-2">Uso formale/literario / Formal use</div>
+                    </div>
+
+                    <!-- Ndani -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">ndani (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">dentro, all'interno / inside, within</div>
+                        <div class="example-box">
+                            <span class="font-mono">ndani ya chumba</span>
+                            <div class="text-sm text-gray-500">dentro la stanza / inside the room</div>
+                        </div>
+                    </div>
+
+                    <!-- Nje -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">nje (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">fuori, all'esterno / outside</div>
+                        <div class="example-box">
+                            <span class="font-mono">nje ya jengo</span>
+                            <div class="text-sm text-gray-500">fuori dall'edificio / outside the building</div>
+                        </div>
+                    </div>
+
+                    <!-- Juu -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">juu (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">sopra, su / on, above, over</div>
+                        <div class="example-box">
+                            <span class="font-mono">juu ya meza</span>
+                            <div class="text-sm text-gray-500">sul tavolo / on the table</div>
+                        </div>
+                    </div>
+
+                    <!-- Chini -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">chini (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">sotto, al di sotto di / under, below</div>
+                        <div class="example-box">
+                            <span class="font-mono">chini ya kitanda</span>
+                            <div class="text-sm text-gray-500">sotto il letto / under the bed</div>
+                        </div>
+                    </div>
+
+                    <!-- Mbele -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">mbele (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">davanti, di fronte a / in front of</div>
+                        <div class="example-box">
+                            <span class="font-mono">mbele ya nyumba</span>
+                            <div class="text-sm text-gray-500">davanti alla casa / in front of the house</div>
+                        </div>
+                    </div>
+
+                    <!-- Nyuma -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">nyuma (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">dietro, dietro a / behind, after</div>
+                        <div class="example-box">
+                            <span class="font-mono">nyuma ya mti</span>
+                            <div class="text-sm text-gray-500">dietro l'albero / behind the tree</div>
+                        </div>
+                    </div>
+
+                    <!-- Kando -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">kando (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">accanto a, vicino a / beside, next to</div>
+                        <div class="example-box">
+                            <span class="font-mono">kando ya barabara</span>
+                            <div class="text-sm text-gray-500">accanto alla strada / beside the road</div>
+                        </div>
+                    </div>
+
+                    <!-- Kati -->
+                    <div class="prep-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl font-bold swahili-prep">kati (ya)</span>
+                            <span class="category-badge cat-location">Luogo</span>
+                        </div>
+                        <div class="text-gray-600 mb-2">tra, fra / between, among</div>
+                        <div class="example-box">
+                            <span class="font-mono">kati ya watu</span>
+                            <div class="text-sm text-gray-500">tra la gente / among people</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Temporal Prepositions -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-6 text-center">Preposizioni Temporali / Temporal Prepositions</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">kabla (ya)</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">prima di / before</div>
+                            <div class="text-sm text-gray-500 mt-2">kabla ya kula = prima di mangiare</div>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">baada (ya)</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">dopo / after</div>
+                            <div class="text-sm text-gray-500 mt-2">baada ya kazi = dopo il lavoro</div>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">wakati (wa)</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">durante, quando / during, when</div>
+                            <div class="text-sm text-gray-500 mt-2">wakati wa mvua = durante la pioggia</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">mpaka</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">fino a / until</div>
+                            <div class="text-sm text-gray-500 mt-2">mpaka kesho = fino a domani</div>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">tangu</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">da, fin da / since, from</div>
+                            <div class="text-sm text-gray-500 mt-2">tangu jana = da ieri</div>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-5 border-l-4 border-amber-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xl font-bold swahili-prep">kwa</span>
+                                <span class="category-badge cat-time">Tempo</span>
+                            </div>
+                            <div class="text-gray-700">per (durata) / for (duration)</div>
+                            <div class="text-sm text-gray-500 mt-2">kwa mwezi = per un mese</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Important Prepositions -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- Instrumental/Means -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-emerald-600">Mezzo e Causa / Means and Reason</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-emerald-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">kwa</span>
+                                <span class="category-badge cat-instrument">Mezzo</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">con, per mezzo di, da / with, by, through</div>
+                            <div class="text-sm text-gray-500">ninaenda <span class="particle-highlight">kwa</span> miguu = vado a piedi</div>
+                            <div class="text-sm text-gray-500">ninaandika <span class="particle-highlight">kwa</span> kalamu = scrivo con la penna</div>
+                        </div>
+                        
+                        <div class="bg-pink-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">kwa sababu (ya)</span>
+                                <span class="category-badge cat-reason">Causa</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">a causa di, per / because of, for</div>
+                            <div class="text-sm text-gray-500">sijafika <span class="particle-highlight">kwa sababu ya</span> mvua = non sono arrivato a causa della pioggia</div>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">kwa ajili (ya)</span>
+                                <span class="category-badge cat-reason">Scopo</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">per, a favore di / for, on behalf of</div>
+                            <div class="text-sm text-gray-500">nimefanya hivi <span class="particle-highlight">kwa ajili yako</span> = ho fatto così per te</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accompaniment and Possession -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-indigo-600">Accompagnamento e Possesso / Accompaniment and Possession</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">na</span>
+                                <span class="category-badge cat-accompaniment">Accomp.</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">con, e / with, and</div>
+                            <div class="text-sm text-gray-500">ninaenda <span class="particle-highlight">na</span> rafiki yangu = vado con il mio amico</div>
+                            <div class="text-sm text-gray-500">mkate <span class="particle-highlight">na</span> maziwa = pane e latte</div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">bila</span>
+                                <span class="category-badge cat-accompaniment">Privazione</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">senza / without</div>
+                            <div class="text-sm text-gray-500">siwezi kuishi <span class="particle-highlight">bila</span> maji = non posso vivere senza acqua</div>
+                        </div>
+                        
+                        <div class="bg-cyan-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-lg swahili-prep">ya</span>
+                                <span class="category-badge cat-location">Possesso</span>
+                            </div>
+                            <div class="text-gray-700 mb-1">di (possesso) / of (possession)</div>
+                            <div class="text-sm text-gray-500">kitabu <span class="particle-highlight">cha</span> mwalimu = il libro del maestro</div>
+                            <div class="text-xs text-gray-400 mt-1">Nota: ya cambia secondo la classe (wa, cha, la, ya, vya, nya...)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motion Prepositions -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Moto verso un Luogo / Motion to a Place</h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-cyan-50 to-blue-100 rounded-xl p-5 text-center">
+                        <div class="text-3xl mb-3">🏠➡️</div>
+                        <h4 class="font-bold text-cyan-800 mb-2">kw- + Locativo</h4>
+                        <p class="text-sm text-gray-600 mb-3">a, verso (luogo non specificato) / to, towards</p>
+                        <div class="bg-white p-3 rounded-lg text-sm">
+                            <div class="font-mono mb-1">ninaenda <span class="text-cyan-600 font-bold">kw</span>enyumbani</div>
+                            <div class="text-gray-500">vado a casa</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-emerald-50 to-green-100 rounded-xl p-5 text-center">
+                        <div class="text-3xl mb-3">🏫➡️</div>
+                        <h4 class="font-bold text-emerald-800 mb-2">m- + Locativo</h4>
+                        <p class="text-sm text-gray-600 mb-3">nel, dentro (movimento interno) / into</p>
+                        <div class="bg-white p-3 rounded-lg text-sm">
+                            <div class="font-mono mb-1">ninaingia <span class="text-emerald-600 font-bold">m</span>darasani</div>
+                            <div class="text-gray-500">entro in classe</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-100 rounded-xl p-5 text-center">
+                        <div class="text-3xl mb-3">🌍➡️</div>
+                        <h4 class="font-bold text-amber-800 mb-2">p- + Locativo</h4>
+                        <p class="text-sm text-gray-600 mb-3">su, a (superficie) / on, at (surface)</p>
+                        <div class="bg-white p-3 rounded-lg text-sm">
+                            <div class="font-mono mb-1">nimeketi <span class="text-amber-600 font-bold">p</span>meza</div>
+                            <div class="text-gray-500">sono seduto al tavolo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 bg-blue-50 rounded-xl p-4 border-l-4 border-blue-500">
+                    <p class="text-gray-700">
+                        <strong>IT:</strong> Il prefisso <span class="particle-highlight">kw-</span> si usa per il moto verso un luogo (concordanza classe 17), <span class="particle-highlight">m-</span> per l'interno (classe 18), <span class="particle-highlight">p-</span> per la superficie (classe 16).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Summary Table -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-2xl font-bold mb-6 text-center">Riepilogo / Summary</h4>
+                
+                <div class="overflow-x-auto">
+                    <table class="prep-table rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Swahili</th>
+                                <th>Italiano</th>
+                                <th>English</th>
+                                <th>Esempio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold text-cyan-600">katika</td>
+                                <td>in, dentro</td>
+                                <td>in, inside</td>
+                                <td class="text-sm">katika mji (in città)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">ndani ya</td>
+                                <td>dentro</td>
+                                <td>inside</td>
+                                <td class="text-sm">ndani ya sanduku (dentro la scatola)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">nje ya</td>
+                                <td>fuori</td>
+                                <td>outside</td>
+                                <td class="text-sm">nje ya nyumba (fuori casa)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">juu ya</td>
+                                <td>sopra</td>
+                                <td>on, above</td>
+                                <td class="text-sm">juu ya mlima (sulla montagna)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">chini ya</td>
+                                <td>sotto</td>
+                                <td>under</td>
+                                <td class="text-sm">chini ya mnazi (sotto il cocco)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">mbele ya</td>
+                                <td>davanti</td>
+                                <td>in front of</td>
+                                <td class="text-sm">mbele ya shule (davanti alla scuola)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">nyuma ya</td>
+                                <td>dietro</td>
+                                <td>behind</td>
+                                <td class="text-sm">nyuma ya gari (dietro la macchina)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">kando ya</td>
+                                <td>accanto</td>
+                                <td>beside</td>
+                                <td class="text-sm">kando ya mto (accanto al fiume)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">kati ya</td>
+                                <td>tra</td>
+                                <td>between</td>
+                                <td class="text-sm">kati ya miji (tra le città)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">kwa</td>
+                                <td>con, per, a</td>
+                                <td>with, by, to</td>
+                                <td class="text-sm">kwa basi (in autobus)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">na</td>
+                                <td>con, e</td>
+                                <td>with, and</td>
+                                <td class="text-sm">na mimi (con me)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-cyan-600">bila</td>
+                                <td>senza</td>
+                                <td>without</td>
+                                <td class="text-sm">bila shida (senza problemi)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi sulle Preposizioni</h2>
+                <p class="text-gray-600">Complete with the correct preposition</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-cyan-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-cyan-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-cyan-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Prepositions
+        const exercises = [
+            // Location - Inside/Outside
+            { id: 1, text: "Mti uko _____ nyumba. (The tree is behind the house)", answer: "nyuma ya", hint: "dietro a" },
+            { id: 2, text: "Kitabu kiko _____ meza. (The book is on the table)", answer: "juu ya", hint: "sopra" },
+            { id: 3, text: "Paka yuko _____ kitanda. (The cat is under the bed)", answer: "chini ya", hint: "sotto" },
+            { id: 4, text: "Gari lipo _____ nyumba. (The car is in front of the house)", answer: "mbele ya", hint: "davanti a" },
+            { id: 5, text: "Watoto wako _____ chumba. (The children are inside the room)", answer: "ndani ya", hint: "dentro" },
+            { id: 6, text: "Mwalimu yuko _____ darasa. (The teacher is inside the classroom)", answer: "ndani ya", hint: "dentro" },
+            { id: 7, text: "Mti mrefu uko _____ shule. (The tall tree is beside the school)", answer: "kando ya", hint: "accanto a" },
+            { id: 8, text: "Ndege yuko _____ anga. (The bird is in the sky)", answer: "katika", hint: "in (formale)" },
+            { id: 9, text: "Maji yapo _____ bahari. (The water is in the sea)", answer: "katika", hint: "in" },
+            { id: 10, text: "Mimi niko _____ nyumba. (I am outside the house)", answer: "nje ya", hint: "fuori da" },
+            
+            // Location - Between/Among
+            { id: 11, text: "Shule iko _____ miji miwili. (The school is between two cities)", answer: "kati ya", hint: "tra" },
+            { id: 12, text: "Yeye anakaa _____ watu wengi. (He lives among many people)", answer: "kati ya", hint: "fra" },
+            { id: 13, text: "Duka lipo _____ nyumba yangu na shule. (The shop is between my house and the school)", answer: "kati ya", hint: "tra" },
+            { id: 14, text: "Mti uko _____ mabati mawili. (The tree is between two houses)", answer: "kati ya", hint: "tra" },
+            
+            // Motion
+            { id: 15, text: "Ninaenda _____ nyumbani. (I am going home)", answer: "kwenye", hint: "a (luogo)" },
+            { id: 16, text: "Anaingia _____ chumbani. (He is entering the room)", answer: "ndani ya", hint: "dentro" },
+            { id: 17, text: "Tulitembea _____ mji mzima. (We walked through the whole city)", answer: "katika", hint: "attraverso" },
+            { id: 18, text: "Ninakwenda _____ sokoni. (I am going to the market)", answer: "kwenye", hint: "al" },
+            { id: 19, text: "Alitoroka _____ nyumba. (He ran away from the house)", answer: "kutoka", hint: "da" },
+            { id: 20, text: "Tulifika _____ shuleni. (We arrived at school)", answer: "kwenye", hint: "a" },
+            
+            // Time
+            { id: 21, text: "Ninakula _____ kazi. (I eat before work)", answer: "kabla ya", hint: "prima di" },
+            { id: 22, text: "Anasoma _____ chakula. (He studies after eating)", answer: "baada ya", hint: "dopo" },
+            { id: 23, text: "Tulicheza _____ mvua. (We played during the rain)", answer: "wakati wa", hint: "durante" },
+            { id: 24, text: "Nitasubiri _____ kesho. (I will wait until tomorrow)", answer: "mpaka", hint: "fino a" },
+            { id: 25, text: "Amekuwa hapa _____ asubuhi. (He has been here since morning)", answer: "tangu", hint: "da" },
+            { id: 26, text: "Nitakaa _____ mwezi mzima. (I will stay for a whole month)", answer: "kwa", hint: "per (durata)" },
+            { id: 27, text: "_____ Jumapili tunaenda kanisani. (On Sunday we go to church)", answer: "siku ya", hint: "il giorno di" },
+            { id: 28, text: "Ninafanya kazi _____ usiku. (I work at night)", answer: "wakati wa", hint: "durante" },
+            { id: 29, text: "Tulionana _____ muda mrefu. (We met after a long time)", answer: "baada ya", hint: "dopo" },
+            { id: 30, text: "_____ kula, ninakwenda kulala. (Before eating, I go to sleep)", answer: "kabla ya", hint: "prima di" },
+            
+            // Means/Instrument
+            { id: 31, text: "Ninaenda shule _____ miguu. (I go to school on foot)", answer: "kwa", hint: "con/mezzo" },
+            { id: 32, text: "Anaandika _____ kalamu. (He writes with a pen)", answer: "kwa", hint: "con" },
+            { id: 33, text: "Tulisafiri _____ basi. (We traveled by bus)", answer: "kwa", hint: "con/mezzo" },
+            { id: 34, text: "Anapika _____ moto wa kuni. (She cooks with firewood)", answer: "kwa", hint: "con" },
+            { id: 35, text: "Ninasikia _____ redio. (I listen on the radio)", answer: "kupitia", hint: "tramite" },
+            { id: 36, text: "Tulijifunza _____ mwalimu mzuri. (We learned through a good teacher)", answer: "kupitia", hint: "attraverso" },
+            
+            // Accompaniment
+            { id: 37, text: "Ninaenda _____ rafiki yangu. (I am going with my friend)", answer: "na", hint: "con" },
+            { id: 38, text: "Anakula _____ familia yake. (He eats with his family)", answer: "na", hint: "con" },
+            { id: 39, text: "Tulicheza _____ mpira. (We played with a ball)", answer: "na", hint: "con" },
+            { id: 40, text: "Siwezi kuishi _____ maji. (I cannot live without water)", answer: "bila", hint: "senza" },
+            { id: 41, text: "Alikuja _____ kumwona mwalimu. (He came without seeing the teacher)", answer: "bila", hint: "senza" },
+            { id: 42, text: "Ninakula mkate _____ maziwa. (I eat bread and/with milk)", answer: "na", hint: "e/con" },
+            
+            // Reason/Purpose
+            { id: 43, text: "Sijafika _____ mvua. (I didn't arrive because of the rain)", answer: "kwa sababu ya", hint: "a causa di" },
+            { id: 44, text: "Amefanya hivi _____ yako. (He did this for you)", answer: "kwa ajili ya", hint: "per" },
+            { id: 45, text: "Tulikwenda _____ kumwona daktari. (We went in order to see the doctor)", answer: "kwa ajili ya", hint: "allo scopo di" },
+            { id: 46, text: "_____ ugonjwa, hakuweza kuja. (Because of illness, he couldn't come)", answer: "kwa sababu ya", hint: "a causa di" },
+            { id: 47, text: "Ninafanya kazi _____ familia yangu. (I work for my family)", answer: "kwa ajili ya", hint: "per" },
+            
+            // Possession/Relationship
+            { id: 48, text: "Kitabu _____ mwanafunzi kimepotea. (The student's book is lost)", answer: "cha", hint: "di (classe 7)" },
+            { id: 49, text: "Gari _____ mwalimu ni jipya. (The teacher's car is new)", answer: "la", hint: "di (classe 5/6)" },
+            { id: 50, text: "Nyumba _____ babu yangu ni kubwa. (My grandfather's house is big)", answer: "ya", hint: "di (classe 9)" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-cyan-600 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-cyan-600 hover:text-cyan-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

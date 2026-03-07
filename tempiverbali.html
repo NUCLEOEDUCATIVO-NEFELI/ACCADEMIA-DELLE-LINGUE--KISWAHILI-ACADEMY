@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempi Verbali in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #db2777;
+            --accent: #f59e0b;
+            --bg-warm: #faf5ff;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(219, 39, 119, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-tense {
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .tense-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tense-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tense-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .tense-present { background: linear-gradient(90deg, #10b981, #34d399); }
+        .tense-past { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .tense-future { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .tense-perfect { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .tense-conditional { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #10b981, #f59e0b, #3b82f6, #ec4899);
+            border-radius: 2px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px currentColor;
+        }
+        
+        .conjugation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .conj-box {
+            background: linear-gradient(135deg, #f3f4f6, #ffffff);
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .conj-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .aspect-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .aspect-simple { background: #dbeafe; color: #1e40af; }
+        .aspect-continuous { background: #d1fae5; color: #065f46; }
+        .aspect-perfect { background: #fce7f3; color: #9d174d; }
+        .aspect-habitual { background: #fef3c7; color: #92400e; }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .example-sentence {
+            position: relative;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    T
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-violet-600">Tenses</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-violet-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-violet-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-violet-500 to-fuchsia-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-violet-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Tempi Verbali</h2>
+                <p class="text-xl text-gray-600 mb-2">Verb Tenses in Swahili</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-600 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-violet-500">
+                    <h3 class="text-2xl font-bold mb-4 text-violet-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Il swahili utilizza un sistema di <strong>marcatori temporali</strong> inseriti tra il prefisso soggetto e il radicale del verbo. Questo sistema è altamente regolare e permette di esprimere con precisione non solo il tempo, ma anche l'<strong>aspetto</strong> dell'azione (completata, in corso, abituale).
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Struttura: Soggetto + Tempo/Aspekto + Radicale + Suffissi
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-fuchsia-600">
+                    <h3 class="text-2xl font-bold mb-4 text-fuchsia-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Swahili uses a system of <strong>tense markers</strong> inserted between the subject prefix and the verb root. This system is highly regular and allows precise expression not only of time, but also of the <strong>aspect</strong> of the action (completed, ongoing, habitual).
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Structure: Subject + Tense/Aspect + Root + Suffixes
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timeline of Tenses -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Linea Temporale / Timeline</h3>
+                
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Remote Past -->
+                    <div class="mb-8 relative">
+                        <div class="timeline-dot bg-amber-700" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-past"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-li- (Passato Remoto)</h4>
+                                <span class="aspect-badge aspect-simple">Semplice</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Azioni completate nel passato remoto / Actions completed in the remote past</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">nilisoma</span> = io lessi / I read (past)
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Narrativa, storia, azioni puntuali passate<br>
+                                <strong>Use:</strong> Narrative, history, past punctual actions
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Past/Perfect -->
+                    <div class="mb-8 relative">
+                        <div class="timeline-dot bg-pink-600" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-perfect"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-me- (Passato Prossimo/Perfetto)</h4>
+                                <span class="aspect-badge aspect-perfect">Perfetto</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Azioni completate con risultato presente / Actions completed with present result</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">nimesoma</span> = io ho letto / I have read
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Esperienze di vita, azioni appena finite<br>
+                                <strong>Use:</strong> Life experiences, just finished actions
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Present Continuous -->
+                    <div class="mb-8 relative">
+                        <div class="timeline-dot bg-emerald-500" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-present"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-na- (Presente Continuo)</h4>
+                                <span class="aspect-badge aspect-continuous">Continuo</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Azioni in corso nel presente / Actions in progress now</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">ninasoma</span> = io sto leggendo / I am reading
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Azioni attuali, temporanee<br>
+                                <strong>Use:</strong> Current actions, temporary situations
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Present Habitual -->
+                    <div class="mb-8 relative">
+                        <div class="timeline-dot bg-amber-500" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-past"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-a- (Presente Abituale)</h4>
+                                <span class="aspect-badge aspect-habitual">Abiduale</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Azioni abituali, generalità / Habitual actions, general truths</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">nisoma</span> = io leggo (di solito) / I read (usually)
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Abitudini, verità generali, capacità<br>
+                                <strong>Use:</strong> Habits, general truths, abilities
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Future -->
+                    <div class="mb-8 relative">
+                        <div class="timeline-dot bg-blue-500" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-future"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-ta- (Futuro Semplice)</h4>
+                                <span class="aspect-badge aspect-simple">Semplice</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Azioni future / Future actions</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">nitasoma</span> = io leggerò / I will read
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Previsioni, promesse, intenzioni<br>
+                                <strong>Use:</strong> Predictions, promises, intentions
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Future Conditional -->
+                    <div class="relative">
+                        <div class="timeline-dot bg-violet-500" style="top: 1.5rem;"></div>
+                        <div class="tense-card bg-white rounded-2xl p-6 shadow-lg ml-4">
+                            <div class="tense-indicator tense-conditional"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-xl font-bold swahili-tense">-nge- / -ngali- (Condizionale)</h4>
+                                <span class="aspect-badge aspect-continuous">Condizionale</span>
+                            </div>
+                            <p class="text-gray-600 mb-2">Ipotesi, condizioni / Hypothetical, conditional</p>
+                            <div class="example-sentence">
+                                <span class="font-mono text-violet-700">ningesoma</span> = io leggerei / I would read
+                            </div>
+                            <div class="text-sm text-gray-500 mt-2">
+                                <strong>Uso:</strong> Situazioni ipotetiche, irrealtà<br>
+                                <strong>Use:</strong> Hypothetical situations, unreality
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Conjugation Tables -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- Present Tenses Comparison -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-emerald-600">Presente: -na- vs -a-</h4>
+                    <p class="text-sm text-gray-600 mb-4">Differenza tra azione in corso e abituale</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-emerald-50 p-3 rounded-lg">
+                            <div class="font-bold text-emerald-800">ninakula</div>
+                            <div class="text-sm">Sto mangiando (adesso) / I am eating (now)</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold text-amber-800">nikule</div>
+                            <div class="text-sm">Mangio (di solito) / I eat (usually)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-xs text-gray-500">
+                        <strong>Nota:</strong> Il presente abituale (-a-) cambia vocale finale in contesti specifici
+                    </div>
+                </div>
+
+                <!-- Perfect vs Past -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-pink-600">-me- vs -li-</h4>
+                    <p class="text-sm text-gray-600 mb-4">Differenza tra perfetto e passato remoto</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-pink-50 p-3 rounded-lg">
+                            <div class="font-bold text-pink-800">nimefika</div>
+                            <div class="text-sm">Sono arrivato (e sono qui) / I have arrived (and I'm here)</div>
+                        </div>
+                        <div class="bg-amber-50 p-3 rounded-lg">
+                            <div class="font-bold text-amber-800">nilifika</div>
+                            <div class="text-sm">Arrivai (in un momento passato) / I arrived (at a past time)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-xs text-gray-500">
+                        <strong>Nota:</strong> -me- implica connessione col presente, -li- è narrativo
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Markers -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Marcatori Speciali / Special Markers</h3>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-5 border-l-4 border-red-500">
+                        <h4 class="font-bold text-red-800 mb-2">-ja- (Negazione Passato)</h4>
+                        <p class="text-sm text-gray-700 mb-2">Non ancora / Not yet</p>
+                        <div class="font-mono text-red-700 bg-white p-2 rounded">sijakula</div>
+                        <p class="text-xs text-gray-600 mt-2">Non ho ancora mangiato</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-5 border-l-4 border-purple-500">
+                        <h4 class="font-bold text-purple-800 mb-2">-ki- (Participio)</h4>
+                        <p class="text-sm text-gray-700 mb-2">Mentre / While</p>
+                        <div class="font-mono text-purple-700 bg-white p-2 rounded">nikisoma</div>
+                        <p class="text-xs text-gray-600 mt-2">Mentre leggo / While I read</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 border-l-4 border-blue-500">
+                        <h4 class="font-bold text-blue-800 mb-2">-po- (Relativo Tempo)</h4>
+                        <p class="text-sm text-gray-700 mb-2">Quando / When</p>
+                        <div class="font-mono text-blue-700 bg-white p-2 rounded">ninasoma</div>
+                        <p class="text-xs text-gray-600 mt-2">Quando leggo / When I read</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Negative Forms -->
+            <div class="glass-panel rounded-2xl p-8 mb-12 border-l-4 border-gray-600">
+                <h4 class="text-xl font-bold mb-4 text-gray-800">Forme Negative / Negative Forms</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-3 text-left">Tempo / Tense</th>
+                                <th class="p-3 text-left">Affermativo</th>
+                                <th class="p-3 text-left">Negativo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3">Presente / Present</td>
+                                <td class="p-3 font-mono text-emerald-600">ninakula</td>
+                                <td class="p-3 font-mono text-red-600">sikuli</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">Passato / Past</td>
+                                <td class="p-3 font-mono text-amber-600">nilikula</td>
+                                <td class="p-3 font-mono text-red-600">sikukula</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">Perfetto / Perfect</td>
+                                <td class="p-3 font-mono text-pink-600">nimekula</td>
+                                <td class="p-3 font-mono text-red-600">sijakula</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">Futuro / Future</td>
+                                <td class="p-3 font-mono text-blue-600">nitakula</td>
+                                <td class="p-3 font-mono text-red-600">sitakula</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi sui Tempi Verbali</h2>
+                <p class="text-gray-600">Complete the sentences with the correct tense marker</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-violet-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-violet-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-violet-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Tenses
+        const exercises = [
+            // Present Continuous (-na-)
+            { id: 1, text: "Sasa mimi _____ chakula. (Right now I am eating food)", answer: "ninakula", hint: "presente continuo, 1a pers." },
+            { id: 2, text: "Wewe _____ nini sasa hivi? (What are you doing right now?)", answer: "unafanya", hint: "presente continuo" },
+            { id: 3, text: "Mtoto _____ usingizi. (The child is sleeping)", answer: "analala", hint: "presente continuo" },
+            { id: 4, text: "Sisi _____ kazi hii pamoja. (We are doing this work together)", answer: "tunafanya", hint: "presente continuo, plurale" },
+            { id: 5, text: "Wageni _____ leo. (The guests are arriving today)", answer: "wanakuja", hint: "presente continuo" },
+            { id: 6, text: "Mwalimu _____ darasani. (The teacher is teaching in class)", answer: "anafundisha", hint: "presente continuo" },
+            { id: 7, text: "Ninyi _____ vizuri sana. (You are singing very well)", answer: "mnaimba", hint: "presente continuo, plurale" },
+            { id: 8, text: "Yeye _____ barua kwa mama yake. (She is writing a letter to her mother)", answer: "anaandika", hint: "presente continuo" },
+            
+            // Remote Past (-li-)
+            { id: 9, text: "Jana mimi _____ shule kwa miguu. (Yesterday I walked to school)", answer: "nilitembea", hint: "passato remoto" },
+            { id: 10, text: "Juzi wewe _____ hospitali. (The day before yesterday you went to the hospital)", answer: "ulienda", hint: "passato remoto" },
+            { id: 11, text: "Mwaka jana yeye _____ mtihani wake. (Last year he passed his exam)", answer: "alifaulu", hint: "passato remoto" },
+            { id: 12, text: "Wiki iliyopita sisi _____ Zanzibar. (Last week we visited Zanzibar)", answer: "tulitembelea", hint: "passato remoto" },
+            { id: 13, text: "Wakati wa vita, baba yangu _____ askari. (During the war, my father was a soldier)", answer: "alikuwa", hint: "passato remoto (essere)" },
+            { id: 14, text: "Jana jioni ninyi _____ sinema. (Yesterday evening you watched a movie)", answer: "mlitazama", hint: "passato remoto" },
+            { id: 15, text: "Miaka iliyopita wao _____ Kenya. (Years ago they lived in Kenya)", answer: "waliishi", hint: "passato remoto" },
+            { id: 16, text: "Juzi asubuhi yeye _____ mapema. (The day before yesterday morning she woke up early)", answer: "aliamka", hint: "passato remoto" },
+            
+            // Perfect (-me-)
+            { id: 17, text: "Mimi _____ kazi yangu. (I have finished my work)", answer: "nimeimaliza", hint: "perfetto (risultato presente)" },
+            { id: 18, text: "Wewe _____ wapi? (Where have you been?)", answer: "umekuwa", hint: "perfetto" },
+            { id: 19, text: "Yeye _____ chakula. (He has eaten the food)", answer: "amekula", hint: "perfetto" },
+            { id: 20, text: "Sisi _____ kwenye mkutano. (We have arrived at the meeting)", answer: "tumefika", hint: "perfetto" },
+            { id: 21, text: "Mti _____ maua. (The tree has blossomed)", answer: "umechanua", hint: "perfetto" },
+            { id: 22, text: "Wao _____ vitabu vyao. (They have lost their books)", answer: "wamevipoteza", hint: "perfetto" },
+            { id: 23, text: "Ninyi _____ kazi nzuri. (You have done good work)", answer: "mmefanya", hint: "perfetto, plurale" },
+            { id: 24, text: "Mwalimu _____ darasa. (The teacher has entered the classroom)", answer: "ameingia", hint: "perfetto" },
+            
+            // Future (-ta-)
+            { id: 25, text: "Kesho mimi _____ Dodoma. (Tomorrow I will travel to Dodoma)", answer: "nitasafiri", hint: "futuro" },
+            { id: 26, text: "Mwaka ujao wewe _____ chuo kikuu. (Next year you will enter university)", answer: "utaingia", hint: "futuro" },
+            { id: 27, text: "Kesho kutwa yeye _____ nyumbani. (The day after tomorrow she will return home)", answer: "atarudi", hint: "futuro" },
+            { id: 28, text: "Juma lijalo sisi _____ mikutano. (Next week we will hold meetings)", answer: "tutafanya", hint: "futuro" },
+            { id: 29, text: "Baada ya mwezi, ninyi _____ mitihani. (After a month you will do exams)", answer: "mtafanya", hint: "futuro, plurale" },
+            { id: 30, text: "Kesho asubuhi wao _____ safari yao. (Tomorrow morning they will begin their journey)", answer: "wataanza", hint: "futuro" },
+            { id: 31, text: "Mimi _____ daktari siku moja. (I will become a doctor one day)", answer: "nitakuwa", hint: "futuro (diventare)" },
+            { id: 32, text: "Tutakapokwisha, sisi _____ mapumziko. (When we finish, we will rest)", answer: "tutapumzika", hint: "futuro" },
+            
+            // Habitual (-a-)
+            { id: 33, text: "Mimi _____ mapema kila siku. (I wake up early every day)", answer: "huamka", hint: "abituale (si- + hu-)" },
+            { id: 34, text: "Wewe _____ kazi gani? (What work do you usually do?)", answer: "hufanya", hint: "abituale" },
+            { id: 35, text: "Yeye _____ vizuri sana. (She sings very well - habitually)", answer: "huimba", hint: "abituale" },
+            { id: 36, text: "Sisi _____ kanisa kila Jumapili. (We go to church every Sunday)", answer: "huenda", hint: "abituale" },
+            { id: 37, text: "Wao _____ wakati wa chakula. (They usually come at mealtime)", answer: "huja", hint: "abituale" },
+            { id: 38, text: "Ninyi _____ chakula gani? (What food do you usually eat?)", answer: "hula", hint: "abituale" },
+            { id: 39, text: "Mwalimu _____ vizuri. (The teacher teaches well - habitually)", answer: "hufundisha", hint: "abituale" },
+            { id: 40, text: "Mimi _____ kiswahili kila siku. (I study Swahili every day)", answer: "husoma", hint: "abituale" },
+            
+            // Conditional (-nge-)
+            { id: 41, text: "Kama ningepata pesa, mimi _____ gari. (If I got money, I would buy a car)", answer: "ningenunua", hint: "condizionale" },
+            { id: 42, text: "Wewe _____ kama ungejifunza vizuri. (You would pass if you studied well)", answer: "ungefaulu", hint: "condizionale" },
+            { id: 43, text: "Yeye _____ hapa kama angekuwa hai. (She would be here if she were alive)", answer: "angekuwa", hint: "condizionale" },
+            { id: 44, text: "Sisi _____ kwenda kama mvua ingeacha. (We would go if the rain stopped)", answer: "tungeenda", hint: "condizionale" },
+            { id: 45, text: "Ninyi _____ furaha kama mungeshinda. (You would have joy if you won)", answer: "mngeweza", hint: "condizionale" },
+            
+            // Negative Forms
+            { id: 46, text: "Mimi _____ bado. (I haven't eaten yet)", answer: "sijakula", hint: "negazione perfetto (-ja-)" },
+            { id: 47, text: "Wewe _____ kazi hii. (You cannot do this work)", answer: "huwezi", hint: "negazione abilità" },
+            { id: 48, text: "Yeye _____ tena. (She will not come again)", answer: "hatakuja", hint: "negazione futuro" },
+            { id: 49, text: "Sisi _____ kula nyama. (We don't eat meat)", answer: "hatuli", hint: "negazione presente" },
+            { id: 50, text: "Wao _____ kufika jana. (They didn't arrive yesterday)", answer: "hawakufika", hint: "negazione passato" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-violet-600 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-violet-600 hover:text-violet-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 3 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

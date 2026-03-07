@@ -1,0 +1,1180 @@
+continua <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfabeto Swahili e Pronuncia / Swahili Alphabet - 50 Esercizi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5f2d;
+            --secondary: #97bc62;
+            --accent: #e8b923;
+            --dark: #1a3c1b;
+            --light: #f5f9f0;
+            --border: #d4e0c5;
+            --success: #2d6a4f;
+            --success-bg: #d8f3dc;
+            --error: #9d0208;
+            --error-bg: #ffccd5;
+            --african: #c9a227;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .breadcrumbs {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: var(--secondary);
+            margin: 0 0.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .nav-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+            background: white;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--secondary);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: var(--light);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--accent);
+            font-weight: bold;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .instruction-box {
+            background: #e7f3ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .lang-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .lang-tab {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .lang-tab:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-tab.active {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .letter-card {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .letter-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .swahili-letter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .pronunciation {
+            font-size: 1rem;
+            color: var(--secondary);
+            font-style: italic;
+        }
+
+        .example-word {
+            font-size: 0.9rem;
+            color: var(--dark);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .vowel-section, .consonant-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .special-combo {
+            background: #fff9e6;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .score-panel {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .score-label {
+            font-weight: bold;
+            color: var(--secondary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--light);
+            border: 1px solid var(--border);
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .question-box {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .swahili-text {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            background: white;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: var(--light);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .feedback {
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            margin-bottom: 1rem;
+            border: 1px solid;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: var(--success-bg);
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .feedback.wrong {
+            background: var(--error-bg);
+            color: var(--error);
+            border-color: var(--error);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark);
+        }
+
+        .final-score-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .final-score-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .final-score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 20px 0;
+        }
+
+        .final-message {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .exercise-counter {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 1rem; }
+
+        .audio-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .tip-box {
+            background: #e8f5e9;
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs { flex-wrap: wrap; }
+            .nav-tab { padding: 0.75rem 1rem; font-size: 0.9rem; flex: 1 1 33%; }
+            .options-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.5rem; }
+            .page-title { font-size: 1.5rem; }
+            .final-score-value { font-size: 3rem; }
+            .alphabet-grid { grid-template-columns: repeat(2, 1fr); }
+            .swahili-letter { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <h1>🔤 Alfabeto Swahili e Pronuncia / Swahili Alphabet</h1>
+            <p>Herufi za Kiswahili - 50 Esercizi Interattivi</p>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs">
+        <div class="breadcrumbs-container">
+            <a href="#">Home</a>
+            <span>›</span>
+            <a href="#">Lingue Africane</a>
+            <span>›</span>
+            <strong>Swahili A1 - Alfabeto (50 Esercizi)</strong>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">🔤 Alfabeto Swahili / Swahili Alphabet</h1>
+            <p class="page-subtitle">Impara le 24 lettere dell'alfabeto swahili con esempi e pronuncia corretta</p>
+        </div>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('theory', this)">📚 Teoria / Theory</button>
+            <button class="nav-tab" onclick="showSection('vowels', this)">🔊 Vocali / Vowels</button>
+            <button class="nav-tab" onclick="showSection('consonants', this)">🔤 Consonanti / Consonants</button>
+            <button class="nav-tab" onclick="showSection('special', this)">✨ Speciali / Special</button>
+            <button class="nav-tab" onclick="showSection('exercises', this)">🎯 Esercizi (50)</button>
+        </nav>
+
+        <!-- SEZIONE TEORIA BILINGUE -->
+        <section id="theory" class="section active">
+            <div class="card">
+                <div class="card-header">Teoria dell'Alfabeto Swahili / Swahili Alphabet Theory</div>
+                <div class="card-body">
+                    <div class="lang-tabs">
+                        <button class="lang-tab active" onclick="showLang('it', this)">🇮🇹 Italiano</button>
+                        <button class="lang-tab" onclick="showLang('en', this)">🇬🇧 English</button>
+                    </div>
+
+                    <!-- ITALIANO -->
+                    <div id="lang-it" class="lang-content active">
+                        <div class="instruction-box">
+                            <strong>L'alfabeto swahili (Herufi za Kiswahili)</strong> è basato sull'alfabeto latino e comprende 24 lettere. Non include le lettere <strong>Q</strong> e <strong>X</strong> presenti in italiano.
+                        </div>
+
+                        <div class="tip-box">
+                            <strong>💡 Caratteristiche principali:</strong>
+                            <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                                <li>Ogni lettera corrisponde a un solo suono (fonema)</li>
+                                <li>La pronuncia è sempre fonetica e regolare</li>
+                                <li>Non ci sono lettere mute o combinazioni complesse</li>
+                                <li>Le vocali hanno un suono puro e invariabile</li>
+                            </ul>
+                        </div>
+
+                        <div class="special-combo">
+                            <strong>📝 Regole di pronuncia:</strong>
+                            <p style="margin-top: 0.5rem;">
+                                • <strong>CH</strong> = suono /tʃ/ come in "ciao"<br>
+                                • <strong>DH</strong> = suono /ð/ come "th" inglese in "this"<br>
+                                • <strong>GH</strong> = suono gutturale /ɣ/ come in arabo<br>
+                                • <strong>KH</strong> = suono /x/ come "j" spagnola<br>
+                                • <strong>NG'</strong> = suono nasale /ŋ/ come "ng" in "sing"<br>
+                                • <strong>N</strong> prima di consonante = sillaba separata (e.g., "ndege" = n-de-ge)
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ENGLISH -->
+                    <div id="lang-en" class="lang-content">
+                        <div class="instruction-box">
+                            <strong>The Swahili alphabet (Herufi za Kiswahili)</strong> is based on the Latin alphabet and consists of 24 letters. It does not include the letters <strong>Q</strong> and <strong>X</strong> found in English.
+                        </div>
+
+                        <div class="tip-box">
+                            <strong>💡 Main characteristics:</strong>
+                            <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                                <li>Each letter corresponds to only one sound (phoneme)</li>
+                                <li>Pronunciation is always phonetic and regular</li>
+                                <li>There are no silent letters or complex combinations</li>
+                                <li>Vowels have a pure and unchanging sound</li>
+                            </ul>
+                        </div>
+
+                        <div class="special-combo">
+                            <strong>📝 Pronunciation rules:</strong>
+                            <p style="margin-top: 0.5rem;">
+                                • <strong>CH</strong> = /tʃ/ sound as in "church"<br>
+                                • <strong>DH</strong> = /ð/ sound as "th" in "this"<br>
+                                • <strong>GH</strong> = guttural /ɣ/ sound as in Arabic<br>
+                                • <strong>KH</strong> = /x/ sound as Spanish "j"<br>
+                                • <strong>NG'</strong> = nasal /ŋ/ sound as "ng" in "sing"<br>
+                                • <strong>N</strong> before consonant = separate syllable (e.g., "ndege" = n-de-ge)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE VOCALI -->
+        <section id="vowels" class="section">
+            <div class="card">
+                <div class="card-header">Vocali / Vowels - Vokali</div>
+                <div class="card-body">
+                    <div class="instruction-box">
+                        <strong>5 Vocali pure:</strong> A, E, I, O, U. Ogni vocale ha un suono invariabile, indipendentemente dalla posizione nella parola.
+                    </div>
+
+                    <div class="alphabet-grid">
+                        <div class="letter-card">
+                            <span class="swahili-letter">A</span>
+                            <span class="pronunciation">/a/ come "a" in "casa"</span>
+                            <div class="example-word">baba (padre), mama (madre), dada (sorella)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">E</span>
+                            <span class="pronunciation">/e/ come "e" in "bene"</span>
+                            <div class="example-word">embe (mango), pesa (soldi), meza (tavolo)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">I</span>
+                            <span class="pronunciation">/i/ come "i" in "vino"</span>
+                            <div class="example-word">simba (leone), nchi (paese), maji (acqua)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">O</span>
+                            <span class="pronunciation">/o/ come "o" in "sole"</span>
+                            <div class="example-word">moto (fuoco), pomo (mela), kioo (specchio)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">U</span>
+                            <span class="pronunciation">/u/ come "u" in "luna"</span>
+                            <div class="example-word">muziki (musica), chungu (pentola), sungura (coniglio)</div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>⚠️ Importante:</strong> A differenza dell'italiano, le vocali swahili NON cambiano suono! "A" è sempre /a/, "E" è sempre /e/, ecc. Non ci sono vocali aperte/chiuse o toni lunghi/brevi.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE CONSONANTI -->
+        <section id="consonants" class="section">
+            <div class="card">
+                <div class="card-header">Consonanti / Consonants - Konsonanti</div>
+                <div class="card-body">
+                    <div class="instruction-box">
+                        <strong>19 Consonanti:</strong> B, C, D, F, G, H, J, K, L, M, N, P, R, S, T, V, W, Y, Z
+                    </div>
+
+                    <div class="alphabet-grid">
+                        <div class="letter-card">
+                            <span class="swahili-letter">B</span>
+                            <span class="pronunciation">/b/ come "b" in "bene"</span>
+                            <div class="example-word">baba, mbuzi (capra), kubwa (grande)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">C</span>
+                            <span class="pronunciation">/tʃ/ sempre come "c" in "ciao"</span>
+                            <div class="example-word">chakula (cibo), chungu (pentola), picha (foto)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">D</span>
+                            <span class="pronunciation">/d/ come "d" in "dente"</span>
+                            <div class="example-word">dada, ndizi (banana), muda (tempo)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">F</span>
+                            <span class="pronunciation">/f/ come "f" in "fame"</span>
+                            <div class="example-word">fisi (iena), kofia (cappello), sufuria (pentola)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">G</span>
+                            <span class="pronunciation">/g/ come "g" in "gatto"</span>
+                            <div class="example-word">gari (macchina), mgongo (schiena), ngoma (tamburo)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">H</span>
+                            <span class="pronunciation">/h/ aspirata, sempre pronunciata</span>
+                            <div class="example-word">habari (notizie), hii (questo), mahali (posto)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">J</span>
+                            <span class="pronunciation">/dʒ/ come "j" in "jeep"</span>
+                            <div class="example-word">jina (nome), maji (acqua), jioni (sera)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">K</span>
+                            <span class="pronunciation">/k/ come "c" in "casa"</span>
+                            <div class="example-word">kisu (coltello), mkeka (tappeto), paka (gatto)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">L</span>
+                            <span class="pronunciation">/l/ come "l" in "luna"</span>
+                            <div class="example-word">leo (oggi), jua (sole), mlima (montagna)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">M</span>
+                            <span class="pronunciation">/m/ come "m" in "mamma"</span>
+                            <div class="example-word">mama, mti (albero), samaki (pesce)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">N</span>
+                            <span class="pronunciation">/n/ come "n" in "nave"</span>
+                            <div class="example-word">ndege (uccello/aereo), nchi (paese), nini (cosa)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">P</span>
+                            <span class="pronunciation">/p/ come "p" in "pane"</span>
+                            <div class="example-word">papa (squalo), mpishi (cuoco), pesa (soldi)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">R</span>
+                            <span class="pronunciation">/r/ vibrante, come "r" spagnola</span>
+                            <div class="example-word">rafiki (amico), baridi (freddo), mnyama (animale)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">S</span>
+                            <span class="pronunciation">/s/ come "s" in "sole"</span>
+                            <div class="example-word">saa (ora), masika (pioggia), msitu (foresta)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">T</span>
+                            <span class="pronunciation">/t/ come "t" in "tavolo"</span>
+                            <div class="example-word">tatu (tre), mtoto (bambino), kitu (cosa)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">V</span>
+                            <span class="pronunciation">/v/ come "v" in "vino"</span>
+                            <div class="example-word">vitu (cose), mvua (pioggia), kavu (secco)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">W</span>
+                            <span class="pronunciation">/w/ come "w" in "water" inglese</span>
+                            <div class="example-word">wewe (tu), mwaka (anno), chawa (pidocchio)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">Y</span>
+                            <span class="pronunciation">/j/ come "y" in "yacht"</span>
+                            <div class="example-word">yeye (lui/lei), mpya (nuovo), jana (ieri)</div>
+                        </div>
+                        <div class="letter-card">
+                            <span class="swahili-letter">Z</span>
+                            <span class="pronunciation">/z/ come "z" in "zoo"</span>
+                            <div class="example-word">nzuri (bello), zebra, kuzima (spegnere)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE COMBINAZIONI SPECIALI -->
+        <section id="special" class="section">
+            <div class="card">
+                <div class="card-header">Combinazioni Speciali / Special Combinations - Mseto wa herufi</div>
+                <div class="card-body">
+                    <div class="instruction-box">
+                        <strong>Combinazioni digrafiche:</strong> Il swahili utilizza alcune combinazioni speciali di lettere per rappresentare suoni specifici.
+                    </div>
+
+                    <div class="alphabet-grid">
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">CH</span>
+                            <span class="pronunciation">/tʃ/ come "ci" in "ciao"</span>
+                            <div class="example-word">chakula (cibo), chungu (pentola), macho (occhi)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">DH</span>
+                            <span class="pronunciation">/ð/ come "th" in "this"</span>
+                            <div class="example-word">dhahabu (oro), madhehebu (religione)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">GH</span>
+                            <span class="pronunciation">/ɣ/ suono gutturale</span>
+                            <div class="example-word">ghali (caro), gharama (costo)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">KH</span>
+                            <span class="pronunciation">/x/ come "j" spagnola</span>
+                            <div class="example-word">khali (severo), kheri (bene)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">NG'</span>
+                            <span class="pronunciation">/ŋ/ come "ng" in "sing"</span>
+                            <div class="example-word">ng'ombe (mucca), ng'ambo (oltre)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">NY</span>
+                            <span class="pronunciation">/ɲ/ come "gn" in "gnocchi"</span>
+                            <div class="example-word">nyama (carne), nyota (stella), manyoya (piume)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">SH</span>
+                            <span class="pronunciation">/ʃ/ come "sc" in "pesce"</span>
+                            <div class="example-word">shule (scuola), asha (vita), shati (camicia)</div>
+                        </div>
+                        <div class="letter-card" style="background: #fff9e6;">
+                            <span class="swahili-letter">TH</span>
+                            <span class="pronunciation">/θ/ come "th" in "think"</span>
+                            <div class="example-word">thelathini (trenta), thamani (valore)</div>
+                        </div>
+                    </div>
+
+                    <div class="special-combo">
+                        <strong>📝 Note sulle sillabe nasali:</strong>
+                        <p style="margin-top: 0.5rem;">
+                            In swahili, <strong>M</strong> e <strong>N</strong> possono formare sillabe nasali all'inizio delle parole:<br>
+                            • <strong>MB-</strong>: mbuzi (capra), mbele (davanti)<br>
+                            • <strong>ND-</strong>: ndizi (banana), ndege (uccello)<br>
+                            • <strong>NG-</strong>: ngoma (tamburo), ngazi (scala)<br>
+                            • <strong>NJ-</strong>: njia (strada), njia (modo)<br>
+                            • <strong>NZ-</strong>: nzuri (bello), nzito (pesante)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE ESERCIZI -->
+        <section id="exercises" class="section">
+            <div class="game-container">
+                <div class="score-panel">
+                    <div>
+                        <div class="score-label">Esercizio / Exercise</div>
+                        <div class="score-value" id="exerciseCounter">1 / 50</div>
+                    </div>
+                    <div>
+                        <div class="score-label">Punteggio / Score</div>
+                        <div class="score-value" id="currentScore">0 / 50</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+
+                <div id="exerciseContainer">
+                    <!-- Gli esercizi verranno caricati qui dinamicamente -->
+                </div>
+
+                <!-- SEZIONE PUNTEGGIO FINALE -->
+                <div class="final-score-section" id="finalScoreSection">
+                    <h2>🎉 Hongera! / Congratulazioni!</h2>
+                    <div class="final-score-value" id="finalScore">0/50</div>
+                    <p class="final-message" id="finalMessage"></p>
+                    
+                    <div style="background: white; color: var(--dark); padding: 2rem; border-radius: 10px; margin: 2rem 0; text-align: left;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">📧 Tuma matokeo / Invia risultati</h3>
+                        <p style="margin-bottom: 1rem;">Andika jina lako / Inserisci il tuo nome:</p>
+                        <input type="text" id="studentName" placeholder="Jina lako / Il tuo nome" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid var(--border); font-family: inherit; font-size: 1rem;">
+                        <button class="btn-primary" onclick="sendResults()" style="width: 100%;">
+                            📧 Tuma kwa / Invia a infonefelieducation@gmail.com
+                        </button>
+                        <p id="emailStatus" style="margin-top: 1rem; font-size: 0.9rem; text-align: center;"></p>
+                    </div>
+
+                    <button class="btn-primary" onclick="restartExercises()" style="margin-top: 20px; font-size: 1.1rem; padding: 1rem 3rem;">
+                        🔄 Jaribu tena / Riprova
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--light); border-top: 1px solid var(--border); padding: 2rem; margin-top: 3rem; text-align: center; color: var(--secondary);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p>© 2024 Corso di Swahili A1 - Alfabeto e Pronuncia / Swahili Alphabet Course</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Kiswahili ni lugha ya Afrika ya Mashariki / Lo swahili è una lingua dell'Africa Orientale</p>
+        </div>
+    </footer>
+
+    <script>
+        // Database degli esercizi swahili (50 totali)
+        const exercises = [
+            // === ESERCIZI 1-10: Riconoscimento lettere vocali ===
+            {id: 1, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "A", options: ["A", "E", "I", "O"], correct: "A", explanation: "✅ Corretto! Questa è la lettera A (a). / Sahihi! Hii ni herufi A.", errorExplanation: "❌ Questa è la lettera A. / Hii ni herufi A."},
+            {id: 2, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "E", options: ["A", "E", "I", "U"], correct: "E", explanation: "✅ Corretto! Questa è la lettera E (e). / Sahihi! Hii ni herufi E.", errorExplanation: "❌ Questa è la lettera E. / Hii ni herufi E."},
+            {id: 3, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "I", options: ["E", "I", "O", "U"], correct: "I", explanation: "✅ Corretto! Questa è la lettera I (i). / Sahihi! Hii ni herufi I.", errorExplanation: "❌ Questa è la lettera I. / Hii ni herufi I."},
+            {id: 4, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "O", options: ["A", "I", "O", "U"], correct: "O", explanation: "✅ Corretto! Questa è la lettera O (o). / Sahihi! Hii ni herufi O.", errorExplanation: "❌ Questa è la lettera O. / Hii ni herufi O."},
+            {id: 5, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "U", options: ["E", "I", "O", "U"], correct: "U", explanation: "✅ Corretto! Questa è la lettera U (u). / Sahihi! Hii ni herufi U.", errorExplanation: "❌ Questa è la lettera U. / Hii ni herufi U."},
+            
+            // === ESERCIZI 6-15: Riconoscimento consonanti base ===
+            {id: 6, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "B", options: ["B", "D", "P", "V"], correct: "B", explanation: "✅ Corretto! B come in 'baba' (padre). / Sahihi! B kama katika 'baba'.", errorExplanation: "❌ Questa è la lettera B. / Hii ni herufi B."},
+            {id: 7, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "M", options: ["N", "M", "K", "L"], correct: "M", explanation: "✅ Corretto! M come in 'mama' (madre). / Sahihi! M kama katika 'mama'.", errorExplanation: "❌ Questa è la lettera M. / Hii ni herufi M."},
+            {id: 8, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "K", options: ["C", "K", "T", "H"], correct: "K", explanation: "✅ Corretto! K come in 'kisu' (coltello). / Sahihi! K kama katika 'kisu'.", errorExplanation: "❌ Questa è la lettera K. / Hii ni herufi K."},
+            {id: 9, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "S", options: ["S", "Z", "SH", "CH"], correct: "S", explanation: "✅ Corretto! S come in 'saa' (ora). / Sahihi! S kama katika 'saa'.", errorExplanation: "❌ Questa è la lettera S. / Hii ni herufi S."},
+            {id: 10, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "T", options: ["T", "D", "K", "P"], correct: "T", explanation: "✅ Corretto! T come in 'tatu' (tre). / Sahihi! T kama katika 'tatu'.", errorExplanation: "❌ Questa è la lettera T. / Hii ni herufi T."},
+            {id: 11, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "N", options: ["M", "N", "L", "R"], correct: "N", explanation: "✅ Corretto! N come in 'ndege' (uccello). / Sahihi! N kama katika 'ndege'.", errorExplanation: "❌ Questa è la lettera N. / Hii ni herufi N."},
+            {id: 12, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "L", options: ["L", "R", "N", "M"], correct: "L", explanation: "✅ Corretto! L come in 'leo' (oggi). / Sahihi! L kama katika 'leo'.", errorExplanation: "❌ Questa è la lettera L. / Hii ni herufi L."},
+            {id: 13, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "R", options: ["R", "L", "D", "B"], correct: "R", explanation: "✅ Corretto! R come in 'rafiki' (amico). / Sahihi! R kama katika 'rafiki'.", errorExplanation: "❌ Questa è la lettera R. / Hii ni herufi R."},
+            {id: 14, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "J", options: ["G", "J", "Y", "H"], correct: "J", explanation: "✅ Corretto! J come in 'jina' (nome). / Sahihi! J kama katika 'jina'.", errorExplanation: "❌ Questa è la lettera J. / Hii ni herufi J."},
+            {id: 15, type: 'choice', question: "Qual è questa lettera? / Ni herufi gani hii?", display: "P", options: ["B", "P", "V", "F"], correct: "P", explanation: "✅ Corretto! P come in 'papa' (squalo). / Sahihi! P kama katika 'papa'.", errorExplanation: "❌ Questa è la lettera P. / Hii ni herufi P."},
+
+            // === ESERCIZI 16-25: Combinazioni speciali ===
+            {id: 16, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "CH", options: ["CH", "SH", "KH", "GH"], correct: "CH", explanation: "✅ Corretto! CH come in 'chakula' (cibo). / Sahihi! CH kama katika 'chakula'.", errorExplanation: "❌ Questa è la combinazione CH. / Hii ni herufi CH."},
+            {id: 17, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "SH", options: ["CH", "SH", "TH", "DH"], correct: "SH", explanation: "✅ Corretto! SH come in 'shule' (scuola). / Sahihi! SH kama katika 'shule'.", errorExplanation: "❌ Questa è la combinazione SH. / Hii ni herufi SH."},
+            {id: 18, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "DH", options: ["TH", "DH", "GH", "KH"], correct: "DH", explanation: "✅ Corretto! DH come in 'dhahabu' (oro). / Sahihi! DH kama katika 'dhahabu'.", errorExplanation: "❌ Questa è la combinazione DH. / Hii ni herufi DH."},
+            {id: 19, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "NG'", options: ["NG", "NG'", "NY", "NJ"], correct: "NG'", explanation: "✅ Corretto! NG' come in 'ng'ombe' (mucca). / Sahihi! NG' kama katika 'ng'ombe'.", errorExplanation: "❌ Questa è la combinazione NG'. / Hii ni herufi NG'."},
+            {id: 20, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "NY", options: ["NY", "NJ", "NG", "ND"], correct: "NY", explanation: "✅ Corretto! NY come in 'nyama' (carne). / Sahihi! NY kama katika 'nyama'.", errorExplanation: "❌ Questa è la combinazione NY. / Hii ni herufi NY."},
+            {id: 21, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "TH", options: ["TH", "DH", "SH", "CH"], correct: "TH", explanation: "✅ Corretto! TH come in 'thelathini' (trenta). / Sahihi! TH kama katika 'thelathini'.", errorExplanation: "❌ Questa è la combinazione TH. / Hii ni herufi TH."},
+            {id: 22, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "GH", options: ["GH", "KH", "CH", "SH"], correct: "GH", explanation: "✅ Corretto! GH come in 'ghali' (caro). / Sahihi! GH kama katika 'ghali'.", errorExplanation: "❌ Questa è la combinazione GH. / Hii ni herufi GH."},
+            {id: 23, type: 'choice', question: "Qual è questa combinazione? / Ni herufi gani hii?", display: "KH", options: ["KH", "GH", "CH", "SH"], correct: "KH", explanation: "✅ Corretto! KH come in 'khali' (severo). / Sahihi! KH kama katika 'khali'.", errorExplanation: "❌ Questa è la combinazione KH. / Hii ni herufi KH."},
+
+            // === ESERCIZI 24-35: Pronuncia e parole ===
+            {id: 24, type: 'choice', question: "Come si pronuncia 'baba'? / Je, 'baba' inatamkwa vipi?", display: "baba", options: ["ba-ba", "be-be", "bi-bi", "bu-bu"], correct: "ba-ba", explanation: "✅ Corretto! A si pronuncia sempre /a/. / Sahihi! A inatamkwa kama /a/.", errorExplanation: "❌ 'Baba' si pronuncia ba-ba con A come in 'casa'. / 'Baba' inatamkwa ba-ba."},
+            {id: 25, type: 'choice', question: "Come si pronuncia 'mama'? / Je, 'mama' inatamkwa vipi?", display: "mama", options: ["ma-ma", "me-me", "mi-mi", "mu-mu"], correct: "ma-ma", explanation: "✅ Corretto! Entrambe le A sono /a/. / Sahihi! A zote mbili ni /a/.", errorExplanation: "❌ 'Mama' si pronuncia ma-ma. / 'Mama' inatamkwa ma-ma."},
+            {id: 26, type: 'choice', question: "Come si pronuncia 'ndege'? / Je, 'ndege' inatamkwa vipi?", display: "ndege", options: ["n-de-ge", "nde-ge", "nde-ghe", "n-de-ghe"], correct: "n-de-ge", explanation: "✅ Corretto! N è una sillaba separata: n-de-ge. / Sahihi! N ni silabi pekee: n-de-ge.", errorExplanation: "❌ N iniziale è una sillaba separata: n-de-ge. / N ya mwanzo ni silabi pekee."},
+            {id: 27, type: 'choice', question: "Come si pronuncia 'chakula'? / Je, 'chakula' inatamkwa vipi?", display: "chakula", options: ["cha-ku-la", "ca-ku-la", "tcha-ku-la", "ka-ku-la"], correct: "cha-ku-la", explanation: "✅ Corretto! CH si pronuncia /tʃ/ come 'ci' in 'ciao'. / Sahihi! CH inatamkwa /tʃ/ kama 'ci' ya Kiitaliano.", errorExplanation: "❌ CH = /tʃ/ come in 'ciao': cha-ku-la. / CH = /tʃ/ kama 'ci' ya Kiitaliano."},
+            {id: 28, type: 'choice', question: "Come si pronuncia 'shule'? / Je, 'shule' inatamkwa vipi?", display: "shule", options: ["shu-le", "su-le", "scu-le", "chu-le"], correct: "shu-le", explanation: "✅ Corretto! SH si pronuncia /ʃ/ come 'sc' in 'pesce'. / Sahihi! SH inatamkwa /ʃ/.", errorExplanation: "❌ SH = /ʃ/ come 'sc' in 'pesce': shu-le. / SH = /ʃ/ kama 'sc' ya Kiitaliano."},
+            {id: 29, type: 'choice', question: "Quante sillabe ha 'simba'? / 'Simba' ina silabi ngapi?", display: "simba", options: ["2 (sim-ba)", "3 (si-m-ba)", "3 (sim-b-a)", "2 (si-mba)"], correct: "2 (sim-ba)", explanation: "✅ Corretto! Si-mba (2 sillabe). Ogni vocale = una sillaba. / Sahihi! Si-mba (silabi 2). Kila irabu = silabi moja.", errorExplanation: "❌ 'Simba' ha 2 sillabe: sim-ba. / 'Simba' ina silabi 2: sim-ba."},
+            {id: 30, type: 'choice', question: "Quante sillabe ha 'rafiki'? / 'Rafiki' ina silabi ngapi?", display: "rafiki", options: ["3 (ra-fi-ki)", "2 (rafi-ki)", "4 (r-a-f-i-k-i)", "3 (raf-i-ki)"], correct: "3 (ra-fi-ki)", explanation: "✅ Corretto! Ra-fi-ki (3 sillabe). / Sahihi! Ra-fi-ki (silabi 3).", errorExplanation: "❌ 'Rafiki' ha 3 sillabe: ra-fi-ki. / 'Rafiki' ina silabi 3: ra-fi-ki."},
+            {id: 31, type: 'choice', question: "Come si pronuncia 'embe'? / Je, 'embe' inatamkwa vipi?", display: "embe", options: ["em-be", "am-be", "em-bhe", "am-bhe"], correct: "em-be", explanation: "✅ Corretto! E si pronuncia /e/ come in 'bene'. / Sahihi! E inatamkwa kama /e/ ya Kiitaliano.", errorExplanation: "❌ E = /e/ come in 'bene': em-be. / E = /e/ kama ya Kiitaliano."},
+            {id: 32, type: 'choice', question: "Come si pronuncia 'maji'? / Je, 'maji' inatamkwa vipi?", display: "maji", options: ["ma-ji", "ma-yi", "ma-gi", "ma-i"], correct: "ma-ji", explanation: "✅ Corretto! J si pronuncia /dʒ/ come 'j' in 'jeep'. / Sahihi! J inatamkwa /dʒ/.", errorExplanation: "❌ J = /dʒ/ come in 'jeep': ma-ji. / J = /dʒ/ kama 'j' ya Kiingereza."},
+            {id: 33, type: 'choice', question: "Come si pronuncia 'wewe'? / Je, 'wewe' inatamkwa vipi?", display: "wewe", options: ["we-we", "ve-ve", "ue-ue", "we-ve"], correct: "we-we", explanation: "✅ Corretto! W si pronuncia /w/ come in inglese 'water'. / Sahihi! W inatamkwa /w/ kama Kiingereza.", errorExplanation: "❌ W = /w/ come in 'water': we-we. / W = /w/ kama 'water' ya Kiingereza."},
+            {id: 34, type: 'choice', question: "Come si pronuncia 'yeye'? / Je, 'yeye' inatamkwa vipi?", display: "yeye", options: ["ye-ye", "je-je", "ie-ie", "e-ye"], correct: "ye-ye", explanation: "✅ Corretto! Y si pronuncia /j/ come 'y' in 'yacht'. / Sahihi! Y inatamkwa /j/ kama 'yacht'.", errorExplanation: "❌ Y = /j/ come in 'yacht': ye-ye. / Y = /j/ kama 'yacht'."},
+            {id: 35, type: 'choice', question: "Come si pronuncia 'nzuri'? / Je, 'nzuri' inatamkwa vipi?", display: "nzuri", options: ["n-zu-ri", "nz-u-ri", "n-zu-li", "nz-u-li"], correct: "n-zu-ri", explanation: "✅ Corretto! N iniziale è sillaba separata: n-zu-ri. / Sahihi! N ya mwanzo ni silabi pekee.", errorExplanation: "❌ N iniziale = sillaba separata: n-zu-ri. / N ya mwanzo = silabi pekee."},
+
+            // === ESERCIZI 36-45: Sillabazione e struttura ===
+            {id: 36, type: 'choice', question: "Quante sillabe ha 'mtoto'? / 'Mtoto' ina silabi ngapi?", display: "mtoto", options: ["3 (m-to-to)", "2 (mto-to)", "4 (m-t-o-t-o)", "2 (mt-oto)"], correct: "3 (m-to-to)", explanation: "✅ Corretto! M-to-to (3 sillabe). / Sahihi! M-to-to (silabi 3).", errorExplanation: "❌ 'Mtoto' = m-to-to (3 sillabe). / 'Mtoto' = m-to-to (silabi 3)."},
+            {id: 37, type: 'choice', question: "Quante sillabe ha 'watoto'? / 'Watoto' ina silabi ngapi?", display: "watoto", options: ["3 (wa-to-to)", "4 (w-a-t-o-t-o)", "2 (wato-to)", "2 (wa-toto)"], correct: "3 (wa-to-to)", explanation: "✅ Corretto! Wa-to-to (3 sillabe). / Sahihi! Wa-to-to (silabi 3).", errorExplanation: "❌ 'Watoto' = wa-to-to (3 sillabe). / 'Watoto' = wa-to-to (silabi 3)."},
+            {id: 38, type: 'choice', question: "Quante sillabe ha 'mnyama'? / 'Mnyama' ina silabi ngapi?", display: "mnyama", options: ["3 (mnya-ma)", "3 (m-nya-ma)", "4 (m-n-y-a-m-a)", "2 (mnyama)"], correct: "3 (m-nya-ma)", explanation: "✅ Corretto! M-nya-ma (3 sillabe). NY è una consonante. / Sahihi! M-nya-ma (silabi 3). NY ni konsonanti.", errorExplanation: "❌ NY = una consonante: m-nya-ma (3 sillabe). / NY = konsonanti moja: m-nya-ma."},
+            {id: 39, type: 'choice', question: "Quante sillabe ha 'ngoma'? / 'Ngoma' ina silabi ngapi?", display: "ngoma", options: ["2 (ngo-ma)", "3 (n-go-ma)", "3 (ng-o-ma)", "2 (ngoma)"], correct: "2 (ngo-ma)", explanation: "✅ Corretto! Ngo-ma (2 sillabe). NG iniziale non è separata. / Sahihi! Ngo-ma (silabi 2). NG ya mwanzo si tofauti.", errorExplanation: "❌ NG iniziale = unita: ngo-ma (2 sillabe). / NG ya mwanzo = pamoja: ngo-ma."},
+            {id: 40, type: 'choice', question: "Quante sillabe ha 'ng'ombe'? / 'Ng'ombe' ina silabi ngapi?", display: "ng'ombe", options: ["2 (ng'om-be)", "3 (n-g'om-be)", "3 (ng'-o-m-be)", "2 (ng'o-mbe)"], correct: "2 (ng'om-be)", explanation: "✅ Corretto! NG' è una consonante unica: ng'om-be (2 sillabe). / Sahihi! NG' ni konsonanti moja: ng'om-be.", errorExplanation: "❌ NG' = consonante unica: ng'om-be (2 sillabe). / NG' = konsonanti moja."},
+            {id: 41, type: 'choice', question: "Dividi in sillabe: 'kisu' / Gawanya silabi: 'kisu'", display: "kisu", options: ["ki-su", "kis-u", "k-i-s-u", "ki-s-u"], correct: "ki-su", explanation: "✅ Corretto! Ki-su (2 sillabe). / Sahihi! Ki-su (silabi 2).", errorExplanation: "❌ 'Kisu' = ki-su (2 sillabe). / 'Kisu' = ki-su."},
+            {id: 42, type: 'choice', question: "Dividi in sillabe: 'paka' / Gawanya silabi: 'paka'", display: "paka", options: ["pa-ka", "pak-a", "p-a-k-a", "pa-k-a"], correct: "pa-ka", explanation: "✅ Corretto! Pa-ka (2 sillabe). / Sahihi! Pa-ka (silabi 2).", errorExplanation: "❌ 'Paka' = pa-ka (2 sillabe). / 'Paka' = pa-ka."},
+            {id: 43, type: 'choice', question: "Dividi in sillabe: 'mbuzi' / Gawanya silabi: 'mbuzi'", display: "mbuzi", options: ["m-bu-zi", "mbu-zi", "mb-u-zi", "m-bu-z-i"], correct: "m-bu-zi", explanation: "✅ Corretto! M-bu-zi (3 sillabe). M iniziale è separata. / Sahihi! M-bu-zi (silabi 3). M ya mwanzo ni tofauti.", errorExplanation: "❌ M iniziale = sillaba separata: m-bu-zi. / M ya mwanzo = silabi pekee."},
+            {id: 44, type: 'choice', question: "Dividi in sillabe: 'ndizi' / Gawanya silabi: 'ndizi'", display: "ndizi", options: ["n-di-zi", "ndi-zi", "nd-i-zi", "n-di-z-i"], correct: "n-di-zi", explanation: "✅ Corretto! N-di-zi (3 sillabe). / Sahihi! N-di-zi (silabi 3).", errorExplanation: "❌ N iniziale = sillaba separata: n-di-zi. / N ya mwanzo = silabi pekee."},
+            {id: 45, type: 'choice', question: "Dividi in sillabe: 'nyota' / Gawanya silabi: 'nyota'", display: "nyota", options: ["nyo-ta", "n-yo-ta", "ny-o-ta", "n-y-o-ta"], correct: "nyo-ta", explanation: "✅ Corretto! Nyo-ta (2 sillabe). NY è una consonante. / Sahihi! Nyo-ta (silabi 2). NY ni konsonanti moja.", errorExplanation: "❌ NY = consonante unica: nyo-ta. / NY = konsonanti moja."},
+
+            // === ESERCIZI 46-50: Conoscenze generali ===
+            {id: 46, type: 'choice', question: "Quante lettere ha l'alfabeto swahili? / Herufi za Kiswahili ni ngapi?", display: "?", options: ["24", "26", "22", "28"], correct: "24", explanation: "✅ Corretto! L'alfabeto swahili ha 24 lettere (manca Q e X). / Sahihi! Herufi za Kiswahili ni 24 (hakuna Q na X).", errorExplanation: "❌ L'alfabeto swahili ha 24 lettere (senza Q e X). / Herufi za Kiswahili ni 24 (bila Q na X)."},
+            {id: 47, type: 'choice', question: "Quali lettere NON esistono in swahili? / Ni herufi zipi zisizopo katika Kiswahili?", display: "?", options: ["Q e X", "J e Y", "C e S", "V e Z"], correct: "Q e X", explanation: "✅ Corretto! Il swahili non usa Q e X. / Sahihi! Kiswahili hakitumii Q na X.", errorExplanation: "❌ Il swahili non ha Q e X. / Kiswahili hakina Q na X."},
+            {id: 48, type: 'choice', question: "Come si chiama 'alfabeto' in swahili? / 'Alfabeto' inaitwaje kwa Kiswahili?", display: "?", options: ["Herufi", "Konsonanti", "Vokali", "Silabi"], correct: "Herufi", explanation: "✅ Corretto! 'Herufi' = lettere/alfabeto in swahili. / Sahihi! 'Herufi' = letters/alphabet.", errorExplanation: "❌ 'Herufi' = alfabeto/lettere in swahili. / 'Herufi' = alfabeto/lettere."},
+            {id: 49, type: 'choice', question: "Cosa significa 'vokali'? / 'Vokali' inamaanisha nini?", display: "?", options: ["Vocali", "Consonanti", "Sillabe", "Lettere"], correct: "Vocali", explanation: "✅ Corretto! 'Vokali' = vocali (A, E, I, O, U). / Sahihi! 'Vokali' = vowels.", errorExplanation: "❌ 'Vokali' = vocali. / 'Vokali' = vocali."},
+            {id: 50, type: 'choice', question: "Cosa significa 'konsonanti'? / 'Konsonanti' inamaanisha nini?", display: "?", options: ["Consonanti", "Vocali", "Sillabe", "Parole"], correct: "Consonanti", explanation: "✅ Corretto! 'Konsonanti' = consonanti. / Sahihi! 'Konsonanti' = consonants.", errorExplanation: "❌ 'Konsonanti' = consonanti. / 'Konsonanti' = consonants."}
+        ];
+
+        let currentExercise = 0;
+        let score = 0;
+        let answered = false;
+
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            if (sectionId === 'exercises') {
+                loadExercise();
+            }
+        }
+
+        function showLang(langId, btn) {
+            document.querySelectorAll('.lang-content').forEach(l => l.classList.remove('active'));
+            document.getElementById('lang-' + langId).classList.add('active');
+            
+            document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function loadExercise() {
+            if (currentExercise >= exercises.length) {
+                showFinalScore();
+                return;
+            }
+
+            const ex = exercises[currentExercise];
+            const container = document.getElementById('exerciseContainer');
+            
+            let html = `
+                <div class="question-box">
+                    <div class="exercise-counter">Esercizio ${ex.id} / Zoezi ${ex.id} di 50</div>
+                    <div class="question-text">${ex.question}</div>
+                    ${ex.display !== "?" ? `<div class="swahili-text">${ex.display}</div>` : ''}
+                </div>
+                <div class="options-grid">
+            `;
+
+            ex.options.forEach((opt, idx) => {
+                html += `<button class="option-btn" onclick="checkAnswer('${opt}', this)" id="btn-${idx}">${opt}</button>`;
+            });
+
+            html += `</div>
+                <div class="feedback" id="feedback"></div>
+                <div class="text-center">
+                    <button class="btn-primary" onclick="nextExercise()" id="nextBtn" style="display: none;">
+                        ${currentExercise === exercises.length - 1 ? '🏆 Maliza / Termina' : '➡️ Lijacho / Prossimo'}
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+            answered = false;
+            updateProgress();
+        }
+
+        function checkAnswer(selected, btnElement) {
+            if (answered) return;
+            answered = true;
+
+            const ex = exercises[currentExercise];
+            const feedback = document.getElementById('feedback');
+            const isCorrect = selected === ex.correct;
+
+            // Disabilita tutti i bottoni
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                if (b.textContent === ex.correct) {
+                    b.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score += 1;
+                btnElement.classList.add('correct');
+                feedback.className = 'feedback show correct';
+                function checkAnswer(selected, btnElement) {
+    if (answered) return;
+    answered = true;
+
+    const ex = exercises[currentExercise];
+    const feedback = document.getElementById('feedback');
+    const isCorrect = selected === ex.correct;
+
+    // Disabilita tutti i bottoni
+    document.querySelectorAll('.option-btn').forEach(b => {
+        b.disabled = true;
+        if (b.textContent === ex.correct) {
+            b.classList.add('correct');
+        }
+    });
+
+    if (isCorrect) {
+        score += 1;
+        btnElement.classList.add('correct');
+        feedback.className = 'feedback show correct';
+        feedback.innerHTML = ex.explanation;
+    } else {
+        btnElement.classList.add('wrong');
+        feedback.className = 'feedback show wrong';
+        feedback.innerHTML = ex.errorExplanation;
+    }
+
+    document.getElementById('currentScore').textContent = score + ' / 50';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+}
+            } else {
+                btnElement.classList.add('wrong');
+                feedback.className = 'feedback show wrong';
+                feedback.innerHTML = ex.errorExplanation;
+            }
+
+            document.getElementById('currentScore').textContent = score + ' / 50';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextExercise() {
+            currentExercise++;
+            if (currentExercise >= exercises.length) {
+                showFinalScore();
+            } else {
+                loadExercise();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentExercise) / exercises.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('exerciseCounter').textContent = (currentExercise + 1) + ' / 50';
+        }
+
+        function showFinalScore() {
+            document.getElementById('exerciseContainer').style.display = 'none';
+            document.querySelector('.score-panel').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            
+            const finalSection = document.getElementById('finalScoreSection');
+            finalSection.classList.add('show');
+            
+            const finalScore = document.getElementById('finalScore');
+            finalScore.textContent = score + '/50';
+            
+            const finalMessage = document.getElementById('finalMessage');
+            const percentage = (score / 50) * 100;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🌟 Uzuri sana! / Ottimo lavoro! Hai padroneggiato l\'alfabeto swahili!';
+            } else if (percentage >= 70) {
+                message = '👍 Vizuri! / Buon lavoro! Conosci bene le basi dell\'alfabeto.';
+            } else if (percentage >= 60) {
+                message = '✅ Inafaa / Sufficiente! Continua a esercitarti per migliorare.';
+            } else {
+                message = '📚 Jifunze zaidi / Studia di più! Ripassa la teoria e riprova.';
+            }
+            
+            finalMessage.textContent = message;
+        }
+
+        function restartExercises() {
+            currentExercise = 0;
+            score = 0;
+            answered = false;
+            
+            document.getElementById('exerciseContainer').style.display = 'block';
+            document.querySelector('.score-panel').style.display = 'flex';
+            document.querySelector('.progress-bar').style.display = 'block';
+            document.getElementById('finalScoreSection').classList.remove('show');
+            
+            document.getElementById('currentScore').textContent = '0 / 50';
+            document.getElementById('studentName').value = '';
+            document.getElementById('emailStatus').textContent = '';
+            
+            loadExercise();
+        }
+
+        function sendResults() {
+            const name = document.getElementById('studentName').value.trim();
+            const status = document.getElementById('emailStatus');
+            
+            if (!name) {
+                status.textContent = '⚠️ Tafadhali andika jina lako / Per favore inserisci il tuo nome';
+                status.style.color = 'var(--error)';
+                return;
+            }
+            
+            const percentage = (score / 50) * 100;
+            let grade = '';
+            if (percentage >= 90) grade = 'A (Uzuri sana / Ottimo)';
+            else if (percentage >= 80) grade = 'B (Vizuri / Buono)';
+            else if (percentage >= 70) grade = 'C (Wastani / Discreto)';
+            else if (percentage >= 60) grade = 'D (Inafaa / Sufficiente)';
+            else grade = 'F (Hajafaulu / Insufficiente)';
+            
+            const subject = encodeURIComponent(`Swahili A1 - Risultati Esercizi Alfabeto - ${name}`);
+            const body = encodeURIComponent(
+                `Jina la mwanafunzi / Nome studente: ${name}\n\n` +
+                `Tarehe / Data: ${new Date().toLocaleDateString('it-IT')}\n\n` +
+                `Punteggio / Punteggio: ${score}/50 (${percentage}%)\n` +
+                `Daraja / Voto: ${grade}\n\n` +
+                `Maoni / Commenti:\n` +
+                `${document.getElementById('finalMessage').textContent}\n\n` +
+                `---\n` +
+                `Kozi ya Swahili A1 - Alfabeti na Matamshi\n` +
+                `Corso di Swahili A1 - Alfabeto e Pronuncia\n` +
+                `InfoNefil Education`
+            );
+            
+            window.location.href = `mailto:infonefelieducation@gmail.com?subject=${subject}&body=${body}`;
+            
+            status.textContent = '✅ Barua pepe imefunguliwa / Email aperta nel tuo client di posta';
+            status.style.color = 'var(--success)';
+        }
+
+        // Inizializza
+        document.addEventListener('DOMContentLoaded', function() {
+            // Se siamo nella sezione esercizi, carica il primo
+            if (document.getElementById('exercises').classList.contains('active')) {
+                loadExercise();
+            }
+        });
+    </script>
+</body>
+</html>

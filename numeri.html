@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numeri in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #1A659E;
+            --bg-warm: #F7F5F0;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 78, 137, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-number {
+            background: linear-gradient(135deg, var(--primary), #FF8C61);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #FF8C61);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .number-grid-item {
+            transition: all 0.2s ease;
+        }
+        
+        .number-grid-item:hover {
+            background-color: rgba(255, 107, 53, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    S
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-orange-600">Numbers</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-orange-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-orange-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-orange-500 to-red-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-orange-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Numeri in Swahili</h2>
+                <p class="text-xl text-gray-600 mb-2">Swahili Numbers</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Il sistema numerico swahili è basato sulle radici bantu e utilizza un sistema decimale (base 10) simile all'italiano. I numeri da 1 a 10 sono parole distinte, mentre i numeri superiori seguono pattern regolari basati sulla combinazione di queste radici.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Nota: Il swahili è una lingua agglutinante, il che significa che i numeri si "incollano" tra loro per formare cifre più grandi.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-blue-600">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The Swahili number system is based on Bantu roots and uses a decimal system (base 10) similar to English. Numbers 1-10 are distinct words, while higher numbers follow regular patterns based on combining these roots.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Note: Swahili is an agglutinative language, meaning numbers "stick" together to form larger digits.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Numbers 1-10 -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">1 - 10 (Moja - Kumi)</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">1</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">moja</div>
+                        <div class="text-xs text-gray-500">uno / one</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">2</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">mbili</div>
+                        <div class="text-xs text-gray-500">due / two</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">3</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">tatu</div>
+                        <div class="text-xs text-gray-500">tre / three</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">4</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">nne</div>
+                        <div class="text-xs text-gray-500">quattro / four</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">5</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">tano</div>
+                        <div class="text-xs text-gray-500">cinque / five</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">6</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">sita</div>
+                        <div class="text-xs text-gray-500">sei / six</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">7</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">saba</div>
+                        <div class="text-xs text-gray-500">sette / seven</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">8</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">nane</div>
+                        <div class="text-xs text-gray-500">otto / eight</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">9</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">tisa</div>
+                        <div class="text-xs text-gray-500">nove / nine</div>
+                    </div>
+                    <div class="number-grid-item bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100">
+                        <div class="text-3xl font-bold text-gray-400 mb-2">10</div>
+                        <div class="text-2xl font-bold swahili-number mb-1">kumi</div>
+                        <div class="text-xs text-gray-500">dieci / ten</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tens -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-4 text-center">Le Decine / The Tens</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+                    <span class="italic">Per formare le decine, si aggiunge il prefisso "ma" alla radice del numero e si unisce a "kumi" (dieci).</span><br>
+                    <span class="italic text-sm">To form tens, add the prefix "ma" to the number root and combine with "kumi" (ten).</span>
+                </p>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-orange-600 mb-2">20</div>
+                        <div class="text-2xl font-bold mb-1">ishirini</div>
+                        <div class="text-sm text-gray-600">ma + mbili + kumi → ishirini</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-blue-600 mb-2">30</div>
+                        <div class="text-2xl font-bold mb-1">thelathini</div>
+                        <div class="text-sm text-gray-600">ma + tatu + kumi → thelathini</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-purple-600 mb-2">40</div>
+                        <div class="text-2xl font-bold mb-1">arobaini</div>
+                        <div class="text-sm text-gray-600">ma + nne + kumi → arobaini</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-green-600 mb-2">50</div>
+                        <div class="text-2xl font-bold mb-1">hamsini</div>
+                        <div class="text-sm text-gray-600">ma + tano + kumi → hamsini</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-red-600 mb-2">100</div>
+                        <div class="text-2xl font-bold mb-1">mia moja</div>
+                        <div class="text-sm text-gray-600">mia = cento / hundred</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-bold text-yellow-600 mb-2">1000</div>
+                        <div class="text-2xl font-bold mb-1">elfu moja</div>
+                        <div class="text-sm text-gray-600">elfu = mille / thousand</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rules -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm">1</span>
+                        Numeri 11-19
+                    </h4>
+                    <p class="text-gray-700 mb-2"><strong>IT:</strong> kumi na + numero (es. 11 = kumi na moja)</p>
+                    <p class="text-gray-700"><strong>EN:</strong> ten and + number (e.g., 11 = kumi na moja)</p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm">2</span>
+                        Numeri 21-99
+                    </h4>
+                    <p class="text-gray-700 mb-2"><strong>IT:</strong> decina + na + unità (es. 21 = ishirini na moja)</p>
+                    <p class="text-gray-700"><strong>EN:</strong> ten + and + unit (e.g., 21 = ishirini na moja)</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi di Completamento</h2>
+                <p class="text-gray-600">Complete the sentences with the correct Swahili numbers</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <!-- Exercises will be injected here by JavaScript -->
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-orange-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-orange-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-orange-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises
+        const exercises = [
+            { id: 1, text: "Nina _____ mkono. (I have 2 hands)", answer: "mbili", hint: "2" },
+            { id: 2, text: "Wiki ina _____ siku. (The week has 7 days)", answer: "saba", hint: "7" },
+            { id: 3, text: "Mwezi wa Januari ana _____ siku. (January has 31 days)", answer: "thelathini na moja", hint: "31" },
+            { id: 4, text: "Kuna _____ mwezi katika mwaka. (There are 12 months in a year)", answer: "kumi na mbili", hint: "12" },
+            { id: 5, text: "Nina _____ ndugu. (I have 5 siblings)", answer: "tano", hint: "5" },
+            { id: 6, text: "Kikapu kina _____ maembe. (The basket has 8 mangoes)", answer: "nane", hint: "8" },
+            { id: 7, text: "Nunua _____ vitabu. (Buy 10 books)", answer: "kumi", hint: "10" },
+            { id: 8, text: "Saa ina _____ dakika. (An hour has 60 minutes)", answer: "sitini", hint: "60" },
+            { id: 9, text: "Nina _____ miaka. (I am 15 years old)", answer: "kumi na tano", hint: "15" },
+            { id: 10, text: "Kuna _____ wageni. (There are 20 guests)", answer: "ishirini", hint: "20" },
+            { id: 11, text: "Nina _____ shilingi. (I have 50 shillings)", answer: "hamsini", hint: "50" },
+            { id: 12, text: "Darasa lina _____ wanafunzi. (The class has 25 students)", answer: "ishirini na tano", hint: "25" },
+            { id: 13, text: "Nina _____ viti. (I have 4 chairs)", answer: "nne", hint: "4" },
+            { id: 14, text: "Kuna _____ matawi. (There are 3 branches)", answer: "tatu", hint: "3" },
+            { id: 15, text: "Nimekunja _____ sentimita. (I am 180 cm tall)", answer: "mia moja na themanini", hint: "180" },
+            { id: 16, text: "Nina _____ paka. (I have 1 cat)", answer: "moja", hint: "1" },
+            { id: 17, text: "Kuna _____ magari. (There are 6 cars)", answer: "sita", hint: "6" },
+            { id: 18, text: "Nina _____ maembe. (I have 9 mangoes)", answer: "tisa", hint: "9" },
+            { id: 19, text: "Mti una _____ matawi. (The tree has 14 branches)", answer: "kumi na nne", hint: "14" },
+            { id: 20, text: "Nina _____ senti. (I have 30 cents)", answer: "thelathini", hint: "30" },
+            { id: 21, text: "Kuna _____ watu. (There are 100 people)", answer: "mia moja", hint: "100" },
+            { id: 22, text: "Nina _____ dola. (I have 40 dollars)", answer: "arobaini", hint: "40" },
+            { id: 23, text: "Wiki moja na _____ siku. (One week and 3 days)", answer: "tatu", hint: "3" },
+            { id: 24, text: "Nina _____ vitu vya kufanya. (I have 11 things to do)", answer: "kumi na moja", hint: "11" },
+            { id: 25, text: "Kuna _____ dirisha. (There are 16 windows)", answer: "kumi na sita", hint: "16" },
+            { id: 26, text: "Nina _____ punde. (I have 23 minutes)", answer: "ishirini na tatu", hint: "23" },
+            { id: 27, text: "Mlango wa _____ namba. (Door number 13)", answer: "kumi na tatu", hint: "13" },
+            { id: 28, text: "Nina _____ ndizi. (I have 17 bananas)", answer: "kumi na saba", hint: "17" },
+            { id: 29, text: "Kuna _____ mizigo. (There are 35 bags)", answer: "thelathini na tano", hint: "35" },
+            { id: 30, text: "Nina _____ vitabu vya kiswahili. (I have 42 Swahili books)", answer: "arobaini na mbili", hint: "42" },
+            { id: 31, text: "Siku _____ za mwezi. (The 28th day of the month)", answer: "ishirini na nane", hint: "28" },
+            { id: 32, text: "Nina _____ shilingi za kitanzania. (I have 99 Tanzanian shillings)", answer: "tisini na tisa", hint: "99" },
+            { id: 33, text: "Kuna _____ maduka. (There are 55 shops)", answer: "hamsini na tano", hint: "55" },
+            { id: 34, text: "Nina _____ wageni wa kike. (I have 33 female guests)", answer: "thelathini na tatu", hint: "33" },
+            { id: 35, text: "Mchezo una _____ dakika. (The game has 90 minutes)", answer: "tisini", hint: "90" },
+            { id: 36, text: "Nina _____ euro. (I have 75 euros)", answer: "sabini na tano", hint: "75" },
+            { id: 37, text: "Kuna _____ vichwa. (There are 48 heads)", answer: "arobaini na nane", hint: "48" },
+            { id: 38, text: "Nina _____ pesa. (I have 66 shillings)", answer: "sitini na sita", hint: "66" },
+            { id: 39, text: "Mji una _____ wakazi. (The city has 2000 inhabitants)", answer: "elfu mbili", hint: "2000" },
+            { id: 40, text: "Nina _____ sentimita za urefu. (I have 150 cm height)", answer: "mia moja na hamsini", hint: "150" },
+            { id: 41, text: "Kuna _____ nyumba. (There are 44 houses)", answer: "arobaini na nne", hint: "44" },
+            { id: 42, text: "Nina _____ mada za kujifunza. (I have 19 topics to learn)", answer: "kumi na tisa", hint: "19" },
+            { id: 43, text: "Siku ya _____ ya mwezi. (The 22nd day of the month)", answer: "ishirini na mbili", hint: "22" },
+            { id: 44, text: "Nina _____ maandiko. (I have 38 documents)", answer: "thelathini na nane", hint: "38" },
+            { id: 45, text: "Kuna _____ vikombe. (There are 64 cups)", answer: "sitini na nne", hint: "64" },
+            { id: 46, text: "Nina _____ noti. (I have 77 notes)", answer: "sabini na saba", hint: "77" },
+            { id: 47, text: "Mwezi wa Disemba ana _____ siku. (December has 31 days)", answer: "thelathini na moja", hint: "31" },
+            { id: 48, text: "Nina _____ marafiki. (I have 29 friends)", answer: "ishirini na tisa", hint: "29" },
+            { id: 49, text: "Kuna _____ matawi ya mti. (There are 87 tree branches)", answer: "themmanini na saba", hint: "87" },
+            { id: 50, text: "Nina _____ pesa za kutosha. (I have 1000 enough money)", answer: "elfu moja", hint: "1000" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        // Initialize exercises
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex, index) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-orange-600 min-w-[120px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-orange-600 hover:text-orange-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    Numero: ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            // Clamp score between 0 and 100
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score)); // Min 60, Max 100
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+            
+            // Auto-fill email subject suggestion
+            const emailSubject = `Swahili Numbers Test - Score: ${clampedScore}/100`;
+            console.log('Email subject:', emailSubject);
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

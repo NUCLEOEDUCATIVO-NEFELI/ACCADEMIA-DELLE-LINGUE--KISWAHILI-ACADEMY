@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggettivi in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e11d48;
+            --secondary: #f97316;
+            --accent: #8b5cf6;
+            --bg-warm: #fff1f2;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(225, 29, 72, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-adj {
+            background: linear-gradient(135deg, var(--primary), #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #fb7185);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(225, 29, 72, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .adj-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .adj-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .adj-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .agreement-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .agreement-box::after {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary), #fb7185);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: #fff5f5;
+        }
+        
+        .degree-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .degree-positive { background: #d1fae5; color: #065f46; }
+        .degree-comparative { background: #dbeafe; color: #1e40af; }
+        .degree-superlative { background: #fce7f3; color: #9d174d; }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .prefix-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .prefix-box {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .prefix-arrow {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-rose-500 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    A
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-rose-600">Adjectives</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-rose-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-rose-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-rose-500 to-orange-500 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-rose-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Aggettivi</h2>
+                <p class="text-xl text-gray-600 mb-2">Adjectives in Swahili</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-rose-500 to-orange-500 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-rose-500">
+                    <h3 class="text-2xl font-bold mb-4 text-rose-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Gli aggettivi swahili seguono il <strong>sostantivo</strong> e devono <strong>concordare</strong> con esso in classe nominale. A differenza dell'italiano, non sono invariabili: prendono il prefisso della classe del nome che descrivono.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Regola d'oro: Nome + Aggettivo concordato
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Swahili adjectives <strong>follow</strong> the noun and must <strong>agree</strong> with it in noun class. Unlike English, they are not invariable: they take the prefix of the class of the noun they describe.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Golden rule: Noun + Concordant Adjective
+                    </p>
+                </div>
+            </div>
+
+            <!-- Agreement Warning -->
+            <div class="agreement-box mb-12 max-w-3xl mx-auto">
+                <h4 class="text-xl font-bold mb-3 text-amber-800">Concordanza / Agreement</h4>
+                <p class="text-gray-700 mb-4">
+                    <strong>IT:</strong> L'aggettivo prende lo stesso prefisso del sostantivo. Se il nome è <em>mtoto</em> (bambino, classe 1), l'aggettivo inizierà con <em>m-</em>.
+                </p>
+                <p class="text-gray-700">
+                    <strong>EN:</strong> The adjective takes the same prefix as the noun. If the noun is <em>mtoto</em> (child, class 1), the adjective will begin with <em>m-</em>.
+                </p>
+                <div class="mt-4 bg-white p-3 rounded-lg font-mono text-center">
+                    mtoto <span class="text-rose-600 font-bold">mzuri</span> = bel bambino / beautiful child
+                </div>
+            </div>
+
+            <!-- Common Adjectives by Category -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Aggettivi Comuni / Common Adjectives</h3>
+                <p class="text-center text-gray-600 mb-8">Forma base (classe 1/2) - Base form (class 1/2)</p>
+                
+                <div class="grid md:grid-cols-4 gap-4">
+                    <!-- Qualità -->
+                    <div class="adj-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="text-xs font-bold text-gray-400 uppercase mb-2">Qualità / Quality</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-zuri</span>
+                                <span class="text-sm text-gray-600">bello/good</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-baya</span>
+                                <span class="text-sm text-gray-600">cattivo/bad</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-pya</span>
+                                <span class="text-sm text-gray-600">nuovo/new</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-zee</span>
+                                <span class="text-sm text-gray-600">vecchio/old</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimensioni -->
+                    <div class="adj-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="text-xs font-bold text-gray-400 uppercase mb-2">Dimensioni / Size</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-kubwa</span>
+                                <span class="text-sm text-gray-600">grande/big</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-dogo</span>
+                                <span class="text-sm text-gray-600">piccolo/small</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-refu</span>
+                                <span class="text-sm text-gray-600">lungo/tall</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-fupi</span>
+                                <span class="text-sm text-gray-600">corto/short</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colori -->
+                    <div class="adj-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="text-xs font-bold text-gray-400 uppercase mb-2">Colori / Colors</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold swahili-adj">-eupe</span>
+                                <span class="color-dot bg-white"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold swahili-adj">-eusi</span>
+                                <span class="color-dot bg-black"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold swahili-adj">-ekundu</span>
+                                <span class="color-dot bg-red-600"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold swahili-adj">-eusi</span>
+                                <span class="color-dot bg-blue-600"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stato -->
+                    <div class="adj-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="text-xs font-bold text-gray-400 uppercase mb-2">Stato / State</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-zima</span>
+                                <span class="text-sm text-gray-600">sano/healthy</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-gonjwa</span>
+                                <span class="text-sm text-gray-600">ammalato/sick</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-chache</span>
+                                <span class="text-sm text-gray-600">poco/few</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-bold swahili-adj">-ingi</span>
+                                <span class="text-sm text-gray-600">molto/many</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agreement by Class -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-6 text-center">Concordanza per Classe / Agreement by Class</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="comparison-table rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Classe / Class</th>
+                                <th>Esempio Nome / Noun Example</th>
+                                <th>Aggettivo -zuri / Adj. -zuri</th>
+                                <th>Traduzione / Translation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold text-rose-600">1 (m-/mw-)</td>
+                                <td>mtoto</td>
+                                <td class="font-mono font-bold">m<span class="text-rose-600">zuri</span></td>
+                                <td>bel bambino</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-rose-600">2 (wa-)</td>
+                                <td>watoto</td>
+                                <td class="font-mono font-bold">wa<span class="text-rose-600">zuri</span></td>
+                                <td>bei bambini</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-blue-600">3 (m-/mw-)</td>
+                                <td>mti</td>
+                                <td class="font-mono font-bold">m<span class="text-blue-600">zuri</span></td>
+                                <td>bel albero</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-blue-600">4 (mi-)</td>
+                                <td>miti</td>
+                                <td class="font-mono font-bold">mi<span class="text-blue-600">zuri</span></td>
+                                <td>bei alberi</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-green-600">5 (ji-/Ø)</td>
+                                <td>tunda</td>
+                                <td class="font-mono font-bold">li<span class="text-green-600">zuri</span></td>
+                                <td>bel frutto</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-green-600">6 (ma-)</td>
+                                <td>matunda</td>
+                                <td class="font-mono font-bold">ma<span class="text-green-600">zuri</span></td>
+                                <td>bei frutti</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-purple-600">7 (ki-)</td>
+                                <td>kitu</td>
+                                <td class="font-mono font-bold">ki<span class="text-purple-600">zuri</span></td>
+                                <td>bella cosa</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-purple-600">8 (vi-)</td>
+                                <td>vitu</td>
+                                <td class="font-mono font-bold">vi<span class="text-purple-600">zuri</span></td>
+                                <td>belle cose</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-amber-600">9 (n-/Ø)</td>
+                                <td>nyumba</td>
+                                <td class="font-mono font-bold">n<span class="text-amber-600">zuri</span></td>
+                                <td>bella casa</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-amber-600">10 (n-/Ø)</td>
+                                <td>nyumba</td>
+                                <td class="font-mono font-bold">n<span class="text-amber-600">zuri</span></td>
+                                <td>belle case</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Degrees of Comparison -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-rose-600">Gradi di Comparazione</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="degree-badge degree-positive">Positivo</span>
+                                <span class="text-sm text-gray-500">Base form</span>
+                            </div>
+                            <div class="font-mono text-lg">mzuri</div>
+                            <div class="text-sm text-gray-600">bello / beautiful</div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="degree-badge degree-comparative">Comparativo</span>
+                                <span class="text-sm text-gray-500">-zaidi (more)</span>
+                            </div>
+                            <div class="font-mono text-lg">mzuri <span class="text-blue-600 font-bold">zaidi</span></div>
+                            <div class="text-sm text-gray-600">più bello / more beautiful</div>
+                        </div>
+                        
+                        <div class="bg-pink-50 p-4 rounded-lg border-l-4 border-pink-500">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="degree-badge degree-superlative">Superlativo</span>
+                                <span class="text-sm text-gray-500">-zaidi + -ofu</span>
+                            </div>
+                            <div class="font-mono text-lg">mzuri zaidi <span class="text-pink-600 font-bold">kuliko</span></div>
+                            <div class="text-sm text-gray-600">il più bello / most beautiful</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h4 class="text-xl font-bold mb-4 text-orange-600">Comparazione con "Kama"</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="example-sentence border-l-rose-500">
+                            <div class="font-mono mb-1">A ni mzuri <span class="text-rose-600 font-bold">kama</span> B</div>
+                            <div class="text-sm text-gray-600">A è bello come B / A is as beautiful as B</div>
+                        </div>
+                        
+                        <div class="example-sentence border-l-blue-500">
+                            <div class="font-mono mb-1">A ni mkubwa <span class="text-blue-600 font-bold">kuliko</span> B</div>
+                            <div class="text-sm text-gray-600">A è più grande di B / A is bigger than B</div>
+                        </div>
+                        
+                        <div class="example-sentence border-l-purple-500">
+                            <div class="font-mono mb-1">A ni mdogo <span class="text-purple-600 font-bold">zaidi</span></div>
+                            <div class="text-sm text-gray-600">A è molto piccolo / A is very small</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-amber-50 rounded-lg text-sm text-amber-800">
+                        <strong>Nota:</strong> "Zaidi" segue l'aggettivo, mentre "kuliko" introduce il termine di paragone.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demonstrative Adjectives -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-2xl font-bold mb-6 text-center">Aggettivi Dimostrativi / Demonstrative Adjectives</h4>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl p-5 border-2 border-green-200">
+                        <div class="text-center mb-3">
+                            <span class="text-3xl">👇</span>
+                            <h5 class="font-bold text-green-800 mt-2">Vicino / Near</h5>
+                        </div>
+                        <div class="space-y-2 text-center">
+                            <div class="font-mono text-lg font-bold text-green-700">hu- / -u</div>
+                            <div class="text-sm">questo / this</div>
+                            <div class="bg-white p-2 rounded mt-2 text-sm">
+                                <span class="font-mono">mtoto <span class="text-green-600 font-bold">huyu</span></span>
+                                <div class="text-gray-600">questo bambino</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-cyan-100 rounded-xl p-5 border-2 border-blue-200">
+                        <div class="text-center mb-3">
+                            <span class="text-3xl">👉</span>
+                            <h5 class="font-bold text-blue-800 mt-2">Medio / Medium</h5>
+                        </div>
+                        <div class="space-y-2 text-center">
+                            <div class="font-mono text-lg font-bold text-blue-700">hu- / -o</div>
+                            <div class="text-sm">quel / that (near you)</div>
+                            <div class="bg-white p-2 rounded mt-2 text-sm">
+                                <span class="font-mono">mtoto <span class="text-blue-600 font-bold">huyo</span></span>
+                                <div class="text-gray-600">quel bambino (lì)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl p-5 border-2 border-purple-200">
+                        <div class="text-center mb-3">
+                            <span class="text-3xl">👆</span>
+                            <h5 class="font-bold text-purple-800 mt-2">Lontano / Far</h5>
+                        </div>
+                        <div class="space-y-2 text-center">
+                            <div class="font-mono text-lg font-bold text-purple-700">hu- / -le</div>
+                            <div class="text-sm">quello / that (over there)</div>
+                            <div class="bg-white p-2 rounded mt-2 text-sm">
+                                <span class="font-mono">mtoto <span class="text-purple-600 font-bold">yule</span></span>
+                                <div class="text-gray-600">quel bambino (là)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Possessive Adjectives -->
+            <div class="glass-panel rounded-2xl p-8 mb-12">
+                <h4 class="text-2xl font-bold mb-6 text-center">Aggettivi Possessivi / Possessive Adjectives</h4>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-bold text-gray-700 mb-3">Formazione / Formation</h5>
+                        <div class="prefix-flow mb-4">
+                            <div class="prefix-box">Prefisso classe</div>
+                            <span class="prefix-arrow">+</span>
+                            <div class="prefix-box">-a-</div>
+                            <span class="prefix-arrow">+</span>
+                            <div class="prefix-box">Pronome</div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg font-mono text-center">
+                            w-<span class="text-rose-600">a</span>-ngu = <span class="font-bold">wangu</span> (mio)
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <div class="flex justify-between p-2 bg-rose-50 rounded">
+                            <span class="font-mono font-bold">-angu</span>
+                            <span>mio / my</span>
+                        </div>
+                        <div class="flex justify-between p-2 bg-blue-50 rounded">
+                            <span class="font-mono font-bold">-ako</span>
+                            <span>tuo / your</span>
+                        </div>
+                        <div class="flex justify-between p-2 bg-green-50 rounded">
+                            <span class="font-mono font-bold">-ake</span>
+                            <span>suo / his/her</span>
+                        </div>
+                        <div class="flex justify-between p-2 bg-purple-50 rounded">
+                            <span class="font-mono font-bold">-etu</span>
+                            <span>nostro / our</span>
+                        </div>
+                        <div class="flex justify-between p-2 bg-amber-50 rounded">
+                            <span class="font-mono font-bold">-enu</span>
+                            <span>vostro / your (pl.)</span>
+                        </div>
+                        <div class="flex justify-between p-2 bg-pink-50 rounded">
+                            <span class="font-mono font-bold">-ao</span>
+                            <span>loro / their</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi sugli Aggettivi</h2>
+                <p class="text-gray-600">Complete with the correct adjective form</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-rose-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-rose-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-rose-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Adjectives
+        const exercises = [
+            // Class 1 (m-/mw-)
+            { id: 1, text: "Nina mtoto _____. (I have a good child)", answer: "mzuri", hint: "classe 1, -zuri" },
+            { id: 2, text: "Yule ni mwanafunzi _____. (That is a bad student)", answer: "mbaya", hint: "classe 1, -baya" },
+            { id: 3, text: "Baba yangu ni mtu _____. (My father is a tall person)", answer: "mrefu", hint: "classe 1, -refu" },
+            { id: 4, text: "Ninapenda mwalimu _____. (I like the new teacher)", answer: "mpya", hint: "classe 1, -pya" },
+            { id: 5, text: "Huyu ni daktari _____. (This is a sick doctor)", answer: "mgonjwa", hint: "classe 1, -gonjwa" },
+            { id: 6, text: "Tulimwona mzee _____. (We saw an old man)", answer: "mzee", hint: "classe 1, -zee" },
+            { id: 7, text: "Anataka chakula _____. (He wants little food)", answer: "kidogo", hint: "classe 7, -dogo" },
+            { id: 8, text: "Nina ndugu _____. (I have many relatives)", answer: "wengi", hint: "classe 2, -ingi" },
+            
+            // Class 2 (wa-)
+            { id: 9, text: "Watoto _____ wanasoma. (Good children are studying)", answer: "wzuri", hint: "classe 2, -zuri" },
+            { id: 10, text: "Wageni _____ wamefika. (The bad guests have arrived)", answer: "wabaya", hint: "classe 2, -baya" },
+            { id: 11, text: "Wanafunzi _____ wamefaulu. (Many students have passed)", answer: "wengi", hint: "classe 2, -ingi" },
+            { id: 12, text: "Watu _____ wanaishi mjini. (Tall people live in town)", answer: "warefu", hint: "classe 2, -refu" },
+            { id: 13, text: "Tuliwona wazee _____. (We saw old people)", answer: "wzee", hint: "classe 2, -zee" },
+            { id: 14, text: "Wakulima _____ wanalima. (Few farmers are farming)", answer: "wachache", hint: "classe 2, -chache" },
+            
+            // Class 3/4 (m-/mi-)
+            { id: 15, text: "Mti _____ umeanguka. (The big tree has fallen)", answer: "mkubwa", hint: "classe 3, -kubwa" },
+            { id: 16, text: "Ninapenda mti _____. (I like the beautiful tree)", answer: "mzuri", hint: "classe 3, -zuri" },
+            { id: 17, text: "Miti _____ inaota. (The tall trees are growing)", answer: "mirefu", hint: "classe 4, -refu" },
+            { id: 18, text: "Tulikata miti _____. (We cut the small trees)", answer: "midogo", hint: "classe 4, -dogo" },
+            { id: 19, text: "Miti _____ imekauka. (The old trees have dried up)", answer: "mizee", hint: "classe 4, -zee" },
+            { id: 20, text: "Mti _____ una matunda. (The new tree has fruits)", answer: "mpya", hint: "classe 3, -pya" },
+            
+            // Class 5/6 (ji-/ma-)
+            { id: 21, text: "Tunda _____ limeiva. (The good fruit is ripe)", answer: "zuri", hint: "classe 5, -zuri (l-)" },
+            { id: 22, text: "Jina _____ ni nani? (What is that bad name?)", answer: "baya", hint: "classe 5, -baya (l-)" },
+            { id: 23, text: "Tunda _____ ni tamu. (The small fruit is sweet)", answer: "dogo", hint: "classe 5, -dogo (l-)" },
+            { id: 24, text: "Matunda _____ yameoza. (The many fruits have rotted)", answer: "mengi", hint: "classe 6, -ingi" },
+            { id: 25, text: "Ninapenda jicho _____. (I like the beautiful eye)", answer: "zuri", hint: "classe 5, -zuri" },
+            { id: 26, text: "Macho _____ yanania. (The big eyes are looking at me)", answer: "makubwa", hint: "classe 6, -kubwa" },
+            
+            // Class 7/8 (ki-/vi-)
+            { id: 27, text: "Kitu _____ kimepotea. (The new thing is lost)", answer: "kipya", hint: "classe 7, -pya" },
+            { id: 28, text: "Ninataka kitu _____. (I want a small thing)", answer: "kidogo", hint: "classe 7, -dogo" },
+            { id: 29, text: "Vitu _____ vimeharibika. (The bad things are broken)", answer: "vibaya", hint: "classe 8, -baya" },
+            { id: 30, text: "Vitu _____ vingi sana. (Too many things)", answer: "vingi", hint: "classe 8, -ingi" },
+            { id: 31, text: "Kitu _____ ni changu. (This beautiful thing is mine)", answer: "hiki", hint: "dimostrativo vicino" },
+            { id: 32, text: "Vitu _____ vya nani? (Whose are those things?)", answer: "vile", hint: "dimostrativo lontano" },
+            
+            // Class 9/10 (n-)
+            { id: 33, text: "Nyumba _____ imejengwa. (The big house has been built)", answer: "kubwa", hint: "classe 9, -kubwa (n-)" },
+            { id: 34, text: "Nina nyumba _____. (I have a beautiful house)", answer: "nzuri", hint: "classe 9, -zuri (n-)" },
+            { id: 35, text: "Ndege _____ anaruka. (The small bird is flying)", answer: "mdogo", hint: "classe 9, -dogo" },
+            { id: 36, text: "Samaki _____ ni tamu. (The good fish is tasty)", answer: "mzuri", hint: "classe 9, -zuri" },
+            { id: 37, text: "Ng'ombe _____ wamekufa. (The many cows have died)", answer: "wengi", hint: "classe 10, -ingi" },
+            { id: 38, text: "Paka _____ amepotea. (That white cat is lost)", answer: "eupe", hint: "classe 9, -eupe" },
+            
+            // Possessives
+            { id: 39, text: "Hii ni nyumba _____. (This is my house)", answer: "yangu", hint: "possessivo 1a pers. sing." },
+            { id: 40, text: "Watoto _____ wanasoma. (Your children are studying)", answer: "wako", hint: "possessivo 2a pers. sing." },
+            { id: 41, text: "Gari _____ limeharibika. (His car has broken down)", answer: "lake", hint: "possessivo 3a pers. sing." },
+            { id: 42, text: "Shule _____ iko karibu. (Our school is near)", answer: "yetu", hint: "possessivo 1a pers. plur." },
+            { id: 43, text: "Kitabu _____ kiko wapi? (Where is your book?)", answer: "chako", hint: "possessivo 2a pers. sing., classe 7" },
+            { id: 44, text: "Miti _____ imekauka. (Their trees have dried)", answer: "yao", hint: "possessivo 3a pers. plur." },
+            
+            // Comparatives
+            { id: 45, text: "Mti huu ni _____ kuliko ule. (This tree is bigger than that one)", answer: "mkubwa", hint: "comparativo con kuliko" },
+            { id: 46, text: "Mtoto wangu ni _____ zaidi. (My child is very good)", answer: "mzuri", hint: "superlativo con zaidi" },
+            { id: 47, text: "Huyu ni mwanafunzi _____ kuliko wote. (This is the best student of all)", answer: "bzuri", hint: "superlativo relativo" },
+            { id: 48, text: "Nyumba yangu ni _____ kama yako. (My house is as beautiful as yours)", answer: "nzuri", hint: "comparativo di uguaglianza" },
+            { id: 49, text: "Watoto _____ wamefika. (These children have arrived)", answer: "hawa", hint: "dimostrativo plurale vicino" },
+            { id: 50, text: "Vitu _____ ni vya mwalimu. (Those things are the teacher's)", answer: "vile", hint: "dimostrativo plurale lontano" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-rose-500 to-orange-500 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-rose-600 min-w-[120px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-rose-600 hover:text-rose-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 2 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score));
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>

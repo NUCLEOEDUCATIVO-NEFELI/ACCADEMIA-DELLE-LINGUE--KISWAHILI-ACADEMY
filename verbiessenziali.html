@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbi Essenziali in Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #0d9488;
+            --accent: #0891b2;
+            --bg-warm: #f0fdfa;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(5, 150, 105, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(13, 148, 136, 0.1) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .swahili-verb {
+            background: linear-gradient(135deg, var(--primary), #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #10b981);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .verb-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .verb-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .verb-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .conjugation-table td, .conjugation-table th {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .conjugation-table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .conjugation-table tr:nth-child(even) {
+            background-color: #f0fdf4;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-circle {
+            background: conic-gradient(var(--primary) calc(var(--score) * 1%), #e5e7eb 0);
+        }
+        
+        .tense-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    V
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-emerald-600">Verbs</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-emerald-600">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-emerald-600">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-emerald-500 to-teal-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-emerald-600">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Verbi Essenziali</h2>
+                <p class="text-xl text-gray-600 mb-2">Essential Verbs in Swahili</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-emerald-500 to-teal-600 mx-auto rounded-full mt-6"></div>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-emerald-500">
+                    <h3 class="text-2xl font-bold mb-4 text-emerald-600">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        I verbi swahili sono la chiave della comunicazione. A differenza dell'italiano, non cambiano forma per la persona (io, tu, lui), ma utilizzano <strong>prefissi soggetto</strong> che si attaccano al radicale del verbo. Il sistema è altamente regolare e logico.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Struttura: Prefisso Soggetto + Radicale Verbo + Suffisso Tempo (opzionale)
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-teal-600">
+                    <h3 class="text-2xl font-bold mb-4 text-teal-600">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        Swahili verbs are the key to communication. Unlike English, they don't change form for person (I, you, he), but use <strong>subject prefixes</strong> attached to the verb root. The system is highly regular and logical.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Structure: Subject Prefix + Verb Root + Tense Suffix (optional)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subject Prefixes -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-6 text-center">Prefissi Soggetto / Subject Prefixes</h3>
+                <div class="overflow-x-auto">
+                    <table class="conjugation-table w-full rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Persona / Person</th>
+                                <th>Prefisso / Prefix</th>
+                                <th>Esempio: -soma (leggere/read)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mimi (Io / I)</td>
+                                <td class="font-bold text-emerald-600">ni-</td>
+                                <td><span class="swahili-verb">ni</span>soma (io leggo)</td>
+                            </tr>
+                            <tr>
+                                <td>Wewe (Tu / You)</td>
+                                <td class="font-bold text-emerald-600">u-</td>
+                                <td><span class="swahili-verb">u</span>soma (tu leggi)</td>
+                            </tr>
+                            <tr>
+                                <td>Yeye (Lui/Lei / He/She)</td>
+                                <td class="font-bold text-emerald-600">a-</td>
+                                <td><span class="swahili-verb">a</span>soma (lui/lei legge)</td>
+                            </tr>
+                            <tr>
+                                <td>Sisi (Noi / We)</td>
+                                <td class="font-bold text-emerald-600">tu-</td>
+                                <td><span class="swahili-verb">tu</span>soma (noi leggiamo)</td>
+                            </tr>
+                            <tr>
+                                <td>Ninyi (Voi / You pl.)</td>
+                                <td class="font-bold text-emerald-600">m-</td>
+                                <td><span class="swahili-verb">m</span>soma (voi leggete)</td>
+                            </tr>
+                            <tr>
+                                <td>Wao (Loro / They)</td>
+                                <td class="font-bold text-emerald-600">wa-</td>
+                                <td><span class="swahili-verb">wa</span>soma (loro leggono)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Essential Verbs Grid -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Verbi Fondamentali / Core Verbs</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kula</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">mangiare / to eat</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninakula (io mangio)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kunywa</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">bere / to drink</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninakunywa (io bevo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kusoma</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">leggere / to read</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninasoma (io leggo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kuandika</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">scrivere / to write</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninaandika (io scrivo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kusema</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">dire/parlare / to say/speak</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninasema (io parlo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kusikia</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">sentire/udire / to hear/feel</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninasikia (io sento)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kuona</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">vedere / to see</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninaona (io vedo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kufanya</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">fare / to do/make</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninafanya (io faccio)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kuja</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">venire / to come</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninakuja (io vengo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kwenda</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">andare / to go</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninaenda (io vado)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kupenda</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">amare/volere / to love/like/want</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninapenda (io amo)</div>
+                    </div>
+                    
+                    <div class="verb-card bg-white rounded-xl p-5 shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl font-bold swahili-verb">kujua</span>
+                            <span class="tense-badge">INFINITIVO</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">sapere/conoscere / to know</div>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded mt-2">ninajua (io so)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tenses -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm">1</span>
+                        Tempo Presente (-na-)
+                    </h4>
+                    <p class="text-gray-700 mb-3"><strong>IT:</strong> Si forma con il prefisso soggetto + -na- + radicale</p>
+                    <p class="text-gray-700 mb-3"><strong>EN:</strong> Formed with subject prefix + -na- + root</p>
+                    <div class="bg-emerald-50 p-4 rounded-lg space-y-2 text-sm">
+                        <div class="font-mono">ninakula = io mangio / I eat</div>
+                        <div class="font-mono">unakunywa = tu bevi / you drink</div>
+                        <div class="font-mono">anasoma = lui/lei legge / he/she reads</div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm">2</span>
+                        Tempo Passato (-li-)
+                    </h4>
+                    <p class="text-gray-700 mb-3"><strong>IT:</strong> Si forma con il prefisso soggetto + -li- + radicale</p>
+                    <p class="text-gray-700 mb-3"><strong>EN:</strong> Formed with subject prefix + -li- + root</p>
+                    <div class="bg-teal-50 p-4 rounded-lg space-y-2 text-sm">
+                        <div class="font-mono">nilikula = io ho mangiato / I ate</div>
+                        <div class="font-mono">ulikunywa = tu hai bevuto / you drank</div>
+                        <div class="font-mono">alisoma = lui/lei lesse / he/she read</div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-cyan-500 text-white rounded-full flex items-center justify-center text-sm">3</span>
+                        Tempo Futuro (-ta-)
+                    </h4>
+                    <p class="text-gray-700 mb-3"><strong>IT:</strong> Si forma con il prefisso soggetto + -ta- + radicale</p>
+                    <p class="text-gray-700 mb-3"><strong>EN:</strong> Formed with subject prefix + -ta- + root</p>
+                    <div class="bg-cyan-50 p-4 rounded-lg space-y-2 text-sm">
+                        <div class="font-mono">nitakula = io mangerò / I will eat</div>
+                        <div class="font-mono">utakunywa = tu berrai / you will drink</div>
+                        <div class="font-mono">atasoma = lui/lei leggerà / he/she will read</div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm">4</span>
+                        Negazione (si-, hu-)
+                    </h4>
+                    <p class="text-gray-700 mb-3"><strong>IT:</strong> Presente: si- + prefisso; Passato: ku- + radicale + -i</p>
+                    <p class="text-gray-700 mb-3"><strong>EN:</strong> Present: si- + prefix; Past: ku- + root + -i</p>
+                    <div class="bg-amber-50 p-4 rounded-lg space-y-2 text-sm">
+                        <div class="font-mono">sikuli = io non mangio / I don't eat</div>
+                        <div class="font-mono">sijakula = io non ho mangiato / I didn't eat</div>
+                        <div class="font-mono">hatusomi = noi non leggiamo / we don't read</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monosyllabic Verbs Note -->
+            <div class="glass-panel rounded-2xl p-8 mb-12 border-l-4 border-amber-500">
+                <h4 class="text-xl font-bold mb-4 text-amber-600">⚠️ Verbi Monosillabici / Monosyllabic Verbs</h4>
+                <p class="text-gray-700 mb-3">
+                    <strong>IT:</strong> Verbi come <em>kula, kunywa, kuja</em> mantengono la <strong>ku-</strong> infinitiva nelle forme conjugate per evitare che la parola sia troppo corta.
+                </p>
+                <p class="text-gray-700 mb-3">
+                    <strong>EN:</strong> Verbs like <em>kula, kunywa, kuja</em> keep the infinitive <strong>ku-</strong> in conjugated forms to avoid the word being too short.
+                </p>
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-white p-3 rounded-lg shadow-sm">
+                        <span class="font-bold text-emerald-600">ninakula</span> (non: ninala)
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm">
+                        <span class="font-bold text-emerald-600">ninakunywa</span> (non: ninanywa)
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center py-12">
+                <button onclick="showSection('exercises')" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                    Inizia gli Esercizi / Start Exercises →
+                </button>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Esercizi di Completamento</h2>
+                <p class="text-gray-600">Complete the sentences with the correct Swahili verb forms</p>
+            </div>
+
+            <form id="exercises-form" class="space-y-6" onsubmit="event.preventDefault(); calculateResults();">
+                <!-- Exercises will be injected here by JavaScript -->
+                <div id="exercises-container"></div>
+
+                <div class="sticky bottom-6 mt-12 text-center">
+                    <button type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-xl transform hover:-translate-y-1 transition-all w-full md:w-auto">
+                        Invia Risultati / Submit Results
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                <div class="glass-panel rounded-3xl p-8 max-w-md w-full text-center transform scale-100 transition-transform">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full score-circle flex items-center justify-center relative" style="--score: 0" id="score-circle">
+                        <div class="w-28 h-28 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-4xl font-bold text-gray-800" id="final-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2">Risultato / Result</h3>
+                    <p class="text-gray-600 mb-6" id="result-message">Great job!</p>
+                    
+                    <div class="bg-emerald-50 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-sm font-semibold text-emerald-800 mb-2">📧 Invia i tuoi risultati a:</p>
+                        <p class="text-lg font-mono bg-white p-2 rounded border border-emerald-200 break-all">infonefelieducation@gmail.com</p>
+                        <p class="text-xs text-gray-500 mt-2">Include your name and score / Includi il tuo nome e il punteggio</p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button onclick="closeResults()" class="flex-1 py-3 rounded-xl border-2 border-gray-300 font-semibold hover:bg-gray-50 transition-colors">
+                            Chiudi / Close
+                        </button>
+                        <button onclick="resetExercises()" class="flex-1 py-3 rounded-xl bg-gray-800 text-white font-semibold hover:bg-gray-900 transition-colors">
+                            Riprova / Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Exercise Data - 50 Sentence Completion Exercises about Essential Verbs
+        const exercises = [
+            { id: 1, text: "Mimi _____ chakula kila siku. (I eat food every day)", answer: "ninakula", hint: "mangiare - presente, 1a pers." },
+            { id: 2, text: "Wewe _____ maji baridi. (You drink cold water)", answer: "unakunywa", hint: "bere - presente, 2a pers." },
+            { id: 3, text: "Yeye _____ kitabu cha kiswahili. (He reads a Swahili book)", answer: "anasoma", hint: "leggere - presente, 3a pers." },
+            { id: 4, text: "Sisi _____ barua kwa mwalimu. (We write a letter to the teacher)", answer: "tunaandika", hint: "scrivere - presente, plurale" },
+            { id: 5, text: "Ninyi _____ kiswahili vizuri. (You speak Swahili well)", answer: "mnasema", hint: "parlare - presente, plurale" },
+            { id: 6, text: "Wao _____ muziki wa taarab. (They listen to taarab music)", answer: "wanasikia", hint: "sentire - presente, plurale" },
+            { id: 7, text: "Mimi _____ simba katika mbuga. (I see a lion in the park)", answer: "ninaona", hint: "vedere - presente" },
+            { id: 8, text: "Yeye _____ kazi nyumbani. (She works at home)", answer: "anafanya", hint: "fare - presente" },
+            { id: 9, text: "Wewe _____ lini? (When are you coming?)", answer: "unakuja", hint: "venire - presente" },
+            { id: 10, text: "Sisi _____ dukani kesho. (We will go to the shop tomorrow)", answer: "tutaenda", hint: "andare - futuro" },
+            { id: 11, text: "Mimi _____ wanangu sana. (I love my children very much)", answer: "ninawapenda", hint: "amare - presente (oggetto: wa-)" },
+            { id: 12, text: "Wewe _____ kujibu swali hili? (Do you know how to answer this question?)", answer: "unajua", hint: "sapere - presente" },
+            { id: 13, text: "Jana mimi _____ ugali na samaki. (Yesterday I ate ugali with fish)", answer: "nilikula", hint: "mangiare - passato" },
+            { id: 14, text: "Juzi yeye _____ kahawa asubuhi. (The day before yesterday he drank coffee in the morning)", answer: "alikunywa", hint: "bere - passato" },
+            { id: 15, text: "Mwaka jana sisi _____ vitabu vingi. (Last year we read many books)", answer: "tulisoma", hint: "leggere - passato" },
+            { id: 16, text: "Ninyi _____ barua hii jana? (Did you write this letter yesterday?)", answer: "mliandika", hint: "scrivere - passato, plurale" },
+            { id: 17, text: "Babu _____ hadithi za kale. (Grandfather told ancient stories)", answer: "alisema", hint: "dire - passato" },
+            { id: 18, text: "Jana mimi _____ sauti ya ndege. (Yesterday I heard the sound of birds)", answer: "nilisikia", hint: "sentire - passato" },
+            { id: 19, text: "Wakati wa utoto, mimi _____ simba kwenye televisheni. (In childhood, I saw lions on TV)", answer: "niliiona", hint: "vedere - passato (oggetto: i-)" },
+            { id: 20, text: "Wao _____ kazi nzuri juma lijalo. (They did good work last week)", answer: "walifanya", hint: "fare - passato" },
+            { id: 21, text: "Wageni _____ jana jioni. (The guests came yesterday evening)", answer: "walikuja", hint: "venire - passato" },
+            { id: 22, text: "Mimi _____ shule jana asubuhi. (I went to school yesterday morning)", answer: "nilienda", hint: "andare - passato" },
+            { id: 23, text: "Yeye _____ kwenda hospitali. (She wanted to go to the hospital)", answer: "alitaka", hint: "volere - passato (da -taka)" },
+            { id: 24, text: "Sisi _____ jibu la swali hilo. (We knew the answer to that question)", answer: "tulijua", hint: "sapere - passato" },
+            { id: 25, text: "Kesho mimi _____ wali na nyama. (Tomorrow I will eat rice with meat)", answer: "nitakula", hint: "mangiare - futuro" },
+            { id: 26, text: "Kesho kutwa wewe _____ maji ya machungwa. (The day after tomorrow you will drink orange juice)", answer: "utakunywa", hint: "bere - futuro" },
+            { id: 27, text: "Mwanafunzi _____ mtihani kesho. (The student will read for the exam tomorrow)", answer: " atasoma", hint: "leggere - futuro" },
+            { id: 28, text: "Ninyi _____ barua kwa serikali. (You will write a letter to the government)", answer: "mtaandika", hint: "scrivere - futuro, plurale" },
+            { id: 29, text: "Mwalimu _____ na wanafunzi kesho. (The teacher will speak with students tomorrow)", answer: " atasema", hint: "parlare - futuro" },
+            { id: 30, text: "Tutakapofika, sisi _____ muziki. (When we arrive, we will listen to music)", answer: "tutasikia", hint: "sentire - futuro" },
+            { id: 31, text: "Mimi _____ mlima Kilimanjaro mwaka ujao. (I will see Mount Kilimanjaro next year)", answer: "nitaona", hint: "vedere - futuro" },
+            { id: 32, text: "Wao _____ kazi hii pamoja. (They will do this work together)", answer: "watafanya", hint: "fare - futuro" },
+            { id: 33, text: "Rafiki yangu _____ kutembelea mji wa Zanzibar. (My friend will come to visit Zanzibar)", answer: " atakuja", hint: "venire - futuro" },
+            { id: 34, text: "Sisi _____ Dar es Salaam kesho. (We will go to Dar es Salaam tomorrow)", answer: "tutaenda", hint: "andare - futuro" },
+            { id: 35, text: "Mimi _____ kujifunza kiswahili vizuri. (I will want to learn Swahili well)", answer: "nitataka", hint: "volere - futuro" },
+            { id: 36, text: "Wewe _____ jibu sahihi. (You will know the correct answer)", answer: "utajua", hint: "sapere - futuro" },
+            { id: 37, text: "Mimi _____ nyama, mimi mvegetarian. (I don't eat meat, I'm vegetarian)", answer: "sikuli", hint: "mangiare - negazione presente" },
+            { id: 38, text: "Yeye _____ pombe. (He doesn't drink alcohol)", answer: "hanywi", hint: "bere - negazione presente (forma speciale)" },
+            { id: 39, text: "Wao _____ vitabu vya hadithi. (They don't read storybooks)", answer: "hawasomi", hint: "leggere - negazione presente" },
+            { id: 40, text: "Sisi _____ barua sasa. (We are not writing a letter now)", answer: "hatuandiki", hint: "scrivere - negazione presente" },
+            { id: 41, text: "Wewe _____ kweli! (You don't tell the truth!)", answer: "usemi", hint: "dire - negazione presente" },
+            { id: 42, text: "Mimi _____ vizuri kwa sababu ya baridi. (I don't hear well because of the cold)", answer: "sisikii", hint: "sentire - negazione presente" },
+            { id: 43, text: "Kwa nini wewe _____? (Why don't you see?)", answer: "huoni", hint: "vedere - negazione presente" },
+            { id: 44, text: "Yeye _____ kazi leo. (She is not working today)", answer: "hafanyi", hint: "fare - negazione presente" },
+            { id: 45, text: "Wageni _____ leo. (The guests are not coming today)", answer: "hawaji", hint: "venire - negazione presente" },
+            { id: 46, text: "Sisi _____ sokoni leo. (We are not going to the market today)", answer: "hatuendi", hint: "andare - negazione presente" },
+            { id: 47, text: "Mimi _____ kwenda hospitali. (I don't want to go to the hospital)", answer: "sitaki", hint: "volere - negazione presente" },
+            { id: 48, text: "Wewe _____ jibu. (You don't know the answer)", answer: "hujui", hint: "sapere - negazione presente" },
+            { id: 49, text: "Jana mimi _____ kwenda shuleni. (Yesterday I didn't go to school)", answer: "sikuenda", hint: "andare - negazione passato" },
+            { id: 50, text: "Yeye _____ chakula jana. (He didn't eat food yesterday)", answer: "hakukula", hint: "mangiare - negazione passato" }
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+
+        // Initialize exercises
+        function initializeExercises() {
+            const container = document.getElementById('exercises-container');
+            container.innerHTML = '';
+            
+            exercises.forEach((ex, index) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card glass-panel rounded-2xl p-6 mb-4';
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-full flex items-center justify-center font-bold">
+                            ${ex.id}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg mb-3 font-medium text-gray-800">
+                                ${ex.text.split('_____')[0]}
+                                <input type="text" 
+                                       id="answer-${ex.id}" 
+                                       class="input-swahili px-3 py-1 rounded-lg text-center font-bold text-emerald-600 min-w-[140px] mx-1"
+                                       placeholder="?" 
+                                       autocomplete="off"
+                                       oninput="checkAnswer(${ex.id}, '${ex.answer}')"
+                                       onblur="validateAnswer(${ex.id}, '${ex.answer}')">
+                                ${ex.text.split('_____')[1] || ''}
+                            </p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <button onclick="toggleHint(${ex.id})" class="text-emerald-600 hover:text-emerald-700 font-semibold text-xs uppercase tracking-wide">
+                                    Mostra suggerimento / Show hint
+                                </button>
+                                <span id="hint-${ex.id}" class="hidden bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                                    ${ex.hint}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="status-${ex.id}" class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white opacity-0 transition-opacity">
+                            ✓
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('hidden');
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const userAnswer = normalizeAnswer(input.value);
+            const correct = normalizeAnswer(correctAnswer);
+            
+            if (userAnswer === correct) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                status.innerHTML = '✓';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-green-500 opacity-100';
+                if (!input.dataset.scored) {
+                    input.dataset.scored = 'true';
+                    updateProgress(true);
+                }
+            } else if (userAnswer.length > correct.length - 3 && userAnswer.length > 0) {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                status.innerHTML = '✗';
+                status.className = 'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white bg-red-500 opacity-100';
+                if (input.dataset.scored) {
+                    input.dataset.scored = 'false';
+                    updateProgress(false);
+                }
+            } else {
+                input.classList.remove('correct', 'incorrect');
+                status.style.opacity = '0';
+            }
+        }
+
+        function validateAnswer(id, correctAnswer) {
+            const input = document.getElementById(`answer-${id}`);
+            if (input.value.trim() !== '' && !input.classList.contains('correct')) {
+                input.classList.add('incorrect');
+            }
+        }
+
+        function updateProgress(isCorrect) {
+            if (isCorrect) {
+                currentScore += 2;
+                answeredCount++;
+            } else {
+                currentScore -= 2;
+                answeredCount--;
+            }
+            
+            // Clamp score between 0 and 100
+            currentScore = Math.max(0, Math.min(100, currentScore));
+            
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('progress-text').textContent = `${answeredCount}/50`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 50) * 100}%`;
+        }
+
+        function calculateResults() {
+            let correct = 0;
+            exercises.forEach(ex => {
+                const input = document.getElementById(`answer-${ex.id}`);
+                if (normalizeAnswer(input.value) === normalizeAnswer(ex.answer)) {
+                    correct++;
+                }
+            });
+            
+            const score = correct * 2;
+            const clampedScore = Math.max(60, Math.min(100, score)); // Min 60, Max 100
+            
+            document.getElementById('final-score').textContent = clampedScore;
+            document.getElementById('score-circle').style.setProperty('--score', clampedScore);
+            
+            let message = '';
+            if (clampedScore >= 90) message = 'Excellent! / Eccellente! 🎉';
+            else if (clampedScore >= 80) message = 'Very good! / Molto bene! 👏';
+            else if (clampedScore >= 70) message = 'Good job! / Buon lavoro! 👍';
+            else message = 'Keep practicing! / Continua a esercitarti! 💪';
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('results-modal').classList.remove('hidden');
+            
+            // Auto-fill email subject suggestion
+            const emailSubject = `Swahili Verbs Test - Score: ${clampedScore}/100`;
+            console.log('Email subject:', emailSubject);
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetExercises() {
+            document.getElementById('exercises-form').reset();
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.dataset.scored = '';
+            });
+            document.querySelectorAll('[id^="status-"]').forEach(status => {
+                status.style.opacity = '0';
+            });
+            currentScore = 0;
+            answeredCount = 0;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('progress-text').textContent = '0/50';
+            document.getElementById('progress-bar').style.width = '0%';
+            closeResults();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navTheory.classList.remove('tab-active');
+                navExercises.classList.add('tab-active');
+                initializeExercises();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExercises();
+        });
+    </script>
+</body>
+</html>
