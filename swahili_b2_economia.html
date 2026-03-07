@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economia e Commercio Swahili - Apprendimento Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #d97706;
+            --accent: #7c3aed;
+            --bg-warm: #f0fdf4;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-warm);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(5, 150, 105, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(217, 119, 6, 0.08) 0%, transparent 50%);
+        }
+        
+        .serif-text {
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .economy-gradient {
+            background: linear-gradient(135deg, var(--primary), #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .exercise-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-swahili {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .input-swahili:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            outline: none;
+        }
+        
+        .input-swahili.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+        }
+        
+        .input-swahili.incorrect {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #10b981);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .trade-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .trade-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .trade-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .commodity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .route-line {
+            stroke-dasharray: 10;
+            animation: dash 20s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .market-scene {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 1rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coin-stack {
+            display: inline-flex;
+            flex-direction: column-reverse;
+            gap: 2px;
+        }
+        
+        .coin {
+            width: 40px;
+            height: 8px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+            border-radius: 4px;
+            border: 1px solid #d97706;
+        }
+        
+        .dhow-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    💰
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight">Swahili<span class="text-emerald-600">Economy</span></h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <button onclick="showSection('theory')" id="nav-theory" class="tab-active pb-1 transition-colors hover:text-emerald-700">Teoria / Theory</button>
+                <button onclick="showSection('exercises')" id="nav-exercises" class="pb-1 transition-colors hover:text-emerald-700">Esercizi / Exercises</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+
+        <!-- Progress Bar (visible during exercises) -->
+        <div id="progress-container" class="hidden-section mb-8 sticky top-20 z-40 glass-panel rounded-full p-4">
+            <div class="flex justify-between items-center mb-2 text-sm font-semibold">
+                <span>Progresso / Progress</span>
+                <span id="progress-text">0/50</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="progress-bar bg-gradient-to-r from-emerald-600 to-amber-600 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="mt-2 text-right text-sm text-gray-600">
+                Punteggio: <span id="current-score" class="font-bold text-emerald-700">0</span>/100
+            </div>
+        </div>
+
+        <!-- THEORY SECTION -->
+        <section id="theory-section" class="fade-in">
+            
+            <!-- Hero -->
+            <div class="text-center mb-12 py-12">
+                <h2 class="text-5xl font-bold mb-4 serif-text">Uchumi na Biashara</h2>
+                <p class="text-xl text-gray-600 mb-2">Economy and Trade of the Swahili Coast</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-emerald-600 to-amber-600 mx-auto rounded-full mt-6"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Network commerciali, monete, merci e mercati nella civiltà swahili</p>
+            </div>
+
+            <!-- Bilingual Intro -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-emerald-600">
+                    <h3 class="text-2xl font-bold mb-4 text-emerald-700">🇮🇹 In Italiano</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        L'<strong>economia swahili</strong> era basata su un sofisticato <strong>sistema di scambi commerciali</strong> che collegava l'Africa orientale all'Oceano Indiano. Le città-stato agivano da intermediari tra l'entroterra africano (oro, avorio, schiavi) e i mercati asiatici (stoffe, spezie, porcellana), sviluppando tecniche monetarie avanzate e organizzazioni mercantili complesse.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Caratteristica: Economia marittima basata sui monsoni e sul commercio di lusso.
+                    </p>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8 border-l-4 border-amber-600">
+                    <h3 class="text-2xl font-bold mb-4 text-amber-700">🇬🇧 In English</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The <strong>Swahili economy</strong> was based on a sophisticated <strong>trade exchange system</strong> connecting East Africa to the Indian Ocean. City-states acted as intermediaries between the African hinterland (gold, ivory, slaves) and Asian markets (textiles, spices, porcelain), developing advanced monetary techniques and complex commercial organizations.
+                    </p>
+                    <p class="text-gray-600 italic">
+                        Feature: Maritime economy based on monsoons and luxury trade.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Trade Goods Grid -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-3xl font-bold mb-8 text-center">Bidhaa za Biashara / Trade Commodities</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="trade-card bg-gradient-to-br from-yellow-100 to-yellow-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🥇</div>
+                        <h4 class="font-bold text-lg mb-2">Dhabahu / Gold</h4>
+                        <p class="text-sm text-gray-600">Dallo Zimbabwe e dall'entroterra. Moneta Kilwa.</p>
+                        <div class="mt-3 text-xs font-semibold text-yellow-700">Esportazione principale</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-gray-100 to-gray-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🐘</div>
+                        <h4 class="font-bold text-lg mb-2">Meno / Ivory</h4>
+                        <p class="text-sm text-gray-600">Zanne d'elefante lavorate. Alta domanda in Asia.</p>
+                        <div class="mt-3 text-xs font-semibold text-gray-700">Lusso africano</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-amber-100 to-amber-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">⛓️</div>
+                        <h4 class="font-bold text-lg mb-2">Watumwa / Slaves</h4>
+                        <p class="text-sm text-gray-600">Tratta verso Oriente e isole. Commercio crudele.</p>
+                        <div class="mt-3 text-xs font-semibold text-amber-700">Commercio umano</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🌶️</div>
+                        <h4 class="font-bold text-lg mb-2">Spices / Mashala</h4>
+                        <p class="text-sm text-gray-600">Chiodi di garofano, noce moscata, cannella.</p>
+                        <div class="mt-3 text-xs font-semibold text-green-700">Zanzibar: "Isola delle spezie"</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🪵</div>
+                        <h4 class="font-bold text-lg mb-2">Mbao / Timber</h4>
+                        <p class="text-sm text-gray-600">Legno d'ebano, teak, legni pregiati.</p>
+                        <div class="mt-3 text-xs font-semibold text-blue-700">Costruzioni navali</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🏺</div>
+                        <h4 class="font-bold text-lg mb-2">Porcelain / Saruji</h4>
+                        <p class="text-sm text-gray-600">Importazione dalla Cina (dinastie Ming/Qing).</p>
+                        <div class="mt-3 text-xs font-semibold text-purple-700">Importazione asiatica</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-red-100 to-red-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">🧵</div>
+                        <h4 class="font-bold text-lg mb-2">Mashuka / Textiles</h4>
+                        <p class="text-sm text-gray-600">Stoffe indiane, sete cinesi, cotone arabo.</p>
+                        <div class="mt-3 text-xs font-semibold text-red-700">Importazione tessile</div>
+                    </div>
+                    
+                    <div class="trade-card bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-xl p-5 shadow-md text-center">
+                        <div class="commodity-icon">💎</div>
+                        <h4 class="font-bold text-lg mb-2">Vito / Gems</h4>
+                        <p class="text-sm text-gray-600">Perle, pietre preziose, corallo.</p>
+                        <div class="mt-3 text-xs font-semibold text-indigo-700">Gioielleria</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monetary System -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Mfumo wa Fedha / Monetary System</h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-emerald-50 rounded-xl p-6 border-2 border-emerald-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="coin-stack">
+                                <div class="coin"></div>
+                                <div class="coin"></div>
+                                <div class="coin"></div>
+                            </div>
+                            <h4 class="font-bold text-emerald-800">Sarafu za Kilwa</h4>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">Prima moneta della costa swahili (XI-XV sec.)</p>
+                        <ul class="text-xs text-gray-600 space-y-1">
+                            <li>• Coniata in oro e rame</li>
+                            <li>• Iscrizioni arabe</li>
+                            <li>• Standard internazionale</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-amber-50 rounded-xl p-6 border-2 border-amber-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">⚖️</span>
+                            <h4 class="font-bold text-amber-800">Viwango vya Uzito</h4>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">Sistema di peso per oro e avorio</p>
+                        <ul class="text-xs text-gray-600 space-y-1">
+                            <li>• Frasila (≈ 16 kg)</li>
+                            <li>• Pesi standardizzati</li>
+                            <li>• Controllo statale</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-xl p-6 border-2 border-blue-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">🤝</span>
+                            <h4 class="font-bold text-blue-800">Barter / Kubadilishana</h4>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">Scambio diretto di merci</p>
+                        <ul class="text-xs text-gray-600 space-y-1">
+                            <li>• Commercio locale</li>
+                            <li>• Valori convenzionali</li>
+                            <li>• Accordi orali</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade Routes -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Njia za Biashara / Trade Routes</h3>
+                
+                <div class="market-scene mb-6">
+                    <svg viewBox="0 0 900 500" class="w-full h-auto">
+                        <!-- Ocean background -->
+                        <rect x="0" y="0" width="900" height="500" fill="#dbeafe" opacity="0.3"/>
+                        
+                        <!-- African Coast -->
+                        <path d="M 50 250 Q 200 230 350 250 T 650 270 T 850 250" stroke="#065f46" stroke-width="4" fill="none"/>
+                        <text x="450" y="300" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">COSTA SWAHILI / SWAHILI COAST</text>
+                        
+                        <!-- Cities -->
+                        <g class="city-point">
+                            <circle cx="100" cy="240" r="10" fill="#dc2626"/>
+                            <text x="100" y="220" text-anchor="middle" font-size="12" font-weight="bold">Mogadiscio</text>
+                        </g>
+                        
+                        <g class="city-point">
+                            <circle cx="250" cy="235" r="10" fill="#dc2626"/>
+                            <text x="250" y="215" text-anchor="middle" font-size="12" font-weight="bold">Lamu</text>
+                        </g>
+                        
+                        <g class="city-point">
+                            <circle cx="400" cy="245" r="10" fill="#dc2626"/>
+                            <text x="400" y="225" text-anchor="middle" font-size="12" font-weight="bold">Mombasa</text>
+                        </g>
+                        
+                        <g class="city-point">
+                            <circle cx="550" cy="260" r="10" fill="#dc2626"/>
+                            <text x="550" y="240" text-anchor="middle" font-size="12" font-weight="bold">Zanzibar</text>
+                        </g>
+                        
+                        <g class="city-point">
+                            <circle cx="650" cy="265" r="12" fill="#f59e0b"/>
+                            <text x="650" y="245" text-anchor="middle" font-size="13" font-weight="bold">Kilwa ⭐</text>
+                        </g>
+                        
+                        <g class="city-point">
+                            <circle cx="750" cy="255" r="10" fill="#dc2626"/>
+                            <text x="750" y="235" text-anchor="middle" font-size="12" font-weight="bold">Sofala</text>
+                        </g>
+                        
+                        <!-- Trade routes (animated) -->
+                        <path d="M 100 240 Q 300 100 800 80" stroke="#b45309" stroke-width="3" fill="none" class="route-line" marker-end="url(#arrowRed)"/>
+                        <text x="550" y="90" text-anchor="middle" font-size="11" fill="#b45309">Arabia & Persia (Monsoni)</text>
+                        
+                        <path d="M 250 235 Q 450 120 850 100" stroke="#7c3aed" stroke-width="2" fill="none" class="route-line"/>
+                        <text x="550" y="130" text-anchor="middle" font-size="11" fill="#7c3aed">India (Gujarat)</text>
+                        
+                        <path d="M 400 245 Q 600 150 880 140" stroke="#dc2626" stroke-width="2" fill="none" class="route-line"/>
+                        <text x="650" y="160" text-anchor="middle" font-size="11" fill="#dc2626">Cina (Porcellana)</text>
+                        
+                        <path d="M 750 255 Q 800 350 850 400" stroke="#f59e0b" stroke-width="3" fill="none" class="route-line"/>
+                        <text x="820" y="380" text-anchor="middle" font-size="11" fill="#f59e0b">Great Zimbabwe (Oro)</text>
+                        
+                        <!-- Dhow icons -->
+                        <g class="dhow-animation" transform="translate(300, 120)">
+                            <text x="0" y="0" font-size="24">⛵</text>
+                        </g>
+                        <g class="dhow-animation" transform="translate(500, 140)" style="animation-delay: 1s;">
+                            <text x="0" y="0" font-size="24">⛵</text>
+                        </g>
+                        
+                        <!-- Legend -->
+                        <rect x="50" y="420" width="300" height="60" fill="white" opacity="0.9" rx="10"/>
+                        <text x="70" y="445" font-size="12" font-weight="bold">Legenda:</text>
+                        <line x1="70" y1="455" x2="120" y2="455" stroke="#b45309" stroke-width="3"/>
+                        <text x="130" y="460" font-size="10">Rotta commerciale</text>
+                        <circle cx="80" cy="475" r="6" fill="#f59e0b"/>
+                        <text x="95" y="480" font-size="10">Centro monetario</text>
+                    </svg>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <div class="bg-emerald-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-emerald-800 mb-2">🌍 Esportazioni Swahili</h5>
+                        <ul class="space-y-1 text-gray-700">
+                            <li>• Oro (frasila) dall'entroterra</li>
+                            <li>• Avorio lavorato (zanne)</li>
+                            <li>• Schiavi (tratta indiana)</li>
+                            <li>• Legno d'ebano e teak</li>
+                            <li>• Gomma arabica, copra</li>
+                            <li>• Perle e conchiglie</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-800 mb-2">🌏 Importazioni Asiatiche</h5>
+                        <ul class="space-y-1 text-gray-700">
+                            <li>• Porcellana cinese (Ming/Qing)</li>
+                            <li>• Stoffe indiane (chintz, calico)</li>
+                            <li>• Sete persiane e cinesi</li>
+                            <li>• Perline veneziane e indiane</li>
+                            <li>• Vetro e cristallo</li>
+                            <li>• Spezie (pepe, chiodi)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Organization -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Uandamizi wa Soko / Market Organization</h3>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-emerald-500">
+                        <div class="text-3xl">👑</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Wafalme wa Biashara / Trade Kings</h4>
+                            <p class="text-gray-600 text-sm">I sultani controllavano il commercio estero, riscuotevano tasse (customs duties) e garantivano la sicurezza dei mercanti. Il sultano di Kilwa controllava il commercio dell'oro dello Zimbabwe.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-amber-500">
+                        <div class="text-3xl">🤝</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Wamiliki wa Vyombo / Ship Owners</h4>
+                            <p class="text-gray-600 text-sm">Ricchi mercanti swahili possedevano flotte di dhow. Affittavano spazi ai commercianti stranieri e organizzavano le spedizioni monsoniche (novembre-marzo verso est, aprile-settembre verso ovest).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <div class="text-3xl">⚖️</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Wapimaji / Weighers and Measures</h4>
+                            <p class="text-gray-600 text-sm">Funzionari pubblici controllavano pesi e misure, garantendo standard affidabili per l'oro (frasila) e l'avorio. Prevenivano frodi e garantivano la fiducia nel mercato.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border-l-4 border-purple-500">
+                        <div class="text-3xl">🏛️</div>
+                        <div>
+                            <h4 class="font-bold text-lg">Soko Kuu / Central Market</h4>
+                            <p class="text-gray-600 text-sm">Ogni città aveva un mercato centrale (soko) organizzato per specialità: area spezie, area tessuti, area schiavi, area oro. Orari regolati, tasse sulle transazioni, controlli di qualità.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economic Timeline -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Mabadiliko ya Uchumi / Economic Evolution</h3>
+                
+                <div class="relative">
+                    <div class="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 via-amber-500 to-blue-500"></div>
+                    
+                    <div class="space-y-8 pl-16">
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white shadow"></div>
+                            <div class="bg-emerald-50 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-emerald-700">VIII-XV secolo</span>
+                                <h4 class="font-bold text-gray-800">Biashara ya Ushindi / Free Trade Era</h4>
+                                <p class="text-sm text-gray-600">Commercio monsonico libero. Kilwa domina il commercio dell'oro. Nascita della moneta. Città-stato competitive.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-amber-600 rounded-full border-4 border-white shadow"></div>
+                            <div class="bg-amber-50 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-amber-700">XVI-XVII secolo</span>
+                                <h4 class="font-bold text-gray-800">Utawala wa Wareno / Portuguese Control</h4>
+                                <p class="text-sm text-gray-600">Cartaz (licenza di navigazione). Tasse forzate. Declino di Kilwa. Spostamento commercio verso Mombasa e Zanzibar.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-red-600 rounded-full border-4 border-white shadow"></div>
+                            <div class="bg-red-50 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-red-700">XVIII-XIX secolo</span>
+                                <h4 class="font-bold text-gray-800">Biashara ya Watumwa / Slave Trade Peak</h4>
+                                <p class="text-sm text-gray-600">Sultanato di Oman. Zanzibar capitale del commercio schiavo indiano. Piantagioni di chiodi di garofano. Economia di plantation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow"></div>
+                            <div class="bg-blue-50 p-4 rounded-xl">
+                                <span class="text-xs font-bold text-blue-700">XIX-XX secolo</span>
+                                <h4 class="font-bold text-gray-800">Ukoloni na Uhuru / Colonial and Independence</h4>
+                                <p class="text-sm text-gray-600">Abolizione schiavitù (1873). Economia coloniale (sisal, caffè). Indipendenza: socialismo (Ujamaa) vs capitalismo. Turismo moderno.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Economic Terms -->
+            <div class="glass-panel rounded-3xl p-8 mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">Masharti Muhimu / Key Economic Terms</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Ujirani</h5>
+                        <p class="text-xs text-gray-500 mb-1">Neighborhood/Cooperation</p>
+                        <p class="text-sm text-gray-700">Sistema di mutuo sociale e credito rotativo tra mercanti.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Mkopo</h5>
+                        <p class="text-xs text-gray-500 mb-1">Loan/Credit</p>
+                        <p class="text-sm text-gray-700">Sistema di prestito commerciale con interessi (riba).</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Shirika</h5>
+                        <p class="text-xs text-gray-500 mb-1">Partnership/Cooperative</p>
+                        <p class="text-sm text-gray-700">Società commerciali, precursori delle moderne coop.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Kibaraka</h5>
+                        <p class="text-xs text-gray-500 mb-1">Broker/Middleman</p>
+                        <p class="text-sm text-gray-700">Intermediario commerciale tra produttori e mercanti.</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Msika</h5>
+                        <p class="text-xs text-gray-500 mb-1">Market stall</p>
+                        <p class="text-sm text-gray-700">Banco del mercato, spesso gestito da donne (mama karibu).</p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                        <h5 class="font-bold text-emerald-700">Jumuiya</h5>
+                        <p class="text-xs text-gray-500 mb-1">Community/Union</p>
+                        <p class="text-sm text-gray-700">Associazioni di mercanti per la difesa degli interessi.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="hidden-section">
+            
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-2 serif-text">Mazoezi ya Uchumi / Economy Exercises</h2>
+                <p class="text-gray-600">Completa le frasi / Complete the sentences (2 punti each)</p>
+            </div>
+
+            <form id="exercise-form" class="space-y-6">
+                
+                <!-- Exercise 1 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">1</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La principale merce esportata dalla costa swahili verso l'Asia era l'<input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="oro|gold"> proveniente dallo Zimbabwe.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="2">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">2</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La moneta coniata a Kilwa era fatta di <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="oro e rame|oro|rame">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="3">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">3</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'unità di misura per l'oro era la <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="frasila">, equivalente a circa 16 kg.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="4">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">4</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="spezie|mashala"> erano la principale merce di importazione dall'Asia, in particolare chiodi di garofano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="5">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">5</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I portoghesi introdussero il sistema del <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="cartaz">, una licenza obbligatoria per la navigazione.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 6 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">6</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Zanzibar era conosciuta come l'"<input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Isola delle spezie">" per la sua produzione di chiodi di garofano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="7">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">7</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il commercio swahili si basava sui <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="monsuni|venti monsonici">, venti stagionali dell'Oceano Indiano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="8">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">8</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'<input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="avorio|meno"> era una merce di lusso molto richiesta in Asia per la lavorazione artistica.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="9">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">9</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="dhow|dhows"> erano le imbarcazioni tradizionali usate nel commercio indiano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="10">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">10</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="sultano|mfalme"> di Kilwa controllava il commercio dell'oro dello Zimbabwe.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 11 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="11">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">11</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="porcellana|cinesi"> era importata dalla Cina e molto apprezzata nell'arredamento swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 12 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="12">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">12</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I commercianti indiani del <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="Gujarat"> stabilirono basi permanenti sulla costa.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 13 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="13">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">13</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il commercio di <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="schiavi|watumwa"> raggiunse il picco nel XIX secolo con il Sultanato di Oman.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 14 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="14">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">14</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="perline|beads"> veneziane erano usate come valuta di scambio nell'entroterra.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 15 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="15">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">15</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="legno|mbao"> d'ebano era una merce pregiata per l'artigianato.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 16 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="16">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">16</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I portoghesi imponevano tasse del <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="6%|sei percento"> sul valore delle merci.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 17 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="17">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">17</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="chiodi di garofano|clove|karafuu"> era la principale coltivazione delle piantagioni zanzibarite.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 18 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="18">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">18</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="tessuti|stoffe|mashuka"> indiani erano tra le principali importazioni.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 19 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="19">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">19</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il mercato centrale si chiamava <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="soko"> in swahili.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 20 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="20">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">20</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Gli intermediari commerciali erano chiamati <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="kibaraka|wakalah">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 21 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="21">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">21</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="copra|nazi"> (nocciolo di cocco) era un'importante esportazione agricola.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 22 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="22">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">22</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="funzionari|wapimaji"> controllavano pesi e misure nel mercato.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 23 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="23">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">23</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il sistema <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="ujirani"> prevedeva il mutuo sociale tra commercianti.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 24 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="24">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">24</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="piantagioni|shamba"> di chiodi di garofano richiedevano manodopera servile.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 25 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="25">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">25</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="credito|mkopo"> commerciale permetteva accordi a termine.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 26 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="26">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">26</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I mercanti arabi portavano <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="seta|harir"> persiana e cinese.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 27 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="27">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">27</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="gomma arabica"> era raccolta dagli alberi dell'entroterra.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 28 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="28">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">28</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="vetro|glassy"> e le perline erano usati come moneta di scambio.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 29 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="29">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">29</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="corallo|coral"> rosso era molto apprezzato per i gioielli.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 30 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">30</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="tasse|ushuru"> doganali erano la principale fonte di ricavo dei sultani.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 31 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="31">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">31</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il commercio era regolato dalla <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="sharia|legge islamica"> in materia commerciale.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 32 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="32">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">32</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="banchi|msika"> del mercato erano gestiti spesso da donne.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 33 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="33">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">33</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="ferrovia|reli"> britannica collegò l'entroterra alla costa nel XX secolo.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 34 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="34">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">34</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Dopo l'indipendenza, la Tanzania adottò il socialismo <input type="text" class="input-swahili w-32 px-3 py-2 rounded-lg text-center" data-answer="Ujamaa|ujaama">.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 35 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="35">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">35</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Oggi il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="turismo|utalii"> è una delle principali fonti di reddito della costa.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 36 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="36">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">36</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="sisal|henequen"> era una coltivazione introdotta dai tedeschi in Tanzania.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 37 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="37">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">37</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="caffè|kahawa"> keniano è oggi una celebre esportazione.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 38 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="38">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">38</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="tè|chai"> era coltivato nelle alture del Kenya.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 39 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="39">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">39</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">I <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="porti|bandari"> liberi di Mombasa e Dar es Salaam sono strategici.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 40 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="40">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">40</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="pesca|uvuvi"> è tradizionalmente importante per le comunità costiere.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 41 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="41">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">41</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="cooperative|shirika"> agricole organizzavano i piccoli produttori.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 42 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="42">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">42</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="petrolio|mafuta"> è stato scoperto in Tanzania nel XXI secolo.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 43 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="43">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">43</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    p class="text-lg mb-4">La <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="Zona Franca|Free Zone"> di Mombasa attrae investimenti esteri.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 44 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="44">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">44</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="commercio informale|biashara ndogo"> caratterizza l'economia moderna.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 45 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="45">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">45</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="valute|sarafu"> nazionali sono lo scellino keniano e il dollaro tanzaniano.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 46 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="46">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">46</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="cellulare|simu"> ha rivoluzionato i pagamenti mobili (M-Pesa).</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 47 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="47">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">47</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'<input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="EAC|East African Community"> promuove l'integrazione economica regionale.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 48 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="48">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">48</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Il <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="carbone|makaa"> è estratto in Mozambico e Tanzania.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 49 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="49">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">49</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">Le <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="mini|migodi"> d'oro sono ancora attive nell'entroterra.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Exercise 50 -->
+                <div class="exercise-card glass-panel rounded-2xl p-6" data-question="50">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold">50</span>
+                        <span class="text-sm text-gray-500">2 punti</span>
+                    </div>
+                    <p class="text-lg mb-4">L'economia swahili è sempre stata basata sul <input type="text" class="input-swahili w-40 px-3 py-2 rounded-lg text-center" data-answer="commercio|biashara|scambio"> marittimo.</p>
+                    <div class="feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="glass-panel rounded-2xl p-8 text-center mt-8">
+                    <button type="button" onclick="checkAllAnswers()" class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg mb-4">
+                        Verifica Tutte le Risposte / Check All Answers
+                    </button>
+                    <p class="text-gray-600 text-sm mb-4">Oppure premi Invio in qualsiasi campo per verificare automaticamente</p>
+                    
+                    <div id="final-results" class="hidden mt-6 p-6 bg-emerald-50 rounded-xl">
+                        <h3 class="text-2xl font-bold mb-4">Risultati Finali / Final Results</h3>
+                        <div class="text-4xl font-bold text-emerald-700 mb-2" id="final-score">0/100</div>
+                        <p class="text-gray-600 mb-4" id="final-message"></p>
+                        
+                        <div class="bg-white p-4 rounded-lg mb-4 text-left">
+                            <p class="font-semibold mb-2">Invia i risultati via email / Send results via email:</p>
+                            <a id="email-link" href="#" class="text-emerald-600 hover:underline break-all"></a>
+                        </div>
+                        
+                        <button type="button" onclick="resetExercises()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold transition-colors">
+                            Ricomincia / Restart
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        // Navigation
+        function showSection(section) {
+            const theorySection = document.getElementById('theory-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const progressContainer = document.getElementById('progress-container');
+            const navTheory = document.getElementById('nav-theory');
+            const navExercises = document.getElementById('nav-exercises');
+            
+            if (section === 'theory') {
+                theorySection.classList.remove('hidden-section');
+                exercisesSection.classList.add('hidden-section');
+                progressContainer.classList.add('hidden-section');
+                navTheory.classList.add('tab-active');
+                navExercises.classList.remove('tab-active');
+                window.scrollTo(0, 0);
+            } else {
+                theorySection.classList.add('hidden-section');
+                exercisesSection.classList.remove('hidden-section');
+                progressContainer.classList.remove('hidden-section');
+                navExercises.classList.add('tab-active');
+                navTheory.classList.remove('tab-active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Exercise Logic
+        let currentScore = 0;
+        let answeredQuestions = new Set();
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('.input-swahili').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkAnswer(this);
+                }
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value.trim() !== '') {
+                    checkAnswer(this);
+                }
+            });
+        });
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[^a-z0-9\s]/g, '')
+                .trim();
+        }
+
+        function checkAnswer(input) {
+            const card = input.closest('.exercise-card');
+            const questionNum = card.dataset.question;
+            const userAnswer = input.value.trim();
+            const correctAnswers = input.dataset.answer.split('|').map(a => a.trim());
+            const feedback = card.querySelector('.feedback');
+            
+            if (!userAnswer) return;
+            
+            const normalizedUser = normalizeAnswer(userAnswer);
+            const isCorrect = correctAnswers.some(ans => normalizeAnswer(ans) === normalizedUser);
+            
+            // Update visual state
+            input.classList.remove('correct', 'incorrect');
+            input.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            // Show feedback
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                feedback.className = 'feedback mt-3 p-3 rounded-lg bg-green-100 text-green-800';
+                feedback.innerHTML = '✓ Corretto! / Correct!';
+                
+                if (!answeredQuestions.has(questionNum)) {
+                    currentScore += 2;
+                    answeredQuestions.add(questionNum);
+                }
+            } else {
+                feedback.className = 'feedback mt-3 p-3 rounded-lg bg-red-100 text-red-800';
+                feedback.innerHTML = `✗ Sbagliato. Risposta corretta: <strong>${correctAnswers[0]}</strong> / Wrong. Correct answer: <strong>${correctAnswers[0]}</strong>`;
+                
+                if (!answeredQuestions.has(questionNum)) {
+                    answeredQuestions.add(questionNum);
+                }
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalQuestions = 50;
+            const answered = answeredQuestions.size;
+            const percentage = (answered / totalQuestions) * 100;
+            
+            document.getElementById('progress-text').textContent = `${answered}/${totalQuestions}`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('current-score').textContent = currentScore;
+        }
+
+        function checkAllAnswers() {
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                if (input.value.trim() !== '') {
+                    checkAnswer(input);
+                }
+            });
+            
+            showFinalResults();
+        }
+
+        function showFinalResults() {
+            const finalResults = document.getElementById('final-results');
+            const finalScore = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            const emailLink = document.getElementById('email-link');
+            
+            finalResults.classList.remove('hidden');
+            finalScore.textContent = `${currentScore}/100`;
+            
+            let message = '';
+            if (currentScore >= 90) {
+                message = 'Eccellente! / Excellent! 🌟';
+            } else if (currentScore >= 70) {
+                message = 'Molto bene! / Very good! 👏';
+            } else if (currentScore >= 60) {
+                message = 'Sufficiente. / Pass. ✅';
+            } else {
+                message = 'Da migliorare. / Needs improvement. 📚';
+            }
+            finalMessage.textContent = message;
+            
+            // Generate email
+            const subject = `Risultati Economia Swahili - ${currentScore}/100`;
+            const body = `Salve,\\n\\nHo completato gli esercizi su Economia e Commercio Swahili.\\n\\nPunteggio: ${currentScore}/100\\nRisposte corrette: ${currentScore/2}/50\\n\\nCordiali saluti`;
+            const mailtoLink = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            emailLink.href = mailtoLink;
+            emailLink.textContent = 'Clicca qui per inviare email / Click here to send email';
+            
+            // Scroll to results
+            finalResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetExercises() {
+            currentScore = 0;
+            answeredQuestions.clear();
+            
+            document.querySelectorAll('.input-swahili').forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.classList.add('hidden');
+            });
+            
+            document.getElementById('final-results').classList.add('hidden');
+            updateProgress();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
