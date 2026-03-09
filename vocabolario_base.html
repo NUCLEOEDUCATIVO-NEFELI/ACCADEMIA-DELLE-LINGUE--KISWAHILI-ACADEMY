@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabolario Swahili - Schema Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .swahili-font { font-family: 'Noto Sans', sans-serif; }
+
+        /* Layout schematico */
+        .category-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table th {
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #f97316;
+        }
+
+        .vocab-table td {
+            padding: 6px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .vocab-table tr:hover td {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .category-header {
+            background: linear-gradient(90deg, rgba(249,115,22,0.3) 0%, transparent 100%);
+            border-left: 4px solid #f97316;
+        }
+
+        /* Stampa ottimizzata */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+            .vocab-table th { background: #f97316 !important; color: white !important; }
+            .category-section { break-inside: avoid; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 4px; }
+    </style>
+<base target="_blank">
+</head>
+<body class="text-white min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-700 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center text-xl font-bold">S</div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">Swahili Master</span>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="showSection('vocabulary')" id="nav-vocab" class="px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 transition-colors font-medium">Vocabolario</button>
+                    <button onclick="showSection('exercises')" id="nav-exercises" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors font-medium">Esercizi</button>
+                    <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition-colors font-medium">🖨️ Stampa</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Indice Categorie -->
+    <div class="fixed left-4 top-24 w-48 bg-gray-800/90 rounded-xl p-4 border border-gray-700 z-40 max-h-[80vh] overflow-y-auto no-print hidden lg:block">
+        <h3 class="text-orange-400 font-bold mb-3 text-sm uppercase tracking-wider">Indice Categorie</h3>
+        <ul class="space-y-1 text-sm">
+            <li><a href="#cat-basics" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🗣️ Saluti & Base</a></li>
+            <li><a href="#cat-people" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">👥 Persone & Famiglia</a></li>
+            <li><a href="#cat-food" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🍽️ Cibo & Bevande</a></li>
+            <li><a href="#cat-travel" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">✈️ Viaggi & Luoghi</a></li>
+            <li><a href="#cat-time" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">📅 Tempo & Numeri</a></li>
+            <li><a href="#cat-nature" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🌿 Natura & Animali</a></li>
+            <li><a href="#cat-actions" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">⚡ Azioni & Verbi</a></li>
+            <li><a href="#cat-adjectives" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🎨 Aggettivi & Avverbi</a></li>
+            <li><a href="#cat-body" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🫀 Corpo & Salute</a></li>
+        </ul>
+    </div>
+
+    <!-- Sezione Vocabolario -->
+    <section id="vocabulary-section" class="pt-24 pb-12 px-4 max-w-6xl mx-auto lg:ml-56">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent">
+                Vocabolario Swahili Completo
+            </h1>
+            <p class="text-gray-400">Tutte le parole organizzate per categorie - 2000+ voci</p>
+
+            <!-- Stats -->
+            <div class="flex justify-center gap-6 mt-4 flex-wrap text-sm">
+                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                    <span class="text-orange-400 font-bold">2,000+</span> parole
+                </span>
+                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                    <span class="text-blue-400 font-bold">9</span> categorie
+                </span>
+                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                    <span class="text-green-400 font-bold">3</span> lingue
+                </span>
+            </div>
+        </div>
+
+        <!-- Search rapida -->
+        <div class="max-w-xl mx-auto mb-8 no-print">
+            <input type="text" id="quickSearch" placeholder="Cerca parola..." 
+                class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none"
+                onkeyup="quickSearch()">
+        </div>
+
+        <!-- CATEGORIA 1: SALUTI & BASE -->
+        <div id="cat-basics" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    🗣️ Saluti, Pronomi & Parole Base
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Espressioni fondamentali per la comunicazione quotidiana</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">habari</td><td>notizie/saluti</td><td>news/greetings</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jambo</td><td>ciao/affare</td><td>hello/matter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hujambo</td><td>come stai?</td><td>how are you?</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sijambo</td><td>sto bene</td><td>I am fine</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">asante</td><td>grazie</td><td>thank you</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">asante sana</td><td>grazie mille</td><td>thank you very much</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">karibu</td><td>benvenuto/vicino</td><td>welcome/near</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kwa heri</td><td>arrivederci</td><td>goodbye</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">lala salama</td><td>buonanotte</td><td>good night</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">habari za asubuhi</td><td>buongiorno</td><td>good morning</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">habari za jioni</td><td>buonasera</td><td>good evening</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndiyo</td><td>sì</td><td>yes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hapana</td><td>no</td><td>no</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tafadhali</td><td>per favore</td><td>please</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">samahani</td><td>scusa/mi dispiace</td><td>sorry/excuse me</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sawa</td><td>va bene/uguale</td><td>okay/same</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pole</td><td>mi dispiace (condoglianze)</td><td>sorry (condolences)</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pole pole</td><td>piano piano</td><td>slowly/gently</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">haraka</td><td>veloce</td><td>fast/quick</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sasa</td><td>ora/adesso</td><td>now</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hapa</td><td>qui</td><td>here</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">huko</td><td>lì</td><td>there</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wapi</td><td>dove</td><td>where</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nani</td><td>chi</td><td>who</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nini</td><td>cosa/che cosa</td><td>what</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">lini</td><td>quando</td><td>when</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kwa nini</td><td>perché</td><td>why</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vipi</td><td>come</td><td>how</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ngapi</td><td>quanto/quanti</td><td>how much/how many</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mimi</td><td>io</td><td>I/me</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wewe</td><td>tu</td><td>you</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yeye</td><td>lui/lei</td><td>he/she</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sisi</td><td>noi</td><td>we/us</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyinyi</td><td>voi</td><td>you (plural)</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wao</td><td>loro</td><td>they/them</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yangu</td><td>mio/mia</td><td>my</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yako</td><td>tuo/tua</td><td>your</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yake</td><td>suo/sua</td><td>his/her</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yetu</td><td>nostro/nostra</td><td>our</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yenu</td><td>vostro/vostra</td><td>your (plural)</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">yao</td><td>loro</td><td>their</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shukrani</td><td>ringraziamento</td><td>gratitude</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">radhi</td><td>benedicione/perdono</td><td>blessing/forgiveness</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">laana</td><td>maledizione</td><td>curse</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baraka</td><td>benedizione</td><td>blessing</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">heri</td><td>felicità</td><td>happiness</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">huzuni</td><td>tristezza</td><td>sadness</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">furaha</td><td>gioia</td><td>joy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hasira</td><td>rabbia</td><td>anger</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">woga</td><td>paura</td><td>fear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ushupavu</td><td>coraggio</td><td>courage</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uvivu</td><td>pigrizia</td><td>laziness</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bidii</td><td>diligenza</td><td>diligence</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukweli</td><td>verità</td><td>truth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uongo</td><td>bugia</td><td>lie</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">amani</td><td>pace</td><td>peace</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vita</td><td>guerra</td><td>war</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">upendo</td><td>amore</td><td>love</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chuki</td><td>odio</td><td>hate</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tamaa</td><td>desiderio</td><td>desire</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">matumaini</td><td>speranza</td><td>hope</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">adili</td><td>etica</td><td>ethics</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tabia</td><td>comportamento</td><td>behavior</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mila</td><td>tradizione</td><td>tradition</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">desturi</td><td>costume</td><td>custom</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sheria</td><td>legge</td><td>law</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kanuni</td><td>regola</td><td>rule</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">adhabu</td><td>punizione</td><td>punishment</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tuzo</td><td>premio</td><td>award</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zawadi</td><td>ricompensa/regalo</td><td>reward/gift</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kazi</td><td>lavoro</td><td>work</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jeshi</td><td>esercito</td><td>army</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">polisi</td><td>polizia</td><td>police</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mahakama</td><td>tribunale</td><td>court</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gereza</td><td>prigione</td><td>prison</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uhuru</td><td>libertà</td><td>freedom</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">haki</td><td>diritto/giustizia</td><td>right/justice</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">usawa</td><td>uguaglianza</td><td>equality</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">udhalimu</td><td>ingiustizia</td><td>injustice</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">utawala</td><td>governo</td><td>government</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">taifa</td><td>nazione</td><td>nation</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nchi</td><td>paese</td><td>country</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jimbo</td><td>regione</td><td>region</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wilaya</td><td>distretto</td><td>district</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijiji</td><td>villaggio</td><td>village</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mji</td><td>città</td><td>town/city</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mji mkuu</td><td>capitale</td><td>capital</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">serikali</td><td>governo</td><td>government</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">rais</td><td>presidente</td><td>president</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">waziri</td><td>ministro</td><td>minister</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbunge</td><td>parlamentare</td><td>member of parliament</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">meja</td><td>sindaco</td><td>mayor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiongozi</td><td>leader</td><td>leader</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkurugenzi</td><td>direttore</td><td>director</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwenyekiti</td><td>presidente (comitato)</td><td>chairman</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">katibu</td><td>segretario</td><td>secretary</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mhasibu</td><td>contabile</td><td>accountant</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwakilishi</td><td>rappresentante</td><td>representative</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">balozi</td><td>ambasciatore/ambasciata</td><td>ambassador/embassy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mpaka</td><td>frontiera/confine</td><td>border/limit</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 2: PERSONE & FAMIGLIA -->
+        <div id="cat-people" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    👥 Persone, Famiglia & Professioni
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Termini per descrivere persone, relazioni familiari e mestieri</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mtu</td><td>persona/uomo</td><td>person/man</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mtoto</td><td>bambino</td><td>child</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">watoto</td><td>bambini</td><td>children</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mvulana</td><td>ragazzo</td><td>boy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">msichana</td><td>ragazza</td><td>girl</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwanamke</td><td>donna</td><td>woman</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwanamume</td><td>uomo</td><td>man</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baba</td><td>padre</td><td>father</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mama</td><td>madre</td><td>mother</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndugu</td><td>fratello/parente</td><td>brother/relative</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dada</td><td>sorella</td><td>sister</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kaka</td><td>fratello maggiore</td><td>older brother</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bibi</td><td>nonna/signora</td><td>grandmother/madam</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">babu</td><td>nonno</td><td>grandfather</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">rafiki</td><td>amico</td><td>friend</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jirani</td><td>vicino</td><td>neighbor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mgeni</td><td>ospite/straniero</td><td>guest/foreigner</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwalimu</td><td>insegnante</td><td>teacher</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwanafunzi</td><td>studente</td><td>student</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">daktari</td><td>dottore</td><td>doctor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">askari</td><td>poliziotto/soldato</td><td>police/soldier</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkulima</td><td>contadino</td><td>farmer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchungaji</td><td>pastore</td><td>pastor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwanariadha</td><td>atleta</td><td>athlete</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwimbaji</td><td>cantante</td><td>singer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchoraji</td><td>artista/pittore</td><td>artist/painter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwandishi</td><td>scrittore</td><td>writer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mfanyabiashara</td><td>commerciante</td><td>businessman</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mtumishi</td><td>dipendente</td><td>employee</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bwana</td><td>signore</td><td>mister/sir</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">binti</td><td>signorina/figlia</td><td>miss/daughter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">binadamu</td><td>essere umano</td><td>human being</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijana</td><td>giovane</td><td>youth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mzee</td><td>anziano</td><td>elder/old person</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 3: CIBO & BEVANDE -->
+        <div id="cat-food" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    🍽️ Cibo, Bevande & Cucina
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Vocabolario per ristoranti, mercati e cucina tradizionale</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chakula</td><td>cibo</td><td>food</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kinywaji</td><td>bevanda</td><td>drink</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">majani</td><td>acqua</td><td>water</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chai</td><td>tè</td><td>tea</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kahawa</td><td>caffè</td><td>coffee</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maziwa</td><td>latte</td><td>milk</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sukari</td><td>zucchero</td><td>sugar</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chumvi</td><td>sale</td><td>salt</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mafuta</td><td>olio/grasso</td><td>oil/fat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyama</td><td>carne</td><td>meat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">samaki</td><td>pesce</td><td>fish</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuku</td><td>pollo/gallina</td><td>chicken</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ng'ombe</td><td>mucca</td><td>cow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbuzi</td><td>capra</td><td>goat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nguruwe</td><td>maiale</td><td>pig</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wali</td><td>riso cotto</td><td>cooked rice</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ugali</td><td>polenta di mais</td><td>maize porridge</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkate</td><td>pane</td><td>bread</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">matunda</td><td>frutta</td><td>fruit</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mboga</td><td>verdura</td><td>vegetable</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mahindi</td><td>mais</td><td>maize/corn</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maharagwe</td><td>fagioli</td><td>beans</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">viazi</td><td>patate</td><td>potatoes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyanya</td><td>pomodoro</td><td>tomato</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitunguu</td><td>cipolla</td><td>onion</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">limau</td><td>limone</td><td>lemon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">machungwa</td><td>arancia</td><td>orange</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tunda</td><td>frutto</td><td>fruit</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndizi</td><td>banana</td><td>banana</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nanasi</td><td>ananas</td><td>pineapple</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">embe</td><td>mango</td><td>mango</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tikitimaji</td><td>anguria</td><td>watermelon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nazi</td><td>noce di cocco</td><td>coconut</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiamsha kinywa</td><td>colazione</td><td>breakfast</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chakula cha mchana</td><td>pranzo</td><td>lunch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chakula cha jioni</td><td>cena</td><td>dinner</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">supu</td><td>zuppa</td><td>soup</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sosi</td><td>salsa</td><td>sauce</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siagi</td><td>burro</td><td>butter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">asi</td><td>miele</td><td>honey</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mayai</td><td>uova</td><td>eggs</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pilau</td><td>pilau (riso speziato)</td><td>pilau</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwiko</td><td>cucchiaio di legno</td><td>wooden spoon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sinia</td><td>vassoio</td><td>tray</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 4: VIAGGI & LUOGHI -->
+        <div id="cat-travel" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    ✈️ Viaggi, Trasporti & Luoghi
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Termini per muoversi, alloggiare e orientarsi</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">safari</td><td>viaggio</td><td>journey/trip</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">njia</td><td>strada/percorso</td><td>road/path</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">barabara</td><td>strada principale</td><td>highway</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gari</td><td>macchina/veicolo</td><td>car/vehicle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">teksi</td><td>taxi</td><td>taxi</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">basi</td><td>autobus</td><td>bus</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndege</td><td>aereo/uccello</td><td>airplane/bird</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">meli</td><td>nave</td><td>ship</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">boti</td><td>barca</td><td>boat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">treni</td><td>treno</td><td>train</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pikipiki</td><td>motocicletta</td><td>motorcycle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baiskeli</td><td>bicicletta</td><td>bicycle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukumbi</td><td>aeroporto/stazione</td><td>airport/station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">stesheni</td><td>stazione</td><td>station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bandari</td><td>porto</td><td>port/harbor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutoka</td><td>partire/uscire</td><td>leave/exit</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kwenda</td><td>andare</td><td>go</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuja</td><td>venire</td><td>come</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kurudi</td><td>ritornare</td><td>return</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusafiri</td><td>viaggiare</td><td>travel</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupanda</td><td>salire/montare</td><td>climb/board</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kushuka</td><td>scendere</td><td>descend/get off</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukimbia</td><td>correre</td><td>run</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutembea</td><td>camminare</td><td>walk</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupiga picha</td><td>fotografare</td><td>take a photo</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ramani</td><td>mappa</td><td>map</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kibali</td><td>permesso/visa</td><td>permit/visa</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pasipoti</td><td>passaporto</td><td>passport</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tikiti</td><td>biglietto</td><td>ticket</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kushinikiza</td><td>spingere</td><td>push</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuvuta</td><td>tirare</td><td>pull</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufika</td><td>arrivare</td><td>arrive</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchelewa</td><td>essere in ritardo</td><td>be late</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">muda</td><td>tempo/ora</td><td>time</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">saa</td><td>ora/orologio</td><td>hour/clock</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyumba</td><td>casa</td><td>house</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chumba</td><td>stanza</td><td>room</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jiko</td><td>cucina</td><td>kitchen</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bafu</td><td>bagno</td><td>bathroom</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">choo</td><td>toilette</td><td>toilet</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sebule</td><td>soggiorno</td><td>living room</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chumba cha kulala</td><td>camera da letto</td><td>bedroom</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dirisha</td><td>finestra</td><td>window</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mlango</td><td>porta</td><td>door</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">paa</td><td>tetto</td><td>roof</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukuta</td><td>muro</td><td>wall</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sakafu</td><td>pavimento</td><td>floor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ngazi</td><td>scala</td><td>stairs</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baraza</td><td>veranda</td><td>veranda</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shamba</td><td>campo/giardino</td><td>farm/field</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bustani</td><td>giardino</td><td>garden</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shule</td><td>scuola</td><td>school</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kanisa</td><td>chiesa</td><td>church</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">msikiti</td><td>moschea</td><td>mosque</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">soko</td><td>mercato</td><td>market</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">duka</td><td>negozio</td><td>shop</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hospitali</td><td>ospedale</td><td>hospital</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zahanati</td><td>ambulatorio</td><td>dispensary</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ofisi</td><td>ufficio</td><td>office</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">benki</td><td>banca</td><td>bank</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">poste</td><td>ufficio postale</td><td>post office</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kituo cha polisi</td><td>stazione di polizia</td><td>police station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kituo cha mabasi</td><td>stazione autobus</td><td>bus station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uwanja wa ndege</td><td>aeroporto</td><td>airport</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">stesheni ya treni</td><td>stazione ferroviaria</td><td>train station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hoteli</td><td>hotel</td><td>hotel</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mgahawa</td><td>ristorante</td><td>restaurant</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baa</td><td>bar</td><td>bar</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kituo cha mafuta</td><td>stazione di servizio</td><td>gas station</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kizuizi</td><td>incrocio</td><td>intersection</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kivuko</td><td>attraversamento</td><td>crossing</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">taa</td><td>semaforo/luce</td><td>traffic light/lamp</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jiwe</td><td>pietra</td><td>stone</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchanga</td><td>sabbia</td><td>sand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">udongo</td><td>terra</td><td>soil</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mawe</td><td>pietre</td><td>stones</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chuma</td><td>metallo/ferro</td><td>metal/iron</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">miti</td><td>legno</td><td>wood</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">plastiki</td><td>plastica</td><td>plastic</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kioo</td><td>vetro/specchio</td><td>glass/mirror</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nguo</td><td>vestiti</td><td>clothes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kofia</td><td>cappello</td><td>hat/cap</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shati</td><td>camicia</td><td>shirt</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">suruali</td><td>pantaloni</td><td>trousers</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sketi</td><td>gonna</td><td>skirt</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kaptura</td><td>giacca</td><td>jacket</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">koti</td><td>cappotto</td><td>coat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">viatu</td><td>scarpe</td><td>shoes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">soksi</td><td>calze</td><td>socks</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nguo ya ndani</td><td>biancheria intima</td><td>underwear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shuka</td><td>telo/vestito tradiz.</td><td>cloth/traditional dress</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kanga</td><td>kanga (tessuto)</td><td>kanga (fabric)</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitambaa</td><td>tessuto/panno</td><td>fabric/cloth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pete</td><td>anello</td><td>ring</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkufu</td><td>collana</td><td>necklace</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hereni</td><td>orecchini</td><td>earrings</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">saa</td><td>orologio</td><td>watch/clock</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mashine</td><td>macchina (dispositivo)</td><td>machine</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">simu</td><td>telefono</td><td>phone</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kompyuta</td><td>computer</td><td>computer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">runinga</td><td>televisione</td><td>television</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">redio</td><td>radio</td><td>radio</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">friji</td><td>frigorifero</td><td>refrigerator</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">joko</td><td>stufa</td><td>stove</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">taa</td><td>lampada</td><td>lamp</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitanda</td><td>letto</td><td>bed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">meza</td><td>tavolo</td><td>table</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiti</td><td>sedia</td><td>chair</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kabati</td><td>armadio</td><td>cupboard</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">rafu</td><td>scaffale</td><td>shelf</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pipa</td><td>barile</td><td>barrel</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">debe</td><td>bidone</td><td>can/tin</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kikombe</td><td>tazza</td><td>cup</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">glas</td><td>bicchiere</td><td>glass</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sahani</td><td>piatto/vassoio</td><td>plate/tray</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijiko</td><td>cucchiaio</td><td>spoon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uma</td><td>forchetta</td><td>fork</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kisu</td><td>coltello</td><td>knife</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chombo</td><td>contenitore/utensile</td><td>container/vessel</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mtungi</td><td>brocca</td><td>jug</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bakuli</td><td>ciotola</td><td>bowl</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiberiti</td><td>fiammifero</td><td>match</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">taa ya mafuta</td><td>lampada ad olio</td><td>oil lamp</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkeka</td><td>tappeto/stuoia</td><td>mat/rug</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pazia</td><td>tenda</td><td>curtain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">blanketi</td><td>coperta</td><td>blanket</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mto</td><td>cuscino</td><td>pillow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kifuniko</td><td>coperchio</td><td>lid/cover</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kibiriti</td><td>accendino</td><td>lighter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">petroli</td><td>benzina</td><td>petrol</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mafuta ya taa</td><td>olio per lampade</td><td>kerosene</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">umeme</td><td>elettricità</td><td>electricity</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nuru</td><td>luce</td><td>light</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">picha</td><td>foto/immagine</td><td>picture/photo</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kalamu</td><td>penna</td><td>pen</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">penseli</td><td>matita</td><td>pencil</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitabu</td><td>libro</td><td>book</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">karatasi</td><td>carta</td><td>paper</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gazeti</td><td>giornale</td><td>newspaper</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">barua</td><td>lettera</td><td>letter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">funguo</td><td>chiave</td><td>key</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mfuko</td><td>borsa/sacco</td><td>bag/sack</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pochi</td><td>tasca</td><td>pocket</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkoba</td><td>borsa a mano</td><td>handbag</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sanduku</td><td>baule/scatola</td><td>box/trunk</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kasha</td><td>cassaforte</td><td>safe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pesa</td><td>soldi</td><td>money</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sarafu</td><td>moneta</td><td>coin</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">noti</td><td>banconota</td><td>banknote</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">akaunti</td><td>conto</td><td>account</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hundi</td><td>assegno</td><td>cheque</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkopo</td><td>prestito</td><td>loan</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">deni</td><td>debito</td><td>debt</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">riba</td><td>interesse</td><td>interest</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bei</td><td>prezzo</td><td>price</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gharama</td><td>costo</td><td>cost</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">punguzo</td><td>sconto</td><td>discount</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">faida</td><td>profitto</td><td>profit</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hasara</td><td>perdita</td><td>loss</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">biashara</td><td>commercio</td><td>business</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mzigo</td><td>carico</td><td>load/cargo</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uzito</td><td>peso</td><td>weight</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">urefu</td><td>lunghezza</td><td>length</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kimo</td><td>altezza</td><td>height</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">upana</td><td>larghezza</td><td>width</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kadi</td><td>carta (documento)</td><td>card</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitambulisho</td><td>documento d'identità</td><td>identification</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">leseni</td><td>patente/licenza</td><td>license</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bima</td><td>assicurazione</td><td>insurance</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kodi</td><td>tassa</td><td>tax</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ada</td><td>tassa/tariffa</td><td>fee</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">fomu</td><td>modulo</td><td>form</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">saini</td><td>firma</td><td>signature</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mhuri</td><td>timbro</td><td>stamp/seal</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kumbukumbu</td><td>ricordo/memoria</td><td>memory/souvenir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 5: TEMPO & NUMERI -->
+        <div id="cat-time" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    📅 Tempo, Date & Numeri
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Giorni, mesi, ore e sistema numerico</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku</td><td>giorno</td><td>day</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">usiku</td><td>notte</td><td>night</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">asubuhi</td><td>mattina</td><td>morning</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchana</td><td>pomeriggio/mezzogiorno</td><td>afternoon/noon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jioni</td><td>sera/crepuscolo</td><td>evening/dusk</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wiki/juma</td><td>settimana</td><td>week</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwezi</td><td>mese/luna</td><td>month/moon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwaka</td><td>anno</td><td>year</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">leo</td><td>oggi</td><td>today</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jana</td><td>ieri</td><td>yesterday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kesho</td><td>domani</td><td>tomorrow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sasa hivi</td><td>adesso</td><td>right now</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baadaye</td><td>più tardi</td><td>later</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kila siku</td><td>ogni giorno</td><td>every day</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumapili</td><td>domenica</td><td>Sunday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumatatu</td><td>lunedì</td><td>Monday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumanne</td><td>martedì</td><td>Tuesday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumatano</td><td>mercoledì</td><td>Wednesday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">alhamisi</td><td>giovedì</td><td>Thursday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ijumaa</td><td>venerdì</td><td>Friday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumamosi</td><td>sabato</td><td>Saturday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">moja</td><td>uno</td><td>one</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbili</td><td>due</td><td>two</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tatu</td><td>tre</td><td>three</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nne</td><td>quattro</td><td>four</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tano</td><td>cinque</td><td>five</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sita</td><td>sei</td><td>six</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">saba</td><td>sette</td><td>seven</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nane</td><td>otto</td><td>eight</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tisa</td><td>nove</td><td>nine</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kumi</td><td>dieci</td><td>ten</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ishirini</td><td>venti</td><td>twenty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">thelathini</td><td>trenta</td><td>thirty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">arobaini</td><td>quaranta</td><td>forty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hamsini</td><td>cinquanta</td><td>fifty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sitini</td><td>sessanta</td><td>sixty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sabini</td><td>settanta</td><td>seventy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">themanini</td><td>ottanta</td><td>eighty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tisini</td><td>novanta</td><td>ninety</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mia</td><td>cento</td><td>hundred</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">elfu</td><td>mille</td><td>thousand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">laki</td><td>centomila</td><td>hundred thousand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">milioni</td><td>milione</td><td>million</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Januari</td><td>gennaio</td><td>January</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Februari</td><td>febbraio</td><td>February</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Machi</td><td>marzo</td><td>March</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Aprili</td><td>aprile</td><td>April</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Mei</td><td>maggio</td><td>May</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Juni</td><td>giugno</td><td>June</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Julai</td><td>luglio</td><td>July</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Agosti</td><td>agosto</td><td>August</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Septemba</td><td>settembre</td><td>September</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Oktoba</td><td>ottobre</td><td>October</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Novemba</td><td>novembre</td><td>November</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Desemba</td><td>dicembre</td><td>December</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku kuu</td><td>giorno festivo</td><td>holiday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mapumziko</td><td>vacanza</td><td>vacation</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sikukuu</td><td>festa</td><td>festival</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwaka mpya</td><td>capodanno</td><td>new year</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Krismasi</td><td>Natale</td><td>Christmas</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Pasaka</td><td>Pasqua</td><td>Easter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Ramadhani</td><td>Ramadan</td><td>Ramadan</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">Idi</td><td>Eid</td><td>Eid</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku ya kuzaliwa</td><td>compleanno</td><td>birthday</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku ya kumbukumbu</td><td>anniversario</td><td>anniversary</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku ya kazi</td><td>festa del lavoro</td><td>labor day</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siku uhuru</td><td>giorno indipendenza</td><td>independence day</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">alfajiri</td><td>alba</td><td>dawn</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">usiku wa manane</td><td>mezzanotte</td><td>midnight</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dakika</td><td>minuto</td><td>minute</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sekunde</td><td>secondo</td><td>second</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tarehe</td><td>data</td><td>date</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wakati</td><td>momento</td><td>moment</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kipindi</td><td>periodo</td><td>period</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zama</td><td>era/epoca</td><td>era</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">historia</td><td>storia</td><td>history</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sasa</td><td>presente</td><td>present</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zamani</td><td>passato</td><td>past</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 6: NATURA & ANIMALI -->
+        <div id="cat-nature" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    🌿 Natura, Animali & Ambiente
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Elementi naturali, fauna selvatica e fenomeni atmosferici</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maji</td><td>acqua</td><td>water</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ardhi</td><td>terra</td><td>earth/land</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">anga</td><td>cielo</td><td>sky</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jua</td><td>sole</td><td>sun</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwezi</td><td>luna</td><td>moon</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyota</td><td>stella</td><td>star</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mvua</td><td>pioggia</td><td>rain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">upepo</td><td>vento</td><td>wind</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">radi</td><td>fulmine</td><td>lightning</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ngurumo</td><td>tuono</td><td>thunder</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">theuli</td><td>neve</td><td>snow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baridi</td><td>freddo</td><td>cold</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">joto</td><td>caldo</td><td>heat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijani</td><td>verde</td><td>green</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mti</td><td>albero</td><td>tree</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maua</td><td>fiori</td><td>flowers</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyasi</td><td>erba</td><td>grass</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchanga</td><td>sabbia</td><td>sand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">udongo</td><td>terra/terreno</td><td>soil</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwamba</td><td>roccia</td><td>rock</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mlima</td><td>montagna</td><td>mountain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kilima</td><td>collina</td><td>hill</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bonde</td><td>valle</td><td>valley</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mto</td><td>fiume</td><td>river</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ziwa</td><td>lago</td><td>lake</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bahari</td><td>mare/oceano</td><td>sea/ocean</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pwani</td><td>spiaggia/costa</td><td>beach/coast</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kisiwa</td><td>isola</td><td>island</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">msitu</td><td>foresta</td><td>forest</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pori</td><td>selvaggio/bosco</td><td>wild/bush</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jangwa</td><td>deserto</td><td>desert</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tambarare</td><td>pianura</td><td>plain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kimo</td><td>altopiano</td><td>plateau</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mnyama</td><td>animale</td><td>animal</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndege</td><td>uccello</td><td>bird</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyoka</td><td>serpente</td><td>snake</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">paka</td><td>gatto</td><td>cat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbwa</td><td>cane</td><td>dog</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">punda</td><td>asino</td><td>donkey</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">farasi</td><td>cavallo</td><td>horse</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tembo</td><td>elefante</td><td>elephant</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">simba</td><td>leone</td><td>lion</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tiger</td><td>tigre</td><td>tiger</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chui</td><td>leopardo</td><td>leopard</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiboko</td><td>ippopotamo</td><td>hippopotamus</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyati</td><td>bufalo</td><td>buffalo</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">swala</td><td>antilope/gazzella</td><td>antelope/gazelle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kondoo</td><td>pecora</td><td>sheep</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">popo</td><td>pipistrello</td><td>bat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyumbu</td><td>zebra</td><td>zebra</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">fisi</td><td>iena</td><td>hyena</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bweha</td><td>sciacallo</td><td>jackal</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sungura</td><td>coniglio</td><td>rabbit</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dubu</td><td>orso</td><td>bear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kima</td><td>scimmia</td><td>monkey</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tumbili</td><td>scimmia (piccola)</td><td>small monkey</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tawi</td><td>ramo</td><td>branch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mizizi</td><td>radice</td><td>root</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jani</td><td>foglia</td><td>leaf</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbegu</td><td>seme</td><td>seed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukungu</td><td>rugiada</td><td>dew</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukame</td><td>siccità</td><td>drought</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mafuriko</td><td>alluvione</td><td>flood</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dhoruba</td><td>tempesta</td><td>storm</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tufani</td><td>uragano</td><td>hurricane</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hali ya hewa</td><td>tempo meteo</td><td>weather</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jua kali</td><td>sole forte</td><td>hot sun</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiza</td><td>oscurità</td><td>darkness</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwanga</td><td>luce</td><td>light</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kivuli</td><td>ombra</td><td>shadow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">moshi</td><td>fumo</td><td>smoke</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">moto</td><td>fuoco</td><td>fire</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">majivu</td><td>cenere</td><td>ashes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mawe ya moto</td><td>carbone</td><td>charcoal</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 7: AZIONI & VERBI -->
+        <div id="cat-actions" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    ⚡ Azioni, Verbi & Attività
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Verbi essenziali per descrivere azioni quotidiane</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufanya</td><td>fare</td><td>do/make</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusema</td><td>dire/parlare</td><td>say/speak</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuona</td><td>vedere</td><td>see</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusikia</td><td>sentire (udito)</td><td>hear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupenda</td><td>amare/piacere</td><td>love/like</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchukia</td><td>odiare</td><td>hate</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kula</td><td>mangiare</td><td>eat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kunywa</td><td>bere</td><td>drink</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kulala</td><td>dormire</td><td>sleep</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuamka</td><td>svegliarsi</td><td>wake up</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukaa</td><td>sedere/stare</td><td>sit/stay</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusimama</td><td>alzarsi/in piedi</td><td>stand up</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutaka</td><td>volere</td><td>want</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuhitaji</td><td>avere bisogno</td><td>need</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kujaribu</td><td>provare/tentare</td><td>try</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuanza</td><td>iniziare/cominciare</td><td>start/begin</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuisha</td><td>finire</td><td>finish/end</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufungua</td><td>aprire</td><td>open</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufunga</td><td>chiudere</td><td>close</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuingia</td><td>entrare</td><td>enter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutoka</td><td>uscire</td><td>exit/leave</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupata</td><td>ottenere/trovare</td><td>get/find</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupoteza</td><td>perdere</td><td>lose</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupa</td><td>dare</td><td>give</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupokea</td><td>ricevere</td><td>receive</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuandika</td><td>scrivere</td><td>write</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusoma</td><td>leggere/studiare</td><td>read/study</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kujua</td><td>sapere/conoscere</td><td>know</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufikiri</td><td>pensare</td><td>think</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuelewa</td><td>capire</td><td>understand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kujifunza</td><td>imparare</td><td>learn</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufundisha</td><td>insegnare</td><td>teach</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kucheza</td><td>giocare/suonare/ballare</td><td>play</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuimba</td><td>cantare</td><td>sing</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kucheka</td><td>ridere</td><td>laugh</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kulia</td><td>piangere</td><td>cry</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufua</td><td>lavare</td><td>wash</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuoga</td><td>fare il bagno</td><td>bathe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupika</td><td>cucinare</td><td>cook</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kununua</td><td>comprare</td><td>buy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuuza</td><td>vendere</td><td>sell</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutengeneza</td><td>riparare/costruire</td><td>fix/build</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchonga</td><td>intagliare</td><td>carve</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchora</td><td>disegnare</td><td>draw</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupiga</td><td>colpire/battere</td><td>hit/beat</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukata</td><td>tagliare</td><td>cut</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuleta</td><td>portare (qui)</td><td>bring</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kubeba</td><td>portare (su di sé)</td><td>carry</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchukua</td><td>prendere/portare via</td><td>take</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuweka</td><td>mettere</td><td>put</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutupa</td><td>gettare</td><td>throw</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukamata</td><td>afferrare</td><td>catch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuogelea</td><td>nuotare</td><td>swim</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuruka</td><td>saltare/volare</td><td>jump/fly</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufuatilia</td><td>seguire</td><td>follow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuacha</td><td>lasciare/fermarsi</td><td>leave/stop</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuanzisha</td><td>fondare/istituire</td><td>found/establish</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutafuta</td><td>cercare</td><td>search/look for</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuuliza</td><td>chiedere/domandare</td><td>ask</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kujibu</td><td>rispondere</td><td>answer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupiga simu</td><td>telefonare</td><td>call/phone</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutuma</td><td>inviare/mandare</td><td>send</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukubali</td><td>accettare</td><td>accept</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukataa</td><td>rifiutare</td><td>refuse</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukosa</td><td>mancare/non avere</td><td>miss/lack</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufanikiwa</td><td>avere successo</td><td>succeed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kushindwa</td><td>fallire/perdere</td><td>fail/lose</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuendelea</td><td>continuare</td><td>continue</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kubadilika</td><td>cambiare</td><td>change</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kubaki</td><td>rimanere</td><td>remain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuishi</td><td>vivere</td><td>live</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufa</td><td>morire</td><td>die</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuzaliwa</td><td>nascere</td><td>be born</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukua</td><td>crescere</td><td>grow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupona</td><td>guarire</td><td>recover/heal</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kugusa</td><td>toccare</td><td>touch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kunusa</td><td>annusare</td><td>smell</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuonja</td><td>assaggiare</td><td>taste</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusikiliza</td><td>ascoltare</td><td>listen</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuangalia</td><td>guardare</td><td>look/watch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutazama</td><td>guardare fissamente</td><td>gaze</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutafakari</td><td>riflettere</td><td>reflect</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuamini</td><td>credere</td><td>believe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuogopa</td><td>temere</td><td>fear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuthubutu</td><td>osare</td><td>dare</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kustarehe</td><td>riposare</td><td>rest</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchoka</td><td>stancarsi</td><td>get tired</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupumzika</td><td>riposarsi</td><td>rest/relax</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufurahi</td><td>essere felice</td><td>be happy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukasirika</td><td>arrabbiarsi</td><td>get angry</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kustuka</td><td>essere sorpreso</td><td>be surprised</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchangia</td><td>contribuire</td><td>contribute</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusaidia</td><td>aiutare</td><td>help</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuomba</td><td>chiedere/pregare</td><td>request/pray</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusali</td><td>pregare</td><td>pray</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kushukuru</td><td>ringraziare</td><td>thank</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kusamehe</td><td>perdonare</td><td>forgive</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukemea</td><td>sgridare</td><td>scold</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupiga kelele</td><td>gridare</td><td>shout</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kunyamaza</td><td>tacere</td><td>be silent</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuita</td><td>chiamare</td><td>call</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuhesabu</td><td>contare</td><td>count</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupima</td><td>misurare</td><td>measure</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kulinganisha</td><td>confrontare</td><td>compare</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchagua</td><td>scegliere</td><td>choose</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupanga</td><td>pianificare/ordinare</td><td>plan/arrange</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuandaa</td><td>preparare</td><td>prepare</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kulima</td><td>coltivare</td><td>farm/cultivate</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuvuna</td><td>raccogliere (raccolto)</td><td>harvest</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchimba</td><td>scavare</td><td>dig</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kujenga</td><td>costruire</td><td>build</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kubomoa</td><td>demolire</td><td>demolish</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchoma</td><td>bruciare/cucinare</td><td>burn/cook</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuziba</td><td>tappare/riempire</td><td>plug/fill</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuvunja</td><td>rompere</td><td>break</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutenganisha</td><td>separare/dividere</td><td>separate/divide</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuunganisha</td><td>unire/collegare</td><td>join/connect</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuchanganya</td><td>mescolare</td><td>mix</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kukokotoa</td><td>calcolare</td><td>calculate</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupakia</td><td>caricare</td><td>load</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupakua</td><td>scaricare</td><td>unload</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 8: AGGETTIVI & AVVERBI -->
+        <div id="cat-adjectives" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    🎨 Aggettivi, Avverbi & Qualità
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Descrizioni, colori, caratteristiche e modi di dire</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nzuri</td><td>bello/buono</td><td>good/beautiful</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbaya</td><td>cattivo</td><td>bad</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kubwa</td><td>grande</td><td>big/large</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndogo</td><td>piccolo</td><td>small</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">refu</td><td>lungo/alto</td><td>long/tall</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">fupi</td><td>corto/basso</td><td>short</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mpya</td><td>nuovo</td><td>new</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zamani/zee</td><td>vecchio/antico</td><td>old/ancient</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kali</td><td>forte/duro/acuto</td><td>strong/harsh/sharp</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">laini</td><td>morbido/dolce/liscio</td><td>soft/gentle/smooth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ngumu</td><td>difficile/duro</td><td>difficult/hard</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">rahisi</td><td>facile/economico</td><td>easy/cheap</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ghali</td><td>caro/costoso</td><td>expensive</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nene</td><td>grasso/spesso</td><td>fat/thick</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">embamba</td><td>sottile/magro</td><td>thin/slim</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pana</td><td>largo</td><td>wide</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyembamba</td><td>stretto</td><td>narrow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zito</td><td>pesante</td><td>heavy</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">epesi</td><td>leggero</td><td>light (weight)</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwepesi</td><td>veloce</td><td>fast</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pole pole</td><td>lento/piano piano</td><td>slow/slowly</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">joto</td><td>caldo (clima)</td><td>hot</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">baridi</td><td>freddo</td><td>cold</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kavu</td><td>asciutto</td><td>dry</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maji maji</td><td>bagnato</td><td>wet</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">safii</td><td>pulito</td><td>clean</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chafu</td><td>sporco</td><td>dirty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tayari</td><td>pronto</td><td>ready</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">cheupe</td><td>bianco</td><td>white</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">eusi</td><td>nero</td><td>black</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ekundu</td><td>rosso</td><td>red</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">samawati</td><td>blu</td><td>blue</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijani</td><td>verde</td><td>green</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">manjano</td><td>giallo</td><td>yellow</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chungwa</td><td>arancione</td><td>orange</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zambarau</td><td>viola</td><td>purple</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kijivu</td><td>grigio</td><td>gray</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kahawia</td><td>marrone</td><td>brown</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wazi</td><td>aperto/chiaro</td><td>open/clear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">fungu</td><td>chiuso</td><td>closed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">karibu</td><td>vicino</td><td>near</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbali</td><td>lontano</td><td>far</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyuma</td><td>dietro</td><td>behind</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mbele</td><td>davanti</td><td>front</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">juu</td><td>sopra</td><td>above/up</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chini</td><td>sotto</td><td>below/down</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">katikati</td><td>centro</td><td>middle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kati</td><td>tra/fra</td><td>between</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyingine</td><td>altro</td><td>other</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sawa</td><td>uguale/giusto</td><td>equal/right</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tofauti</td><td>diverso</td><td>different</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">halisi</td><td>vero/reale</td><td>true/real</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bandia</td><td>falso</td><td>fake</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bora</td><td>migliore</td><td>best/better</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">daima</td><td>sempre</td><td>always</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mara nyingi</td><td>spesso</td><td>often</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mara chache</td><td>raramente</td><td>rarely</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kamwe</td><td>mai</td><td>never</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pengine</td><td>forse</td><td>maybe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hakika</td><td>sicuro/certamente</td><td>sure/certainly</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kwa kweli</td><td>veramente</td><td>really</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hasa</td><td>specialmente</td><td>especially</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tu</td><td>solo/soltanto</td><td>only/just</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pia</td><td>anche</td><td>also/too</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tena</td><td>ancora/di nuovo</td><td>again</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mara moja</td><td>subito</td><td>immediately</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">haraka</td><td>in fretta</td><td>quickly</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vizuri</td><td>bene</td><td>well</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vibaya</td><td>male</td><td>badly</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sana</td><td>molto</td><td>very</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kidogo</td><td>poco</td><td>little</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">zaidi</td><td>più</td><td>more</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pungufu</td><td>meno</td><td>less</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kutosha</td><td>abbastanza</td><td>enough</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pamoja</td><td>insieme</td><td>together</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pekee</td><td>solo/solamente</td><td>alone/only</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">siri</td><td>segreto</td><td>secret</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">huru</td><td>libero</td><td>free</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tajiri</td><td>ricco</td><td>rich</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maskini</td><td>povero</td><td>poor</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mzima</td><td>sano/intero</td><td>healthy/whole</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mgonjwa</td><td>malato</td><td>sick</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">changa</td><td>giovane/immatura</td><td>young/immature</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hai</td><td>vivo</td><td>alive</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufa</td><td>morto</td><td>dead</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tamu</td><td>dolce/delizioso</td><td>sweet/delicious</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chungu</td><td>amaro</td><td>bitter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chache</td><td>acido/aspro/raro</td><td>sour/rare</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">munyu</td><td>salato</td><td>salty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bali</td><td>saporito</td><td>tasty</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bovu</td><td>marcio</td><td>rotten</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">bichi</td><td>crudo/acerbo</td><td>raw/unripe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">iva</td><td>maturo/cotto</td><td>ripe/cooked</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gumu</td><td>duro (consistenza)</td><td>hard</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ororo</td><td>morbido</td><td>soft</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">butu</td><td>ottuso</td><td>blunt</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wembamba</td><td>sottile</td><td>thin</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">gbaragbara</td><td>ruvido</td><td>rough</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tata</td><td>complicato</td><td>complicated</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">fiche</td><td>nascosto</td><td>hidden</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">thabiti</td><td>stabile/fermo</td><td>stable/firm</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">legevu</td><td>rilassato/lento</td><td>relaxed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ndani</td><td>interno</td><td>inside</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nje</td><td>esterno</td><td>outside</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kila mahali</td><td>dappertutto</td><td>everywhere</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hapa</td><td>qui</td><td>here</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pale</td><td>lì</td><td>there</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kule</td><td>laggiù/di là</td><td>over there</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mmoja</td><td>uno</td><td>one</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wawili</td><td>due</td><td>two</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wengi</td><td>tanti</td><td>many</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kila mmoja</td><td>ognuno</td><td>everyone</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hakuna mtu</td><td>nessuno</td><td>no one</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kitu</td><td>cosa</td><td>thing</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">hakuna kitu</td><td>niente</td><td>nothing</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mambo yote</td><td>tutto</td><td>everything</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sehemu</td><td>parte</td><td>part</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nusu</td><td>metà</td><td>half</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">robo</td><td>quarto</td><td>quarter</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">namba</td><td>numero</td><td>number</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jumla</td><td>somma/totale</td><td>sum/total</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiasi</td><td>quantità</td><td>quantity/amount</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">wingi</td><td>abbondanza</td><td>abundance</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukosefu</td><td>mancanza</td><td>lack</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ujazo</td><td>volume</td><td>volume</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ukubwa</td><td>dimensione</td><td>size</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">umbo</td><td>forma</td><td>shape</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">duara</td><td>cerchio</td><td>circle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mraba</td><td>quadrato</td><td>square</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pembetatu</td><td>triangolo</td><td>triangle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mstatili</td><td>rettangolo</td><td>rectangle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mviringo</td><td>rotondo</td><td>round</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 9: CORPO & SALUTE -->
+        <div id="cat-body" class="category-section mb-8">
+            <div class="category-header rounded-lg p-4 mb-4">
+                <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
+                    🫀 Corpo Umano & Salute
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Anatomia, parti del corpo e termini medici</p>
+            </div>
+            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Swahili</th>
+                            <th class="w-1/3">Italiano</th>
+                            <th class="w-1/3">English</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mwili</td><td>corpo</td><td>body</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kichwa</td><td>testa</td><td>head</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nywele</td><td>capelli</td><td>hair</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uso</td><td>faccia</td><td>face</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jicho</td><td>occhio</td><td>eye</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sikio</td><td>orecchio</td><td>ear</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pua</td><td>naso</td><td>nose</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mdomo</td><td>bocca</td><td>mouth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">meno</td><td>denti</td><td>teeth</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ulimi</td><td>lingua</td><td>tongue</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">shingo</td><td>collo</td><td>neck</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">begi</td><td>spalla</td><td>shoulder</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mkono</td><td>braccio/mano</td><td>arm/hand</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kidole</td><td>dito</td><td>finger</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kucha</td><td>unghia</td><td>nail</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kifua</td><td>petto</td><td>chest</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tumbo</td><td>pancia/stomaco</td><td>stomach</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mgongo</td><td>schiena</td><td>back</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kiuno</td><td>vita</td><td>waist</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mguu</td><td>gamba/piede</td><td>leg/foot</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">goti</td><td>ginocchio</td><td>knee</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kifundo</td><td>caviglia</td><td>ankle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kucha ya mguu</td><td>dito del piede</td><td>toe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">damu</td><td>sangue</td><td>blood</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mfupa</td><td>osso</td><td>bone</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">nyama</td><td>carne/muscolo</td><td>flesh/muscle</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ngozi</td><td>pelle</td><td>skin</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">uvimbe</td><td>cuore</td><td>heart</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mapafu</td><td>polmoni</td><td>lungs</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ini</td><td>fegato</td><td>liver</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">figo</td><td>rene</td><td>kidney</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">utumbo</td><td>intestino</td><td>intestine</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ubongo</td><td>cervello</td><td>brain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">akili</td><td>mente/intelligenza</td><td>mind/intelligence</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pumzi</td><td>respiro</td><td>breath</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sauti</td><td>voce</td><td>voice</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">afya</td><td>salute</td><td>health</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">ugonjwa</td><td>malattia</td><td>disease</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">dawa</td><td>medicina</td><td>medicine</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">muuguzi</td><td>infermiere</td><td>nurse</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mganga</td><td>guaritore tradizionale</td><td>traditional healer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maumivu</td><td>dolore</td><td>pain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">homa</td><td>febbre</td><td>fever</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">malaria</td><td>malaria</td><td>malaria</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pumu</td><td>asma</td><td>asthma</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kifua kikuu</td><td>tubercolosi</td><td>tuberculosis</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">saratani</td><td>cancro</td><td>cancer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">presha</td><td>pressione</td><td>pressure</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">sukari (ugonjwa)</td><td>diabete</td><td>diabetes</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vidonda vya tumbo</td><td>ulcera</td><td>ulcer</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kichefuchefu</td><td>nausea</td><td>nausea</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">tumbo kujiuma</td><td>mal di stomaco</td><td>stomach ache</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kichwa kuumwa</td><td>mal di testa</td><td>headache</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jicho kuumwa</td><td>mal d'occhio</td><td>eye pain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">meno kuumwa</td><td>mal di denti</td><td>toothache</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mgongo kuumwa</td><td>mal di schiena</td><td>backache</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">maumivu ya mifupa</td><td>mal alle ossa</td><td>bone pain</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kohoa</td><td>tosse</td><td>cough</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">pumua</td><td>respirare</td><td>breathe</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">mchocho</td><td>prurito</td><td>itch</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">vipele</td><td>eruzione cutanea</td><td>rash</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">jeraha</td><td>ferita</td><td>wound</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuvuja damu</td><td>sanguinare</td><td>bleed</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuvunjika</td><td>frattura</td><td>fracture</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kupata ajali</td><td>incidente</td><td>accident</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuzimia</td><td>svenire</td><td>faint</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kufa</td><td>morte</td><td>death</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kuzika</td><td>seppellire</td><td>bury</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">msiba</td><td>funerale/lutto</td><td>funeral/mourning</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">chanjo</td><td>vaccino</td><td>vaccination</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">kinga</td><td>prevenzione</td><td>prevention</td></tr>
+                        <tr><td class="swahili-font font-semibold text-orange-300">usafi</td><td>igiene</td><td>hygiene</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Sezione Esercizi -->
+    <section id="exercises-section" class="hidden pt-24 pb-12 px-4 max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                Esercizi di Comprensione - 50 Frasi
+            </h2>
+            <p class="text-gray-400">Completa le frasi con la parola swahili corretta. Ogni esercizio vale 2 punti (max 100, min 60 per superare).</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bg-gray-800 rounded-2xl p-6 mb-8 border border-gray-700 sticky top-20 z-40 shadow-2xl">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-lg">Progresso</span>
+                <span id="progressText" class="text-orange-400 font-bold">0/50 completati</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div id="progressBar" class="progress-fill bg-gradient-to-r from-orange-500 to-red-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between mt-2 text-sm text-gray-400">
+                <span>Punteggio: <span id="scoreDisplay" class="text-white font-bold text-lg">0</span>/100</span>
+                <span>Minimo per superare: 60</span>
+            </div>
+        </div>
+
+        <!-- Exercises Container -->
+        <div id="exercisesContainer" class="space-y-4">
+            <!-- Esercizi generati via JS -->
+        </div>
+
+        <!-- Submit Section -->
+        <div id="submitSection" class="mt-12 text-center hidden">
+            <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 mb-6">
+                <h3 class="text-2xl font-bold mb-4">Hai completato tutti gli esercizi!</h3>
+                <p class="text-gray-400 mb-2">Punteggio finale:</p>
+                <p class="text-5xl font-bold mb-4" id="finalScore">0</p>
+                <p id="resultMessage" class="text-lg mb-6"></p>
+
+                <form onsubmit="sendResults(event)" class="max-w-md mx-auto space-y-4 text-left">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Nome completo</label>
+                        <input type="text" id="studentName" placeholder="Il tuo nome completo" required
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Email</label>
+                        <input type="email" id="studentEmail" placeholder="La tua email" required
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none">
+                    </div>
+                    <button type="submit" 
+                        class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg font-bold text-lg hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        Invia Risultati via Email
+                    </button>
+                </form>
+                <p class="text-sm text-gray-500 mt-4">I risultati verranno inviati a: infonefelieducation@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Esercizi di completamento frasi (50 esercizi)
+        const exercises = [
+            {sentence: "Jambo! _______ sana per l'aiuto.", answer: "asante", hint: "grazie"},
+            {sentence: "Ogni mattina dico _______ ai miei genitori.", answer: "habari za asubuhi", hint: "buongiorno"},
+            {sentence: "La _______ è la bevanda più popolare in Tanzania.", answer: "chai", hint: "tè"},
+            {sentence: "Il _______ è l'animale nazionale della Tanzania.", answer: "simba", hint: "leone"},
+            {sentence: "Per andare all'aeroporto prendo un _______.", answer: "teksi", hint: "taxi"},
+            {sentence: "Mia madre è una brava _______ in cucina.", answer: "mpishi", hint: "cuoca"},
+            {sentence: "Domani _______ andrò a Zanzibar.", answer: "kesho", hint: "domani"},
+            {sentence: "Il _______ è il piatto base della cucina swahili.", answer: "ugali", hint: "polenta di mais"},
+            {sentence: "_______, posso avere un bicchiere d'acqua?", answer: "tafadhali", hint: "per favore"},
+            {sentence: "Mi chiamo Marco e _______ italiano.", answer: "mimi", hint: "io"},
+            {sentence: "La _______ è molto calda oggi.", answer: "jua", hint: "sole"},
+            {sentence: "Mio fratello lavora come _______ in ospedale.", answer: "daktari", hint: "dottore"},
+            {sentence: "Vado a _______ la spesa al mercato.", answer: "kununua", hint: "comprare"},
+            {sentence: "Il _______ è il fiume più lungo dell'Africa.", answer: "Nile", hint: "Nilo"},
+            {sentence: "_______, come stai oggi?", answer: "hujambo", hint: "come stai?"},
+            {sentence: "Mi piace _______ la musica swahili.", answer: "kusikiliza", hint: "ascoltare"},
+            {sentence: "La _______ è dolce e gialla.", answer: "ndizi", hint: "banana"},
+            {sentence: "Domenica vado in _______ con la famiglia.", answer: "kanisa", hint: "chiesa"},
+            {sentence: "Ho bisogno di _______ per scrivere una lettera.", answer: "karatasi", hint: "carta"},
+            {sentence: "Il _______ è un animale molto intelligente.", answer: "tembo", hint: "elefante"},
+            {sentence: "_______, arrivederci a domani!", answer: "kwa heri", hint: "arrivederci"},
+            {sentence: "Mia sorella è una _______ molto brava.", answer: "mwimbaji", hint: "cantante"},
+            {sentence: "Preferisco il _______ al tè verde.", answer: "kahawa", hint: "caffè"},
+            {sentence: "L'anno scorso ho _______ il Kilimangiaro.", answer: "kupanda", hint: "scalato"},
+            {sentence: "Il _______ è il mese della festa di Ramadan.", answer: "Ramadhani", hint: "Ramadan"},
+            {sentence: "_______, posso entrare?", answer: "samahani", hint: "scusa"},
+            {sentence: "Mio padre coltiva _______ nel suo shamba.", answer: "mahindi", hint: "mais"},
+            {sentence: "Mi piace camminare sulla _______ al tramonto.", answer: "pwani", hint: "spiaggia"},
+            {sentence: "Il _______ è un pesce molto comune qui.", answer: "samaki", hint: "pesce"},
+            {sentence: "_______, buonanotte a tutti!", answer: "lala salama", hint: "buonanotte"},
+            {sentence: "Ho perso il mio _______ e non posso tornare a casa.", answer: "funguo", hint: "chiave"},
+            {sentence: "La _______ è la lingua franca dell'Africa orientale.", answer: "Kiswahili", hint: "swahili"},
+            {sentence: "Domani è _______, giorno di riposo.", answer: "jumapili", hint: "domenica"},
+            {sentence: "Mi serve un _______ per tagliare il pane.", answer: "kisu", hint: "coltello"},
+            {sentence: "Il _______ è molto alto in questa zona.", answer: "mlima", hint: "montagna"},
+            {sentence: "_______, benvenuto nella nostra casa!", answer: "karibu", hint: "benvenuto"},
+            {sentence: "Mia nonna vive in un piccolo _______ in campagna.", answer: "kijiji", hint: "villaggio"},
+            {sentence: "Devo _______ i miei vestiti sporchi.", answer: "kufua", hint: "lavare"},
+            {sentence: "Il _______ è il re della savana.", answer: "simba", hint: "leone"},
+            {sentence: "_______, non capisco cosa dici.", answer: "samahani", hint: "scusa"},
+            {sentence: "Preferisco viaggiare in _______ che in aereo.", answer: "treni", hint: "treno"},
+            {sentence: "La _______ è rossa e dolce.", answer: "tikitimaji", hint: "anguria"},
+            {sentence: "Mio fratello studia per diventare _______.", answer: "mwalimu", hint: "insegnante"},
+            {sentence: "_______, grazie per il cibo!", answer: "shukrani", hint: "ringraziamento"},
+            {sentence: "Il _______ è un animale sacro per molti africani.", answer: "ng'ombe", hint: "mucca"},
+            {sentence: "Mi piace _______ libri sulla cultura swahili.", answer: "kusoma", hint: "leggere"},
+            {sentence: "La _______ è la capitale economica della Tanzania.", answer: "Dar es Salaam", hint: "Dar es Salaam"},
+            {sentence: "_______, arrivederci e buon viaggio!", answer: "safari njema", hint: "buon viaggio"},
+            {sentence: "Ogni sera guardo le _______ nel cielo.", answer: "nyota", hint: "stelle"},
+            {sentence: "Il _______ è un piatto a base di riso e carne.", answer: "pilau", hint: "pilau"}
+        ];
+
+        // Variabili di stato
+        let completedExercises = 0;
+        let score = 0;
+        let exerciseAnswers = {};
+
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', function() {
+            renderExercises();
+        });
+
+        // Navigazione tra sezioni
+        function showSection(section) {
+            const vocabSection = document.getElementById('vocabulary-section');
+            const exercisesSection = document.getElementById('exercises-section');
+            const navVocab = document.getElementById('nav-vocab');
+            const navExercises = document.getElementById('nav-exercises');
+
+            if (section === 'vocabulary') {
+                vocabSection.classList.remove('hidden');
+                exercisesSection.classList.add('hidden');
+                navVocab.classList.remove('bg-gray-700');
+                navVocab.classList.add('bg-orange-600');
+                navExercises.classList.remove('bg-orange-600');
+                navExercises.classList.add('bg-gray-700');
+            } else {
+                vocabSection.classList.add('hidden');
+                exercisesSection.classList.remove('hidden');
+                navExercises.classList.remove('bg-gray-700');
+                navExercises.classList.add('bg-orange-600');
+                navVocab.classList.remove('bg-orange-600');
+                navVocab.classList.add('bg-gray-700');
+            }
+        }
+
+        // Renderizza esercizi
+        function renderExercises() {
+            const container = document.getElementById('exercisesContainer');
+            container.innerHTML = '';
+
+            exercises.forEach((ex, index) => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-800 rounded-xl p-5 border border-gray-700';
+                div.id = `exercise-${index}`;
+
+                div.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center font-bold text-sm">${index + 1}</span>
+                        <div class="flex-1">
+                            <p class="text-lg mb-3 leading-relaxed">${ex.sentence.replace('_______', '<span class="inline-block min-w-[120px] border-b-2 border-orange-500 px-2 text-orange-400 font-bold">?</span>')}</p>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input type="text" 
+                                    id="input-${index}" 
+                                    placeholder="Scrivi la parola swahili..." 
+                                    class="exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all"
+                                    onkeypress="if(event.key==='Enter') checkAnswer(${index})">
+                                <button onclick="checkAnswer(${index})" 
+                                    class="px-6 py-2 bg-orange-600 hover:bg-orange-700 rounded-lg font-medium transition-colors">
+                                    Verifica
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">💡 Suggerimento: ${ex.hint}</p>
+                            <div id="feedback-${index}" class="mt-2 hidden"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Controlla risposta
+        function checkAnswer(index) {
+            const input = document.getElementById(`input-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = exercises[index].answer.toLowerCase();
+
+            if (!userAnswer) return;
+
+            if (userAnswer === correctAnswer) {
+                if (!exerciseAnswers[index]) {
+                    exerciseAnswers[index] = true;
+                    completedExercises++;
+                    score += 2;
+                    updateProgress();
+                }
+                input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-green-500 rounded-lg text-white focus:outline-none transition-all";
+                input.disabled = true;
+                feedback.innerHTML = `<span class="text-green-400 font-medium flex items-center gap-1">✓ Corretto! +2 punti</span>`;
+                feedback.classList.remove('hidden');
+            } else {
+                input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-red-500 rounded-lg text-white focus:outline-none transition-all";
+                feedback.innerHTML = `<span class="text-red-400 font-medium flex items-center gap-1">✗ Sbagliato. Riprova!</span>`;
+                feedback.classList.remove('hidden');
+
+                setTimeout(() => {
+                    input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all";
+                    feedback.classList.add('hidden');
+                }, 2000);
+            }
+
+            if (completedExercises === exercises.length) {
+                showSubmitSection();
+            }
+        }
+
+        // Aggiorna progresso
+        function updateProgress() {
+            const progress = (completedExercises / exercises.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${completedExercises}/${exercises.length} completati`;
+            document.getElementById('scoreDisplay').textContent = score;
+        }
+
+        // Mostra sezione invio
+        function showSubmitSection() {
+            const submitSection = document.getElementById('submitSection');
+            const finalScore = document.getElementById('finalScore');
+            const resultMessage = document.getElementById('resultMessage');
+
+            submitSection.classList.remove('hidden');
+            finalScore.textContent = score + '/100';
+
+            if (score >= 60) {
+                finalScore.className = 'text-5xl font-bold mb-4 text-green-400';
+                resultMessage.innerHTML = '<span class="text-green-400 text-xl">🎉 Congratulazioni! Hai superato il test!</span>';
+            } else {
+                finalScore.className = 'text-5xl font-bold mb-4 text-red-400';
+                resultMessage.innerHTML = '<span class="text-red-400 text-xl">❌ Non hai raggiunto il punteggio minimo (60). Riprova!</span>';
+            }
+
+            submitSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Invia risultati
+        function sendResults(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const passed = score >= 60 ? 'SUPERATO ✓' : 'NON SUPERATO ✗';
+            const grade = score >= 90 ? 'A (Ottimo)' : score >= 80 ? 'B (Buono)' : score >= 70 ? 'C (Sufficiente)' : score >= 60 ? 'D (Minimo)' : 'F (Insufficiente)';
+
+            const subject = `Risultati Esercizi Swahili - ${name}`;
+            const body = `
+Nome Studente: ${name}
+Email: ${email}
+Punteggio: ${score}/100
+Stato: ${passed}
+Valutazione: ${grade}
+Esercizi completati: ${completedExercises}/50
+
+Data: ${new Date().toLocaleString('it-IT')}
+            `;
+
+            const mailtoLink = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+
+            alert('Grazie! Il tuo client email si aprirà con i risultati precompilati.\n\nRicorda di inviare l\'email per completare la consegna.');
+        }
+
+        // Quick search per vocabolario
+        function quickSearch() {
+            const searchTerm = document.getElementById('quickSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.vocab-table tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    row.style.background = searchTerm ? 'rgba(249, 115, 22, 0.1)' : '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
