@@ -9,7 +9,7 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
         .swahili-font { font-family: 'Noto Sans', sans-serif; }
 
@@ -36,11 +36,11 @@
 
         .vocab-table td {
             padding: 6px 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .vocab-table tr:hover td {
-            background: rgba(255,255,255,0.05);
+            background: rgba(249, 115, 22, 0.05);
         }
 
         .category-header {
@@ -58,15 +58,54 @@
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
         ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 4px; }
+    
+        /* Tema chiaro - miglioramenti */
+        .category-header {
+            background: linear-gradient(90deg, rgba(249,115,22,0.15) 0%, transparent 100%);
+        }
+        .vocab-table th {
+            background: rgba(249, 115, 22, 0.1) !important;
+            color: #ea580c !important;
+        }
+        .swahili-font {
+            color: #c2410c !important;
+        }
+        input, select {
+            color: #111827 !important;
+            background: white !important;
+            border-color: #d1d5db !important;
+        }
+        input:focus, select:focus {
+            border-color: #f97316 !important;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
+        }
+        .exercise-input {
+            color: #111827 !important;
+            background: white !important;
+        }
+        .exercise-input.correct-answer {
+            border-color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.05) !important;
+        }
+        .exercise-input.wrong-answer {
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.05) !important;
+        }
+        /* Stampa */
+        @media print {
+            body { background: white !important; }
+            .vocab-table th { background: #f97316 !important; color: white !important; }
+        }
+
     </style>
 <base target="_blank">
 </head>
-<body class="text-white min-h-screen">
+<body class="text-gray-900 min-h-screen">
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-700 z-50 no-print">
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-300 z-50 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center space-x-3">
@@ -75,7 +114,7 @@
                 </div>
                 <div class="flex space-x-4">
                     <button onclick="showSection('vocabulary')" id="nav-vocab" class="px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 transition-colors font-medium">Vocabolario</button>
-                    <button onclick="showSection('exercises')" id="nav-exercises" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors font-medium">Esercizi</button>
+                    <button onclick="showSection('exercises')" id="nav-exercises" class="px-4 py-2 rounded-lg bg-white hover:bg-gray-600 transition-colors font-medium">Esercizi</button>
                     <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition-colors font-medium">🖨️ Stampa</button>
                 </div>
             </div>
@@ -83,18 +122,18 @@
     </nav>
 
     <!-- Indice Categorie -->
-    <div class="fixed left-4 top-24 w-48 bg-gray-800/90 rounded-xl p-4 border border-gray-700 z-40 max-h-[80vh] overflow-y-auto no-print hidden lg:block">
+    <div class="fixed left-4 top-24 w-48 bg-gray-50/90 rounded-xl p-4 border border-gray-300 z-40 max-h-[80vh] overflow-y-auto no-print hidden lg:block">
         <h3 class="text-orange-400 font-bold mb-3 text-sm uppercase tracking-wider">Indice Categorie</h3>
         <ul class="space-y-1 text-sm">
-            <li><a href="#cat-basics" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🗣️ Saluti & Base</a></li>
-            <li><a href="#cat-people" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">👥 Persone & Famiglia</a></li>
-            <li><a href="#cat-food" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🍽️ Cibo & Bevande</a></li>
-            <li><a href="#cat-travel" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">✈️ Viaggi & Luoghi</a></li>
-            <li><a href="#cat-time" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">📅 Tempo & Numeri</a></li>
-            <li><a href="#cat-nature" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🌿 Natura & Animali</a></li>
-            <li><a href="#cat-actions" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">⚡ Azioni & Verbi</a></li>
-            <li><a href="#cat-adjectives" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🎨 Aggettivi & Avverbi</a></li>
-            <li><a href="#cat-body" class="block py-1 px-2 rounded hover:bg-gray-700 transition-colors">🫀 Corpo & Salute</a></li>
+            <li><a href="#cat-basics" class="block py-1 px-2 rounded hover:bg-white transition-colors">🗣️ Saluti & Base</a></li>
+            <li><a href="#cat-people" class="block py-1 px-2 rounded hover:bg-white transition-colors">👥 Persone & Famiglia</a></li>
+            <li><a href="#cat-food" class="block py-1 px-2 rounded hover:bg-white transition-colors">🍽️ Cibo & Bevande</a></li>
+            <li><a href="#cat-travel" class="block py-1 px-2 rounded hover:bg-white transition-colors">✈️ Viaggi & Luoghi</a></li>
+            <li><a href="#cat-time" class="block py-1 px-2 rounded hover:bg-white transition-colors">📅 Tempo & Numeri</a></li>
+            <li><a href="#cat-nature" class="block py-1 px-2 rounded hover:bg-white transition-colors">🌿 Natura & Animali</a></li>
+            <li><a href="#cat-actions" class="block py-1 px-2 rounded hover:bg-white transition-colors">⚡ Azioni & Verbi</a></li>
+            <li><a href="#cat-adjectives" class="block py-1 px-2 rounded hover:bg-white transition-colors">🎨 Aggettivi & Avverbi</a></li>
+            <li><a href="#cat-body" class="block py-1 px-2 rounded hover:bg-white transition-colors">🫀 Corpo & Salute</a></li>
         </ul>
     </div>
 
@@ -106,17 +145,17 @@
             <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent">
                 Vocabolario Swahili Completo
             </h1>
-            <p class="text-gray-400">Tutte le parole organizzate per categorie - 2000+ voci</p>
+            <p class="text-gray-600">Tutte le parole organizzate per categorie - 2000+ voci</p>
 
             <!-- Stats -->
             <div class="flex justify-center gap-6 mt-4 flex-wrap text-sm">
-                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                <span class="bg-gray-50 px-4 py-2 rounded-full border border-gray-300">
                     <span class="text-orange-400 font-bold">2,000+</span> parole
                 </span>
-                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                <span class="bg-gray-50 px-4 py-2 rounded-full border border-gray-300">
                     <span class="text-blue-400 font-bold">9</span> categorie
                 </span>
-                <span class="bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                <span class="bg-gray-50 px-4 py-2 rounded-full border border-gray-300">
                     <span class="text-green-400 font-bold">3</span> lingue
                 </span>
             </div>
@@ -125,7 +164,7 @@
         <!-- Search rapida -->
         <div class="max-w-xl mx-auto mb-8 no-print">
             <input type="text" id="quickSearch" placeholder="Cerca parola..." 
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none"
+                class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none"
                 onkeyup="quickSearch()">
         </div>
 
@@ -135,9 +174,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     🗣️ Saluti, Pronomi & Parole Base
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Espressioni fondamentali per la comunicazione quotidiana</p>
+                <p class="text-gray-600 text-sm mt-1">Espressioni fondamentali per la comunicazione quotidiana</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -258,9 +297,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     👥 Persone, Famiglia & Professioni
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Termini per descrivere persone, relazioni familiari e mestieri</p>
+                <p class="text-gray-600 text-sm mt-1">Termini per descrivere persone, relazioni familiari e mestieri</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -315,9 +354,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     🍽️ Cibo, Bevande & Cucina
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Vocabolario per ristoranti, mercati e cucina tradizionale</p>
+                <p class="text-gray-600 text-sm mt-1">Vocabolario per ristoranti, mercati e cucina tradizionale</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -382,9 +421,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     ✈️ Viaggi, Trasporti & Luoghi
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Termini per muoversi, alloggiare e orientarsi</p>
+                <p class="text-gray-600 text-sm mt-1">Termini per muoversi, alloggiare e orientarsi</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -580,9 +619,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     📅 Tempo, Date & Numeri
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Giorni, mesi, ore e sistema numerico</p>
+                <p class="text-gray-600 text-sm mt-1">Giorni, mesi, ore e sistema numerico</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -681,9 +720,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     🌿 Natura, Animali & Ambiente
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Elementi naturali, fauna selvatica e fenomeni atmosferici</p>
+                <p class="text-gray-600 text-sm mt-1">Elementi naturali, fauna selvatica e fenomeni atmosferici</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -778,9 +817,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     ⚡ Azioni, Verbi & Attività
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Verbi essenziali per descrivere azioni quotidiane</p>
+                <p class="text-gray-600 text-sm mt-1">Verbi essenziali per descrivere azioni quotidiane</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -922,9 +961,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     🎨 Aggettivi, Avverbi & Qualità
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Descrizioni, colori, caratteristiche e modi di dire</p>
+                <p class="text-gray-600 text-sm mt-1">Descrizioni, colori, caratteristiche e modi di dire</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -1077,9 +1116,9 @@
                 <h2 class="text-2xl font-bold text-orange-400 flex items-center gap-2">
                     🫀 Corpo Umano & Salute
                 </h2>
-                <p class="text-gray-400 text-sm mt-1">Anatomia, parti del corpo e termini medici</p>
+                <p class="text-gray-600 text-sm mt-1">Anatomia, parti del corpo e termini medici</p>
             </div>
-            <div class="bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700">
+            <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-300">
                 <table class="vocab-table">
                     <thead>
                         <tr>
@@ -1174,20 +1213,20 @@
             <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
                 Esercizi di Comprensione - 50 Frasi
             </h2>
-            <p class="text-gray-400">Completa le frasi con la parola swahili corretta. Ogni esercizio vale 2 punti (max 100, min 60 per superare).</p>
+            <p class="text-gray-600">Completa le frasi con la parola swahili corretta. Ogni esercizio vale 2 punti (max 100, min 60 per superare).</p>
         </div>
 
         <!-- Progress Bar -->
-        <div class="bg-gray-800 rounded-2xl p-6 mb-8 border border-gray-700 sticky top-20 z-40 shadow-2xl">
+        <div class="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-300 sticky top-20 z-40 shadow-2xl">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-lg">Progresso</span>
                 <span id="progressText" class="text-orange-400 font-bold">0/50 completati</span>
             </div>
-            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+            <div class="w-full bg-white rounded-full h-4 overflow-hidden">
                 <div id="progressBar" class="progress-fill bg-gradient-to-r from-orange-500 to-red-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
-            <div class="flex justify-between mt-2 text-sm text-gray-400">
-                <span>Punteggio: <span id="scoreDisplay" class="text-white font-bold text-lg">0</span>/100</span>
+            <div class="flex justify-between mt-2 text-sm text-gray-600">
+                <span>Punteggio: <span id="scoreDisplay" class="text-gray-900 font-bold text-lg">0</span>/100</span>
                 <span>Minimo per superare: 60</span>
             </div>
         </div>
@@ -1199,22 +1238,22 @@
 
         <!-- Submit Section -->
         <div id="submitSection" class="mt-12 text-center hidden">
-            <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 mb-6">
+            <div class="bg-gray-50 rounded-2xl p-8 border border-gray-300 mb-6">
                 <h3 class="text-2xl font-bold mb-4">Hai completato tutti gli esercizi!</h3>
-                <p class="text-gray-400 mb-2">Punteggio finale:</p>
+                <p class="text-gray-600 mb-2">Punteggio finale:</p>
                 <p class="text-5xl font-bold mb-4" id="finalScore">0</p>
                 <p id="resultMessage" class="text-lg mb-6"></p>
 
                 <form onsubmit="sendResults(event)" class="max-w-md mx-auto space-y-4 text-left">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Nome completo</label>
+                        <label class="block text-sm text-gray-600 mb-1">Nome completo</label>
                         <input type="text" id="studentName" placeholder="Il tuo nome completo" required
-                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none">
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Email</label>
+                        <label class="block text-sm text-gray-600 mb-1">Email</label>
                         <input type="email" id="studentEmail" placeholder="La tua email" required
-                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none">
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none">
                     </div>
                     <button type="submit" 
                         class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg font-bold text-lg hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
@@ -1302,17 +1341,17 @@
             if (section === 'vocabulary') {
                 vocabSection.classList.remove('hidden');
                 exercisesSection.classList.add('hidden');
-                navVocab.classList.remove('bg-gray-700');
+                navVocab.classList.remove('bg-white');
                 navVocab.classList.add('bg-orange-600');
                 navExercises.classList.remove('bg-orange-600');
-                navExercises.classList.add('bg-gray-700');
+                navExercises.classList.add('bg-white');
             } else {
                 vocabSection.classList.add('hidden');
                 exercisesSection.classList.remove('hidden');
-                navExercises.classList.remove('bg-gray-700');
+                navExercises.classList.remove('bg-white');
                 navExercises.classList.add('bg-orange-600');
                 navVocab.classList.remove('bg-orange-600');
-                navVocab.classList.add('bg-gray-700');
+                navVocab.classList.add('bg-white');
             }
         }
 
@@ -1323,7 +1362,7 @@
 
             exercises.forEach((ex, index) => {
                 const div = document.createElement('div');
-                div.className = 'bg-gray-800 rounded-xl p-5 border border-gray-700';
+                div.className = 'bg-gray-50 rounded-xl p-5 border border-gray-300';
                 div.id = `exercise-${index}`;
 
                 div.innerHTML = `
@@ -1335,7 +1374,7 @@
                                 <input type="text" 
                                     id="input-${index}" 
                                     placeholder="Scrivi la parola swahili..." 
-                                    class="exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all"
+                                    class="exercise-input flex-1 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all"
                                     onkeypress="if(event.key==='Enter') checkAnswer(${index})">
                                 <button onclick="checkAnswer(${index})" 
                                     class="px-6 py-2 bg-orange-600 hover:bg-orange-700 rounded-lg font-medium transition-colors">
@@ -1367,17 +1406,17 @@
                     score += 2;
                     updateProgress();
                 }
-                input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-green-500 rounded-lg text-white focus:outline-none transition-all";
+                input.className = "exercise-input flex-1 px-4 py-2 bg-white border-2 border-green-500 rounded-lg text-gray-900 focus:outline-none transition-all";
                 input.disabled = true;
                 feedback.innerHTML = `<span class="text-green-400 font-medium flex items-center gap-1">✓ Corretto! +2 punti</span>`;
                 feedback.classList.remove('hidden');
             } else {
-                input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-red-500 rounded-lg text-white focus:outline-none transition-all";
+                input.className = "exercise-input flex-1 px-4 py-2 bg-white border-2 border-red-500 rounded-lg text-gray-900 focus:outline-none transition-all";
                 feedback.innerHTML = `<span class="text-red-400 font-medium flex items-center gap-1">✗ Sbagliato. Riprova!</span>`;
                 feedback.classList.remove('hidden');
 
                 setTimeout(() => {
-                    input.className = "exercise-input flex-1 px-4 py-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all";
+                    input.className = "exercise-input flex-1 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none transition-all";
                     feedback.classList.add('hidden');
                 }, 2000);
             }
