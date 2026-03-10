@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passato in Kiswahili - 50 Esercizi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .swahili-font {
+            font-family: 'Noto Serif', serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .exercise-card {
+            transition: all 0.3s ease;
+        }
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .correct {
+            border-color: #10b981 !important;
+            background-color: #d1fae5 !important;
+        }
+        .incorrect {
+            border-color: #ef4444 !important;
+            background-color: #fee2e2 !important;
+        }
+        .verb-highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .rule-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .example-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-4xl mx-auto mb-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">🌍 Il Passato in Kiswahili</h1>
+        <p class="text-lg text-gray-600">Guida completa alla formazione del tempo passato con 50 esercizi interattivi</p>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="max-w-4xl mx-auto mb-8 sticky top-4 z-50">
+        <div class="glass-panel rounded-2xl p-4 shadow-lg">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-gray-700">Progresso</span>
+                <span id="progressText" class="text-sm font-bold text-indigo-600">0/50 completati</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="progressBar" class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+                <span id="scoreDisplay" class="text-sm font-semibold text-gray-600">Punteggio: 0/100</span>
+                <span class="text-xs text-gray-500">Ogni esercizio vale 2 punti</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto space-y-8">
+
+        <!-- Theory Section -->
+        <section class="glass-panel rounded-2xl p-6 md:p-8 shadow-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <span class="text-3xl">📚</span> Regola del Passato (Past Tense)
+            </h2>
+            
+            <div class="rule-box">
+                <h3 class="text-xl font-bold mb-3">🎯 Regola Fondamentale</h3>
+                <p class="text-lg leading-relaxed">
+                    In Kiswahili, il <strong>passato</strong> si forma aggiungendo il prefisso <span class="bg-yellow-300 text-gray-900 px-2 py-1 rounded font-bold">li-</span> 
+                    (o varianti <span class="bg-yellow-300 text-gray-900 px-2 py-1 rounded font-bold">li-/li-/li-</span> secondo la classe del soggetto) 
+                    al tema verbale, seguito dal suffisso della persona.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <h4 class="font-bold text-indigo-700 mb-3">🔤 Struttura Base</h4>
+                    <div class="space-y-2 text-gray-700">
+                        <p><strong>Soggetto</strong> + <strong>li-</strong> + <strong>Radice Verbale</strong> + <strong>Suffisso</strong></p>
+                        <p class="text-sm text-gray-500 mt-2">Esempio: Ni + li + som + a = <span class="swahili-font font-bold text-indigo-600">Nilisoma</span> (Ho letto/leggevo)</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <h4 class="font-bold text-indigo-700 mb-3">🎭 Cambiamenti Fonologici</h4>
+                    <div class="space-y-2 text-gray-700 text-sm">
+                        <p>• <strong>li-</strong> diventa <strong>-li-</strong> dopo consonanti</p>
+                        <p>• Verbi in <strong>-a</strong> mantengono la desinenza</p>
+                        <p>• Verbi monosillabici raddoppiano la radice</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800 mb-4">📖 Coniugazione per Classi</h3>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-xl shadow-sm border border-gray-200">
+                    <thead class="bg-indigo-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-indigo-900 font-bold">Classe</th>
+                            <th class="px-4 py-3 text-left text-indigo-900 font-bold">Prefisso</th>
+                            <th class="px-4 py-3 text-left text-indigo-900 font-bold">Esempio (soma)</th>
+                            <th class="px-4 py-3 text-left text-indigo-900 font-bold">Significato</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Mimi (io)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">ni-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Nilisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Io lessi/leggevo</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Wewe (tu)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">u-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Ulisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Tu leggesti/leggevi</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Yeye (lui/lei)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">a-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Alisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Lui/Lei lesse/leggeva</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Sisi (noi)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">tu-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Tulisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Noi leggemmo/leggevamo</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Ninyi (voi)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">m-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Mlisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Voi leggeste/leggevate</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-semibold">Wao (loro)</td>
+                            <td class="px-4 py-3"><span class="verb-highlight">wa-li-</span></td>
+                            <td class="px-4 py-3 swahili-font font-bold text-indigo-600">Walisoma</td>
+                            <td class="px-4 py-3 text-gray-600">Loro lessero/leggevano</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 grid md:grid-cols-2 gap-4">
+                <div class="example-box">
+                    <strong class="text-indigo-700">✅ Esempio Positivo:</strong><br>
+                    <span class="swahili-font">Jana <span class="verb-highlight">nilikwenda</span> sokoni.</span><br>
+                    <span class="text-gray-600 text-sm">Ieri andai al mercato.</span>
+                </div>
+                <div class="example-box">
+                    <strong class="text-indigo-700">❌ Negativo (Past Negative):</strong><br>
+                    <span class="swahili-font">Sikuenda sokoni.</span> (non andai)<br>
+                    <span class="text-gray-600 text-sm">Si forma con <strong>si-</strong> + radice (senza li-)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises Section -->
+        <section id="exercises" class="space-y-6">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">✏️ 50 Esercizi di Completamento</h2>
+            <p class="text-center text-gray-600 mb-8">Completa le frasi con la forma corretta del passato. Ogni risposta corretta vale 2 punti.</p>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="1">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">1</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (soma) kitabu jana usiku.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilisoma">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="2">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">2</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (la) chakula kitamu jana.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulila">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="3">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">3</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (andika) barua kwa mama yake.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="aliandika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="4">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">4</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (nunua) matunda sokoni.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulinunua">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="5">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">5</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (cheza) mpira uwanjani.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlicheza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 6 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="6">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">6</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (fanya) kazi nzima siku nzima.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walifanya">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 7 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="7">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">7</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (kunywa) maji baridi.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilikunywa">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 8 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="8">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">8</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (ona) filamu nzuri sinemani.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="uliona">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 9 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="9">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">9</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (sikia) sauti kulia.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alisikia">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 10 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="10">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">10</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (enda) kanisani Jumapili.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulienda">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 11 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="11">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">11</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (jibu) maswali yote.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlijibu">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 12 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="12">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">12</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (imba) nyimbo za taifa.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="waliimba">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 13 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="13">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">13</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (pika) chakula cha jioni.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilipika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 14 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="14">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">14</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (jifunza) Kiswahili kwa bidii.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulijifunza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 15 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="15">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">15</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (lala) usingizi mnono.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alilala">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 16 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="16">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">16</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (cheka) sana hadithi yake.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulicheka">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 17 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="17">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">17</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (kimbia) mbio ndefu.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlikimbia">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 18 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="18">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">18</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (tengeneza) meza mpya.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walitengeneza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 19 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="19">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">19</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (oga) maji ya moto.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilioga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 20 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="20">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">20</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (piga) picha nyingi.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulipiga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 21 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="21">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">21</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (soma) gazeti asubuhi.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alisoma">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 22 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="22">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">22</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (nunua) nguo mpya.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulinunua">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 23 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="23">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">23</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (uliza) maswali mengi.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mliuliza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 24 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="24">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">24</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (jenga) nyumba kubwa.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walijenga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 25 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="25">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">25</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (chora) picha nzuri.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilichora">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 26 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="26">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">26</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (fika) nyumbani mapema.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulifika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 27 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="27">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">27</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (kata) mti kwa mashoka.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alikata">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 28 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="28">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">28</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (oga) baharini.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulioga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 29 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="29">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">29</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (soma) hadithi kwa sauti.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlisoma">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 30 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="30">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">30</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (lala) hotelini jana usiku.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walilala">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 31 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="31">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">31</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (andika) barua ndefu.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="niliandika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 32 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="32">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">32</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (cheza) mpira wa miguu.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulicheza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 33 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="33">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">33</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (nunua) gari jipya.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alinunua">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 34 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="34">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">34</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (pika) pilau na biriani.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulipika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 35 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="35">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">35</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (sikia) habari nzuri.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlisikia">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 36 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="36">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">36</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (fanya) mazoezi ya kila siku.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walifanya">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 37 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="37">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">37</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (ona) ndege wengi angani.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="niliona">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 38 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="38">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">38</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (imba) wimbo wa taifa.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="uliimba">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 39 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="39">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">39</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (kunywa) kahawa na mkate.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alikunywa">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 40 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="40">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">40</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (enda) ziara nchini Kenya.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulienda">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 41 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="41">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">41</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (jibu) barua zote.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mlijibu">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 42 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="42">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">42</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (tengeneza) kompyuta mpya.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walitengeneza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 43 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="43">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">43</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (kimbia) marathon jana.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilikimbia">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 44 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="44">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">44</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (cheka) mpaka kulia.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulicheka">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 45 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="45">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">45</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Yeye __________ (jifunza) Kifaransa mwaka jana.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="alijifunza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 46 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="46">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">46</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Sisi __________ (piga) picha za wanyama.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="tulipiga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 47 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="47">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">47</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Ninyi __________ (uliza) msaada wa dharura.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="mliuliza">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 48 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="48">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">48</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wao __________ (jenga) shule mpya kijijini.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="walijenga">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 49 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="49">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">49</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Mimi __________ (chora) ramani ya mji.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="nilichora">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 50 -->
+            <div class="exercise-card glass-panel rounded-xl p-6 shadow-md" data-exercise="50">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">50</span>
+                    <div class="flex-grow">
+                        <p class="text-gray-700 mb-3">Wewe __________ (fika) kwenye sherehe kwa wakati.</p>
+                        <input type="text" class="exercise-input w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 swahili-font text-lg" placeholder="Scrivi la forma passata..." data-correct="ulifika">
+                        <div class="feedback hidden mt-2 text-sm font-semibold"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden glass-panel rounded-2xl p-8 shadow-xl text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">🎉 Risultati Finali</h2>
+            <div class="text-6xl font-bold text-indigo-600 mb-4" id="finalScore">0/100</div>
+            <p class="text-xl text-gray-600 mb-6" id="resultMessage">Completato!</p>
+            
+            <div class="bg-gray-50 rounded-xl p-6 mb-6 text-left max-w-2xl mx-auto">
+                <h3 class="font-bold text-gray-800 mb-3">Riepilogo:</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li>✅ Risposte corrette: <span id="correctCount" class="font-bold text-green-600">0</span></li>
+                    <li>❌ Risposte errate: <span id="incorrectCount" class="font-bold text-red-600">0</span></li>
+                    <li>📊 Percentuale: <span id="percentage" class="font-bold text-indigo-600">0%</span></li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <button onclick="sendResults()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-colors flex items-center justify-center gap-2 mx-auto">
+                    <span>📧</span> Invia Risultati via Email
+                </button>
+                <button onclick="location.reload()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg transition-colors block mx-auto">
+                    🔄 Riprova
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let completedExercises = 0;
+        let correctAnswers = 0;
+        const totalExercises = 50;
+        const pointsPerExercise = 2;
+
+        // Check answer on input blur or enter key
+        document.querySelectorAll('.exercise-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                checkAnswer(this);
+            });
+            
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer(this);
+                    // Move to next input
+                    const nextInput = this.closest('.exercise-card').nextElementSibling?.querySelector('.exercise-input');
+                    if (nextInput) nextInput.focus();
+                }
+            });
+        });
+
+        function checkAnswer(input) {
+            if (input.dataset.checked === "true") return;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = input.dataset.correct.toLowerCase();
+            const feedbackDiv = input.nextElementSibling;
+            
+            if (userAnswer === '') return;
+            
+            input.dataset.checked = "true";
+            input.disabled = true;
+            completedExercises++;
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+                feedbackDiv.textContent = '✅ Corretto! ' + correctAnswer;
+                feedbackDiv.className = 'feedback mt-2 text-sm font-semibold text-green-700';
+                correctAnswers++;
+            } else {
+                input.classList.add('incorrect');
+                feedbackDiv.textContent = '❌ Sbagliato. Risposta corretta: ' + correctAnswer;
+                feedbackDiv.className = 'feedback mt-2 text-sm font-semibold text-red-700';
+            }
+            
+            feedbackDiv.classList.remove('hidden');
+            updateProgress();
+            
+            if (completedExercises === totalExercises) {
+                showFinalResults();
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (completedExercises / totalExercises) * 100;
+            const score = correctAnswers * pointsPerExercise;
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completedExercises}/${totalExercises} completati`;
+            document.getElementById('scoreDisplay').textContent = `Punteggio: ${score}/100 (min 60)`;
+        }
+
+        function showFinalResults() {
+            const score = correctAnswers * pointsPerExercise;
+            const percentage = (correctAnswers / totalExercises) * 100;
+            
+            document.getElementById('finalScore').textContent = score + '/100';
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = totalExercises - correctAnswers;
+            document.getElementById('percentage').textContent = percentage.toFixed(1) + '%';
+            
+            let message = '';
+            if (score >= 90) message = '🌟 Eccellente! Punteggio perfetto!';
+            else if (score >= 80) message = '👏 Ottimo lavoro!';
+            else if (score >= 60) message = '✅ Promosso! Hai raggiunto il minimo.';
+            else message = '📚 Da rivedere. Studia ancora la formazione del passato.';
+            
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function sendResults() {
+            const score = correctAnswers * pointsPerExercise;
+            const percentage = (correctAnswers / totalExercises) * 100;
+            const date = new Date().toLocaleDateString('it-IT');
+            const time = new Date().toLocaleTimeString('it-IT');
+            
+            const subject = `Risultati Esercizi Passato Kiswahili - ${score}/100`;
+            const body = `Salve,
+
+ho completato gli esercizi sulla formazione del passato in Kiswahili.
+
+📊 RISULTATI:
+• Punteggio: ${score}/100 punti
+• Risposte corrette: ${correctAnswers}/50
+• Percentuale: ${percentage.toFixed(1)}%
+• Data: ${date}
+• Ora: ${time}
+
+${score >= 60 ? '✅ SUPERATO' : '❌ DA RIPETERE (minimo 60/100)'}
+
+Cordiali saluti`;
+            
+            window.location.href = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Auto-save progress in localStorage
+        window.addEventListener('beforeunload', function() {
+            const progress = {
+                completed: completedExercises,
+                correct: correctAnswers,
+                answers: Array.from(document.querySelectorAll('.exercise-input')).map(input => ({
+                    value: input.value,
+                    checked: input.dataset.checked === "true"
+                }))
+            };
+            localStorage.setItem('swahiliPastProgress', JSON.stringify(progress));
+        });
+
+        // Restore progress on load
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('swahiliPastProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                // Optional: restore answers logic here if needed
+            }
+        });
+    </script>
+</body>
+</html>

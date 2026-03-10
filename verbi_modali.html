@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Verbi Modali in Kiswahili - 50 Esercizi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .theory-section {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .theory-section h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .modal-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #667eea;
+        }
+        
+        .modal-title {
+            font-size: 1.4em;
+            color: #764ba2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .formula-box {
+            background: #fff3cd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background: #764ba2;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #d63031;
+        }
+        
+        .example-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .exercise-section {
+            padding: 40px;
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .progress-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .score-display {
+            background: #764ba2;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .exercise-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .exercise-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+        }
+        
+        .exercise-item.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .exercise-item.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .exercise-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #764ba2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        
+        .exercise-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .blank-input {
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 1em;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        
+        .blank-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .check-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .check-btn:hover {
+            background: #5a3a8a;
+            transform: scale(1.05);
+        }
+        
+        .check-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 600;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            color: #155724;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .feedback.incorrect {
+            color: #721c24;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .completion-section {
+            padding: 40px;
+            background: #f8f9fa;
+            text-align: center;
+            display: none;
+        }
+        
+        .completion-section.show {
+            display: block;
+        }
+        
+        .trophy {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .final-score {
+            font-size: 2em;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            max-width: 500px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .email-form h3 {
+            margin-bottom: 20px;
+            color: #764ba2;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .verb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .verb-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .verb-name {
+            font-weight: 700;
+            color: #764ba2;
+            font-size: 1.1em;
+        }
+        
+        .hint {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .badge-ability { background: #d1ecf1; color: #0c5460; }
+        .badge-desire { background: #d4edda; color: #155724; }
+        .badge-obligation { background: #fff3cd; color: #856404; }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .theory-section,
+            .exercise-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💪 I Verbi Modali in Kiswahili</h1>
+            <p>Potere (-weza), Volere (-taka), Dovere (-paswa/-lazimika) - 50 Esercizi</p>
+        </div>
+        
+        <div class="theory-section">
+            <h2>📚 I Tre Verbi Modali Essenziali</h2>
+            <p>I verbi modali in kiswahili esprimono <strong>abilità</strong>, <strong>volontà/desiderio</strong> e <strong>obbligo/necessità</strong>. A differenza dell'italiano, in kiswahili si coniugano come verbi normali ma sono seguiti dall'infinito del verbo principale.</p>
+            
+            <div class="modal-card">
+                <div class="modal-title">
+                    🔵 -WEZA (Potere/ Essere capace)
+                    <span class="badge badge-ability">Abilità</span>
+                </div>
+                <p>Esprime capacità fisica, intellettuale o possibilità. Equivale a "can", "to be able to".</p>
+                
+                <div class="formula-box">
+                    Soggetto + -na- + -weza + ku- + Verbo Principale
+                </div>
+                
+                <div class="example-box">
+                    <strong>Esempi:</strong><br>
+                    • Mimi <span class="highlight">ninaweza</span> kuogelea. (Io so nuotare / posso nuotare)<br>
+                    • Wewe <span class="highlight">unaweza</span> kusoma Kiswahili. (Tu puoi leggere lo swahili)<br>
+                    • Yeye <span class="highlight">anaweza</span> kukimbia haraka. (Lui/lei può correre velocemente)
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pronome</th>
+                                <th>Presente</th>
+                                <th>Negazione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mimi</td>
+                                <td><span class="highlight">ninaweza</span></td>
+                                <td><span class="highlight">siwezi</span> (non posso)</td>
+                            </tr>
+                            <tr>
+                                <td>Wewe</td>
+                                <td><span class="highlight">unaweza</span></td>
+                                <td><span class="highlight">huwezi</span> (non puoi)</td>
+                            </tr>
+                            <tr>
+                                <td>Yeye</td>
+                                <td><span class="highlight">anaweza</span></td>
+                                <td><span class="highlight">hawezi</span> (non può)</td>
+                            </tr>
+                            <tr>
+                                <td>Sisi</td>
+                                <td><span class="highlight">tunaweza</span></td>
+                                <td><span class="highlight">hatuwezi</span> (non possiamo)</td>
+                            </tr>
+                            <tr>
+                                <td>Ninyi</td>
+                                <td><span class="highlight">mnaweza</span></td>
+                                <td><span class="highlight">hamwezi</span> (non potete)</td>
+                            </tr>
+                            <tr>
+                                <td>Wao</td>
+                                <td><span class="highlight">wanaweza</span></td>
+                                <td><span class="highlight">hawezi</span> (non possono)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="modal-card">
+                <div class="modal-title">
+                    🟢 -TAKA (Volere / Desiderare)
+                    <span class="badge badge-desire">Volontà</span>
+                </div>
+                <p>Esprime desiderio, volontà o necessità. Equivale a "want", "to want to", "would like".</p>
+                
+                <div class="formula-box">
+                    Soggetto + -na- + -taka + ku- + Verbo Principale
+                </div>
+                
+                <div class="example-box">
+                    <strong>Esempi:</strong><br>
+                    • Mimi <span class="highlight">ninataka</span> kwenda Tanzania. (Io voglio andare in Tanzania)<br>
+                    • Wewe <span class="highlight">unataka</span> kula chakula gani? (Tu vuoi mangiare quale cibo?)<br>
+                    • Wao <span class="highlight">wanataka</span> kujifunza lugha mpya. (Loro vogliono imparare una lingua nuova)
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pronome</th>
+                                <th>Presente</th>
+                                <th>Negazione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mimi</td>
+                                <td><span class="highlight">ninataka</span></td>
+                                <td><span class="highlight">sitaki</span> (non voglio)</td>
+                            </tr>
+                            <tr>
+                                <td>Wewe</td>
+                                <td><span class="highlight">unataka</span></td>
+                                <td><span class="highlight">hutaki</span> (non vuoi)</td>
+                            </tr>
+                            <tr>
+                                <td>Yeye</td>
+                                <td><span class="highlight">anataka</span></td>
+                                <td><span class="highlight">hataki</span> (non vuole)</td>
+                            </tr>
+                            <tr>
+                                <td>Sisi</td>
+                                <td><span class="highlight">tunataka</span></td>
+                                <td><span class="highlight">hatutaki</span> (non vogliamo)</td>
+                            </tr>
+                            <tr>
+                                <td>Ninyi</td>
+                                <td><span class="highlight">mnataka</span></td>
+                                <td><span class="highlight">hamtaki</span> (non volete)</td>
+                            </tr>
+                            <tr>
+                                <td>Wao</td>
+                                <td><span class="highlight">wanataka</span></td>
+                                <td><span class="highlight">hawataki</span> (non vogliono)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="modal-card">
+                <div class="modal-title">
+                    🟠 -PASWA / -LAZIMIKA (Dovere / Dovrebbe)
+                    <span class="badge badge-obligation">Obbligo</span>
+                </div>
+                <p>Esprime obbligo, necessità o dovere morale. Equivale a "must", "should", "ought to", "have to".</p>
+                
+                <div class="formula-box">
+                    Soggetto + -na- + -paswa/-lazimika + ku- + Verbo Principale<br>
+                    OPPURE: Ni lazima + Soggetto (subjunctive)
+                </div>
+                
+                <div class="example-box">
+                    <strong>Esempi con -paswa:</strong><br>
+                    • Wewe <span class="highlight">unapaswa</span> kusoma kila siku. (Tu dovresti studiare ogni giorno)<br>
+                    • Sisi <span class="highlight">tunapaswa</span> kuheshimu wazee. (Noi dobbiamo rispettare gli anziani)<br><br>
+                    
+                    <strong>Esempi con -lazimika:</strong><br>
+                    • Mimi <span class="highlight">ninalazimika</span> kuamka mapema. (Io sono obbligato ad alzarmi presto)<br>
+                    • Yeye <span class="highlight">analazimika</span> kufanya kazi. (Lui/lei deve lavorare / è obbligato a lavorare)<br><br>
+                    
+                    <strong>Con "ni lazima" (è necessario):</strong><br>
+                    • <span class="highlight">Ni lazima</span> uende sokoni. (È necessario che tu vada al mercato / Devi andare al mercato)<br>
+                    • <span class="highlight">Si lazima</span> ulale mapema. (Non è necessario che tu dorma presto / Non devi dormire presto)
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pronome</th>
+                                <th>-paswa</th>
+                                <th>-lazimika</th>
+                                <th>Negazione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mimi</td>
+                                <td><span class="highlight">ninapaswa</span></td>
+                                <td><span class="highlight">ninalazimika</span></td>
+                                <td><span class="highlight">sipaswi</span> / <span class="highlight">silazimiki</span></td>
+                            </tr>
+                            <tr>
+                                <td>Wewe</td>
+                                <td><span class="highlight">unapaswa</span></td>
+                                <td><span class="highlight">unalazimika</span></td>
+                                <td><span class="highlight">hupaswi</span> / <span class="highlight">hulazimiki</span></td>
+                            </tr>
+                            <tr>
+                                <td>Yeye</td>
+                                <td><span class="highlight">anapaswa</span></td>
+                                <td><span class="highlight">analazimika</span></td>
+                                <td><span class="highlight">hapaswi</span> / <span class="highlight">halazimiki</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sisi</td>
+                                <td><span class="highlight">tunapaswa</span></td>
+                                <td><span class="highlight">tunalazimika</span></td>
+                                <td><span class="highlight">hatupaswi</span> / <span class="highlight">hatulazimiki</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ninyi</td>
+                                <td><span class="highlight">mnapaswa</span></td>
+                                <td><span class="highlight">mnalazimika</span></td>
+                                <td><span class="highlight">hampaswi</span> / <span class="highlight">hamlazimiki</span></td>
+                            </tr>
+                            <tr>
+                                <td>Wao</td>
+                                <td><span class="highlight">wanapaswa</span></td>
+                                <td><span class="highlight">wanalazimika</span></td>
+                                <td><span class="highlight">hawaswi</span> / <span class="highlight">hawlazimiki</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #2196f3;">
+                <h3 style="color: #1976d2; margin-bottom: 10px;">💡 Regola Importante</h3>
+                <p>Dopo un verbo modale, il verbo principale rimane all'<strong>infinito</strong> (con prefisso <em>ku-</em>):</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Ninaweza ku-</strong>soma (Posso leggere)</li>
+                    <li><strong>Ninataka ku-</strong>enda (Voglio andare)</li>
+                    <li><strong>Ninapaswa ku-</strong>fanya (Devo fare)</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Eccezione:</strong> Con "ni lazima" si usa il <strong>congiuntivo</strong> (senza ku-):<br>
+                <em>Ni lazima ni-som-e</em> (È necessario che io legga / Devo leggere)</p>
+            </div>
+        </div>
+        
+        <div class="exercise-section" id="exerciseSection">
+            <div class="exercise-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
+                    <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">Completamento esercizi</p>
+                </div>
+                <div class="score-display">
+                    <div>Punteggio</div>
+                    <div id="currentScore">0/100</div>
+                </div>
+            </div>
+            
+            <div class="exercise-list" id="exerciseList">
+                <!-- Esercizi generati via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="completion-section" id="completionSection">
+            <div class="trophy">🏆</div>
+            <h2>Complimenti! Hai completato tutti gli esercizi!</h2>
+            <div class="final-score" id="finalScore">Punteggio finale: 0/100</div>
+            <p style="font-size: 1.1em; color: #6c757d; margin-bottom: 30px;">
+                Minimo richiesto: 60/100 | Massimo: 100/100
+            </p>
+            
+            <div class="email-form">
+                <h3>📧 Invia i tuoi risultati</h3>
+                <form id="emailForm" onsubmit="handleEmailSubmit(event)">
+                    <div class="form-group">
+                        <label for="studentName">Nome e Cognome:</label>
+                        <input type="text" id="studentName" required placeholder="Inserisci il tuo nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">La tua Email:</label>
+                        <input type="email" id="studentEmail" required placeholder="esempio@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="resultsText">Risultati:</label>
+                        <textarea id="resultsText" rows="4" readonly></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        Invia Risultati via Email
+                    </button>
+                </form>
+                <p style="margin-top: 20px; font-size: 0.9em; color: #6c757d;">
+                    I risultati verranno inviati a: <strong>infonefelieducation@gmail.com</strong>
+                </p>
+            </div>
+            
+            <button onclick="location.reload()" class="submit-btn" style="margin-top: 20px;">
+                🔄 Riprova Esercizi
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            // ESERCIZI -WEZA (Potere) - 1-20
+            {text: "Mimi _______ (potere) kuogelea vizuri.", answer: "ninaweza", hint: "ni- + -na- + -weza", translation: "Io posso nuotare bene.", type: "potere"},
+            {text: "Wewe _______ (potere) kufanya kazi hii?", answer: "unaweza", hint: "u- + -na- + -weza", translation: "Tu puoi fare questo lavoro?", type: "potere"},
+            {text: "Yeye _______ (potere) kukimbia marathon yote.", answer: "anaweza", hint: "a- + -na- + -weza", translation: "Lui/lei può correre l'intera maratona.", type: "potere"},
+            {text: "Sisi _______ (potere) kuona filamu hiyo kesho.", answer: "tunaweza", hint: "tu- + -na- + -weza", translation: "Noi possiamo vedere quel film domani.", type: "potere"},
+            {text: "Ninyi _______ (potere) kuchagua chakula chenu.", answer: "mnaweza", hint: "m- + -na- + -weza", translation: "Voi potete scegliere il vostro cibo.", type: "potere"},
+            {text: "Wao _______ (potere) kujifunza Kiswahili muda mfupi.", answer: "wanaweza", hint: "wa- + -na- + -weza", translation: "Loro possono imparare lo swahili in poco tempo.", type: "potere"},
+            {text: "Mimi si-_______ (non potere) kuimba vizuri.", answer: "siwezi", hint: "si- + -wezi (forma negativa speciale)", translation: "Io non posso cantare bene.", type: "potere"},
+            {text: "Wewe hu-_______ (non potere) kufika kesho?", answer: "huwezi", hint: "hu- + -wezi", translation: "Tu non puoi arrivare domani?", type: "potere"},
+            {text: "Mtoto hana _______ (potere) kuandika bila msaada.", answer: "anaweza", hint: "a- + -na- + -weza", translation: "Il bambino non può scrivere senza aiuto.", type: "potere"},
+            {text: "Sisi hatu-_______ (non potere) kulipa bei hii.", answer: "hatuwezi", hint: "hatu- + -wezi", translation: "Noi non possiamo pagare questo prezzo.", type: "potere"},
+            {text: "Mimi _______ (potere) kukusaidia kesho asubuhi?", answer: "ninaweza", hint: "ni- + -na- + -weza", translation: "Posso aiutarti domani mattina?", type: "potere"},
+            {text: "Wewe _______ (potere) kuja nyumbani kwangu wakati wowote.", answer: "unaweza", hint: "u- + -na- + -weza", translation: "Tu puoi venire a casa mia in qualsiasi momento.", type: "potere"},
+            {text: "Yeye _______ (potere) kuzungumza lugha tatu.", answer: "anaweza", hint: "a- + -na- + -weza", translation: "Lui/lei può parlare tre lingue.", type: "potere"},
+            {text: "Wao hawa-_______ (non potere) kusafiri kwa ndege.", answer: "hawezi", hint: "hawa- + -wezi", translation: "Loro non possono viaggiare in aereo.", type: "potere"},
+            {text: "Ninyi ham-_______ (non potere) kuingia bila kibali.", answer: "hamwezi", hint: "ham- + -wezi", translation: "Voi non potete entrare senza permesso.", type: "potere"},
+            {text: "Mimi _______ (potere) kuandika barua kwa Kiswahili sasa.", answer: "ninaweza", hint: "ni- + -na- + -weza", translation: "Io posso scrivere una lettera in swahili ora.", type: "potere"},
+            {text: "Wewe _______ (potere) kununua tiketi mtandaoni?", answer: "unaweza", hint: "u- + -na- + -weza", translation: "Tu puoi comprare i biglietti online?", type: "potere"},
+            {text: "Sisi _______ (potere) kukutana Jumamosi ijayo?", answer: "tunaweza", hint: "tu- + -na- + -weza", translation: "Possiamo incontrarci sabato prossimo?", type: "potere"},
+            {text: "Yeye _______ (potere) kupika pilau tamu sana.", answer: "anaweza", hint: "a- + -na- + -weza", translation: "Lui/lei può cucinare un pilau molto gustoso.", type: "potere"},
+            {text: "Watoto wadogo _______ (potere) kucheza uwanjani.", answer: "wanaweza", hint: "wa- + -na- + -weza", translation: "I bambini piccoli possono giocare nel cortile.", type: "potere"},
+            
+            // ESERCIZI -TAKA (Volere) - 21-35
+            {text: "Mimi _______ (volere) kwenda Zanzibar msimu wa joto.", answer: "ninataka", hint: "ni- + -na- + -taka", translation: "Io voglio andare a Zanzibar nella stagione calda.", type: "volere"},
+            {text: "Wewe _______ (volere) kunywa chai au kahawa?", answer: "unataka", hint: "u- + -na- + -taka", translation: "Tu vuoi bere tè o caffè?", type: "volere"},
+            {text: "Yeye _______ (volere) kununua gari mpya mwaka ujao.", answer: "anataka", hint: "a- + -na- + -taka", translation: "Lui/lei vuole comprare una macchina nuova l'anno prossimo.", type: "volere"},
+            {text: "Sisi _______ (volere) kujifunza kupika chakula cha Kiarabu.", answer: "tunataka", hint: "tu- + -na- + -taka", translation: "Noi vogliamo imparare a cucinare cibo arabo.", type: "volere"},
+            {text: "Ninyi _______ (volere) kucheza mchezo gani?", answer: "mnataka", hint: "m- + -na- + -taka", translation: "Voi volete giocare a quale gioco?", type: "volere"},
+            {text: "Wao _______ (volere) kuishi mjini au vijijini?", answer: "wanataka", hint: "wa- + -na- + -taka", translation: "Loro vogliono vivere in città o in campagna?", type: "volere"},
+            {text: "Mimi si-_______ (non volere) kula nyama leo.", answer: "sitaki", hint: "si- + -taki (forma negativa speciale)", translation: "Io non voglio mangiare carne oggi.", type: "volere"},
+            {text: "Wewe hu-_______ (non volere) kuona filamu hii?", answer: "hutaki", hint: "hu- + -taki", translation: "Tu non vuoi vedere questo film?", type: "volere"},
+            {text: "Yeye ha-_______ (non volere) kuongea kuhusu suala hilo.", answer: "hataki", hint: "ha- + -taki", translation: "Lui/lei non vuole parlare di quella questione.", type: "volere"},
+            {text: "Sisi hatu-_______ (non volere) kukosa treni.", answer: "hatutaki", hint: "hatu- + -taki", translation: "Noi non vogliamo perdere il treno.", type: "volere"},
+            {text: "Mimi _______ (volere) kulala mapema usiku huu.", answer: "ninataka", hint: "ni- + -na- + -taka", translation: "Io voglio dormire presto stasera.", type: "volere"},
+            {text: "Wewe _______ (volere) kufanya nini wakati wa likizo?", answer: "unataka", hint: "u- + -na- + -taka", translation: "Tu vuoi fare cosa durante le vacanze?", type: "volere"},
+            {text: "Watoto _______ (volere) kucheza mchezo wa mpira.", answer: "wanataka", hint: "wa- + -na- + -taka", translation: "I bambini vogliono giocare a calcio.", type: "volere"},
+            {text: "Ninyi ham-_______ (non volere) kuja kwangu kesho?", answer: "hamtaki", hint: "ham- + -taki", translation: "Voi non volete venire da me domani?", type: "volere"},
+            {text: "Wao hawa-_______ (non volere) kusafiri kwa basi.", answer: "hawataki", hint: "hawa- + -taki", translation: "Loro non vogliono viaggiare in autobus.", type: "volere"},
+            
+            // ESERCIZI -PASWA / -LAZIMIKA / Ni lazima (Dovere) - 36-50
+            {text: "Wewe _______ (dovere) kusoma vitabu vingi kwa mtihani.", answer: "unapaswa", hint: "u- + -na- + -paswa", translation: "Tu dovresti leggere molti libri per l'esame.", type: "dovere"},
+            {text: "Sisi _______ (dovere) kuheshimu sheria za nchi.", answer: "tunapaswa", hint: "tu- + -na- + -paswa", translation: "Noi dobbiamo rispettare le leggi del paese.", type: "dovere"},
+            {text: "Mimi _______ (dovere) kumaliza kazi yangu leo.", answer: "ninapaswa", hint: "ni- + -na- + -paswa", translation: "Io devo finire il mio lavoro oggi.", type: "dovere"},
+            {text: "Yeye _______ (dovere) kwenda hospitali mara moja.", answer: "analazimika", hint: "a- + -na- + -lazimika", translation: "Lui/lei deve andare all'ospedale immediatamente.", type: "dovere"},
+            {text: "Wao _______ (dovere) kulipa kodi kila mwaka.", answer: "wanalazimika", hint: "wa- + -na- + -lazimika", translation: "Loro devono pagare le tasse ogni anno.", type: "dovere"},
+            {text: "Ninyi _______ (dovere) kufika mapema kwenye mkutano.", answer: "mnapaswa", hint: "m- + -na- + -paswa", translation: "Voi dovete arrivare presto alla riunione.", type: "dovere"},
+            {text: "Mimi si-_______ (non dovere) kuamka mapema Jumapili.", answer: "sipaswi", hint: "si- + -paswi (negazione con -paswa)", translation: "Io non devo alzarmi presto la domenica.", type: "dovere"},
+            {text: "Wewe hu-_______ (non dovere) kula hapa.", answer: "hupaswi", hint: "hu- + -paswi", translation: "Tu non devi mangiare qui.", type: "dovere"},
+            {text: "Ni lazima mimi ni-_______ (dovere-congiuntivo) kwenda sokoni.", answer: "ende", hint: "ni- + -ende (congiuntivo senza ku-)", translation: "È necessario che io vada al mercato.", type: "dovere"},
+            {text: "Ni lazima wewe u-_______ (dovere-congiuntivo) kula chakula.", answer: "le", hint: "u- + -le (congiuntivo di -la)", translation: "È necessario che tu mangia il cibo.", type: "dovere"},
+            {text: "Ni lazima yeye a-_______ (dovere-congiuntivo) kulala.", answer: "lale", hint: "a- + -lale (congiuntivo di -lala)", translation: "È necessario che lui/lei dorma.", type: "dovere"},
+            {text: "Si lazima sisi tu-_______ (dovere-neg-congiuntivo) kufanya hivyo.", answer: "fanye", hint: "tu- + -fanye (congiuntivo di -fanya)", translation: "Non è necessario che noi facciamo così.", type: "dovere"},
+            {text: "Mimi _______ (dovere) kuwasiliana na wazazi wangu kila wiki.", answer: "ninalazimika", hint: "ni- + -na- + -lazimika", translation: "Io devo mettermi in contatto con i miei genitori ogni settimana.", type: "dovere"},
+            {text: "Watoto _______ (dovere) kusikiliza walimu wao shuleni.", answer: "wanapaswa", hint: "wa- + -na- + -paswa", translation: "I bambini devono ascoltare i loro insegnanti a scuola.", type: "dovere"},
+            {text: "Ni lazima wao wa-_______ (dovere-congiuntivo) kurekebisha makosa yao.", answer: "rekebishe", hint: "wa- + -rekebishe (congiuntivo)", translation: "È necessario che loro correggano i loro errori.", type: "dovere"}
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+        const pointsPerExercise = 2;
+        const maxScore = 100;
+        const minScore = 60;
+
+        function initExercises() {
+            const list = document.getElementById('exerciseList');
+            
+            exercises.forEach((ex, index) => {
+                const item = document.createElement('div');
+                item.className = 'exercise-item';
+                item.id = `exercise-${index}`;
+                
+                let typeBadge = '';
+                if (ex.type === 'potere') typeBadge = '<span class="badge badge-ability">POTERE</span>';
+                else if (ex.type === 'volere') typeBadge = '<span class="badge badge-desire">VOLERE</span>';
+                else if (ex.type === 'dovere') typeBadge = '<span class="badge badge-obligation">DOVERE</span>';
+                
+                item.innerHTML = `
+                    <div class="exercise-number">${index + 1}</div>
+                    <div class="exercise-text">
+                        ${typeBadge}<br>
+                        ${ex.text}<br>
+                        <small style="color: #6c757d; display: block; margin-top: 5px;">Traduzione: ${ex.translation}</small>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" 
+                               class="blank-input" 
+                               id="input-${index}" 
+                               placeholder="Scrivi la risposta..."
+                               onkeypress="if(event.key==='Enter') checkAnswer(${index})">
+                        <button class="check-btn" onclick="checkAnswer(${index})" id="btn-${index}">
+                            Verifica
+                        </button>
+                    </div>
+                    <div class="hint">💡 Suggerimento: ${ex.hint}</div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+
+        function checkAnswer(index) {
+            const input = document.getElementById(`input-${index}`);
+            const btn = document.getElementById(`btn-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            const item = document.getElementById(`exercise-${index}`);
+            
+            if (input.disabled) return;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = exercises[index].answer.toLowerCase();
+            
+            // Accetta anche varianti comuni
+            const acceptableAnswers = [correctAnswer];
+            if (correctAnswer.includes('-')) {
+                acceptableAnswers.push(correctAnswer.replace(/-/g, ''));
+            }
+            
+            const isCorrect = acceptableAnswers.includes(userAnswer);
+            
+            input.disabled = true;
+            btn.disabled = true;
+            
+            if (isCorrect) {
+                item.classList.add('correct');
+                feedback.classList.add('correct', 'show');
+                feedback.textContent = `✅ Corretto! "${exercises[index].answer}"`;
+                currentScore += pointsPerExercise;
+            } else {
+                item.classList.add('incorrect');
+                feedback.classList.add('incorrect', 'show');
+                feedback.textContent = `❌ Sbagliato. La risposta corretta è: "${exercises[index].answer}"`;
+            }
+            
+            answeredCount++;
+            updateProgress();
+            
+            if (answeredCount === exercises.length) {
+                setTimeout(showCompletion, 500);
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (answeredCount / exercises.length) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = Math.round(percentage) + '%';
+            document.getElementById('currentScore').textContent = `${currentScore}/${maxScore}`;
+        }
+
+        function showCompletion() {
+            document.getElementById('exerciseSection').style.display = 'none';
+            document.getElementById('completionSection').classList.add('show');
+            document.getElementById('finalScore').textContent = `Punteggio finale: ${currentScore}/${maxScore}`;
+            
+            // Prepara il testo per l'email
+            const date = new Date().toLocaleDateString('it-IT');
+            const resultsText = `Data: ${date}\nStudente: [Inserisci il tuo nome]\nPunteggio: ${currentScore}/${maxScore}\nEsercizi completati: ${answeredCount}/50\nValutazione: ${currentScore >= minScore ? 'Superato' : 'Da ripetere'}\n\nArgomento: Verbi Modali in Kiswahili (-weza, -taka, -paswa/-lazimika)`;
+            document.getElementById('resultsText').value = resultsText;
+        }
+
+        function handleEmailSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const results = document.getElementById('resultsText').value;
+            
+            const subject = `Risultati Verbi Modali Kiswahili - ${name}`;
+            const body = `Nome: ${name}\nEmail: ${email}\n\n${results}`;
+            
+            // Crea il link mailto
+            const mailtoLink = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+            
+            alert('Il tuo client email si aprirà con i risultati precompilati. Invia l\'email per completare la consegna!');
+        }
+
+        // Inizializza al caricamento
+        window.onload = initExercises;
+    </script>
+</body>
+</html>

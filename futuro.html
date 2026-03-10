@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Futuro in Kiswahili - 50 Esercizi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .theory-section {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .theory-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .formula-box {
+            background: white;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .formula {
+            font-size: 1.5em;
+            color: #2a5298;
+            font-weight: 700;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background: #1e3c72;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .exercise-section {
+            padding: 40px;
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .progress-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .score-display {
+            background: #1e3c72;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .exercise-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .exercise-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+        }
+        
+        .exercise-item.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .exercise-item.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .exercise-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        
+        .exercise-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .blank-input {
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 1em;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        
+        .blank-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .check-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .check-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+        
+        .check-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 600;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            color: #155724;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .feedback.incorrect {
+            color: #721c24;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .completion-section {
+            padding: 40px;
+            background: #f8f9fa;
+            text-align: center;
+            display: none;
+        }
+        
+        .completion-section.show {
+            display: block;
+        }
+        
+        .trophy {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .final-score {
+            font-size: 2em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            max-width: 500px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .email-form h3 {
+            margin-bottom: 20px;
+            color: #1e3c72;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .verb-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .verb-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .theory-section,
+            .exercise-section {
+                padding: 20px;
+            }
+            
+            .formula {
+                font-size: 1.2em;
+            }
+        }
+        
+        .hint {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⏰ Il Futuro in Kiswahili</h1>
+            <p>Impara a formare il tempo futuro con 50 esercizi interattivi</p>
+        </div>
+        
+        <div class="theory-section">
+            <h2>📚 Regola di Formazione</h2>
+            <p>Il futuro in kiswahili si forma con il <strong>marcatore -ta-</strong> inserito tra il prefisso soggetto e la radice del verbo.</p>
+            
+            <div class="formula-box">
+                <div class="formula">Prefisso Soggetto + <span class="highlight">-ta-</span> + Radice Verbo</div>
+            </div>
+            
+            <h3 style="margin-top: 30px; color: #1e3c72;">Prefissi Soggetto:</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pronome</th>
+                            <th>Prefisso</th>
+                            <th>Esempio (soma = leggere)</th>
+                            <th>Traduzione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mimi (Io)</td>
+                            <td><strong>ni-</strong></td>
+                            <td><span class="highlight">ni-ta-soma</span></td>
+                            <td>Io leggerò</td>
+                        </tr>
+                        <tr>
+                            <td>Wewe (Tu)</td>
+                            <td><strong>u-</strong></td>
+                            <td><span class="highlight">u-ta-soma</span></td>
+                            <td>Tu leggerai</td>
+                        </tr>
+                        <tr>
+                            <td>Yeye (Lui/Lei)</td>
+                            <td><strong>a-</strong></td>
+                            <td><span class="highlight">a-ta-soma</span></td>
+                            <td>Lui/Lei leggerà</td>
+                        </tr>
+                        <tr>
+                            <td>Sisi (Noi)</td>
+                            <td><strong>tu-</strong></td>
+                            <td><span class="highlight">tu-ta-soma</span></td>
+                            <td>Noi leggeremo</td>
+                        </tr>
+                        <tr>
+                            <td>Ninyi (Voi)</td>
+                            <td><strong>m-</strong></td>
+                            <td><span class="highlight">m-ta-soma</span></td>
+                            <td>Voi leggerete</td>
+                        </tr>
+                        <tr>
+                            <td>Wao (Loro)</td>
+                            <td><strong>wa-</strong></td>
+                            <td><span class="highlight">wa-ta-soma</span></td>
+                            <td>Loro leggeranno</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 style="margin-top: 20px; color: #1e3c72;">Verbi Comuni:</h3>
+            <div class="verb-list">
+                <div class="verb-item"><strong>-soma</strong> = leggere</div>
+                <div class="verb-item"><strong>-andika</strong> = scrivere</div>
+                <div class="verb-item"><strong>-la</strong> = mangiare</div>
+                <div class="verb-item"><strong>-nywa</strong> = bere</div>
+                <div class="verb-item"><strong>-enda</strong> = andare</div>
+                <div class="verb-item"><strong>-lala</strong> = dormire</div>
+                <div class="verb-item"><strong>-cheza</strong> = giocare</div>
+                <div class="verb-item"><strong>-fanya</strong> = fare</div>
+                <div class="verb-item"><strong>-ona</strong> = vedere</div>
+                <div class="verb-item"><strong>-sikia</strong> = sentire</div>
+                <div class="verb-item"><strong>-nunua</strong> = comprare</div>
+                <div class="verb-item"><strong>-uza</strong> = vendere</div>
+            </div>
+            
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #0066cc;">
+                <strong>💡 Nota:</strong> Per i verbi brevi come <em>-la</em> (mangiare) e <em>-nya</em> (cadere), si aggiunge <em>-ku-</em> prima della radice: <strong>ni-ta-ku-la</strong> (io mangerò).
+            </div>
+        </div>
+        
+        <div class="exercise-section" id="exerciseSection">
+            <div class="exercise-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
+                    <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">Completamento esercizi</p>
+                </div>
+                <div class="score-display">
+                    <div>Punteggio</div>
+                    <div id="currentScore">0/100</div>
+                </div>
+            </div>
+            
+            <div class="exercise-list" id="exerciseList">
+                <!-- Esercizi generati via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="completion-section" id="completionSection">
+            <div class="trophy">🏆</div>
+            <h2>Complimenti! Hai completato tutti gli esercizi!</h2>
+            <div class="final-score" id="finalScore">Punteggio finale: 0/100</div>
+            <p style="font-size: 1.1em; color: #6c757d; margin-bottom: 30px;">
+                Minimo richiesto: 60/100 | Massimo: 100/100
+            </p>
+            
+            <div class="email-form">
+                <h3>📧 Invia i tuoi risultati</h3>
+                <form id="emailForm" onsubmit="handleEmailSubmit(event)">
+                    <div class="form-group">
+                        <label for="studentName">Nome e Cognome:</label>
+                        <input type="text" id="studentName" required placeholder="Inserisci il tuo nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">La tua Email:</label>
+                        <input type="email" id="studentEmail" required placeholder="esempio@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="resultsText">Risultati:</label>
+                        <textarea id="resultsText" rows="4" readonly></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        Invia Risultati via Email
+                    </button>
+                </form>
+                <p style="margin-top: 20px; font-size: 0.9em; color: #6c757d;">
+                    I risultati verranno inviati a: <strong>infonefelieducation@gmail.com</strong>
+                </p>
+            </div>
+            
+            <button onclick="location.reload()" class="submit-btn" style="margin-top: 20px;">
+                🔄 Riprova Esercizi
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            // Esercizi base: conjugazione singola (1-20)
+            {text: "Mimi _______ (leggere) kitabu kesho.", answer: "nitasoma", hint: "ni- + -ta- + -soma", translation: "Io leggerò un libro domani."},
+            {text: "Wewe _______ (scrivere) barua kesho kutwa.", answer: "utaandika", hint: "u- + -ta- + -andika", translation: "Tu scriverai una lettera dopodomani."},
+            {text: "Yeye _______ (mangiare) chakula cha jioni.", answer: "atakula", hint: "a- + -ta- + -ku- + -la (verbo breve)", translation: "Lui/Lei mangerà la cena."},
+            {text: "Sisi _______ (andare) sokoni Jumamosi.", answer: "tutaenda", hint: "tu- + -ta- + -enda", translation: "Noi andremo al mercato sabato."},
+            {text: "Ninyi _______ (giocare) mpira wa miguu.", answer: "mtacheza", hint: "m- + -ta- + -cheza", translation: "Voi giocherete a calcio."},
+            {text: "Wao _______ (studiare) Kiswahili mwaka ujao.", answer: "watasoma", hint: "wa- + -ta- + -soma", translation: "Loro studieranno swahili l'anno prossimo."},
+            {text: "Mimi _______ (bere) maji baridi.", answer: "nitakunywa", hint: "ni- + -ta- + -nywa", translation: "Io berrò acqua fredda."},
+            {text: "Wewe _______ (vedere) filamu jioni.", answer: "utaona", hint: "u- + -ta- + -ona", translation: "Tu vedrai un film stasera."},
+            {text: "Yeye _______ (comprare) matunda sokoni.", answer: "atanunua", hint: "a- + -ta- + -nunua", translation: "Lui/Lei comprerà frutta al mercato."},
+            {text: "Sisi _______ (dormire) mapema leo.", answer: "tutalala", hint: "tu- + -ta- + -lala", translation: "Noi dormiremo presto stasera."},
+            {text: "Ninyi _______ (cantare) nyimbo za taifa.", answer: "mtaimba", hint: "m- + -ta- + -imba", translation: "Voi canterete inni nazionali."},
+            {text: "Wao _______ (lavorare) kesho asubuhi.", answer: "watafanya", hint: "wa- + -ta- + -fanya kazi", translation: "Loro lavoreranno domani mattina."},
+            {text: "Mimi _______ (correre) marathon mwezi ujao.", answer: "nitakimbia", hint: "ni- + -ta- + -kimbia", translation: "Io correrò una maratona il mese prossimo."},
+            {text: "Wewe _______ (nuotare) baharini wakati wa likizo.", answer: "utaogelea", hint: "u- + -ta- + -ogelea", translation: "Tu nuoterai in mare durante le vacanze."},
+            {text: "Yeye _______ (insegnare) somo la hisabati.", answer: "atafundisha", hint: "a- + -ta- + -fundisha", translation: "Lui/Lei insegnerà la materia di matematica."},
+            {text: "Sisi _______ (costruire) nyumba mpya.", answer: "tutajenga", hint: "tu- + -ta- + -jenga", translation: "Noi costruiremo una casa nuova."},
+            {text: "Ninyi _______ (pulire) chumba chako.", answer: "mtasafisha", hint: "m- + -ta- + -safisha", translation: "Voi pulirete la vostra stanza."},
+            {text: "Wao _______ (vendere) magari yao.", answer: "watauza", hint: "wa- + -ta- + -uza", translation: "Loro venderanno le loro macchine."},
+            {text: "Mimi _______ (ricevere) zawadi yangu.", answer: "nitapokea", hint: "ni- + -ta- + -pokea", translation: "Io riceverò il mio regalo."},
+            {text: "Wewe _______ (inviare) ujumbe kwa rafiki.", answer: "utatuma", hint: "u- + -ta- + -tuma", translation: "Tu invierai un messaggio all'amico."},
+            
+            // Esercizi intermedi: frasi complete (21-35)
+            {text: "Kesho mimi _______ (alzarsi) saa nne asubuhi.", answer: "nitaamka", hint: "ni- + -ta- + -amka", translation: "Domani io mi alzerò alle 10 del mattino."},
+            {text: "Wiki ijayo sisi _______ (visitare) jumba la makumbusho.", answer: "tutatembelea", hint: "tu- + -ta- + -tembelea", translation: "La settimana prossima visiteremo il museo."},
+            {text: "Mwezi ujao wao _______ (sposarsi) kanisani.", answer: "wataoa", hint: "wa- + -ta- + -oa", translation: "Il mese prossimo loro si sposeranno in chiesa."},
+            {text: "Kesho kutwa yeye _______ (viaggiare) kwenda Nairobi.", answer: "atasafiri", hint: "a- + -ta- + -safiri", translation: "Dopodomani lui/lei viaggerà verso Nairobi."},
+            {text: "Ninyi _______ (preparare) chakula cha mchana kesho?", answer: "mtatayarisha", hint: "m- + -ta- + -tayarisha", translation: "Voi preparerete il pranzo domani?"},
+            {text: "Mimi _______ (finire) kazi yangu kabla ya saa kumi.", answer: "nitamaliza", hint: "ni- + -ta- + -maliza", translation: "Io finirò il mio lavoro prima delle 16."},
+            {text: "Wewe _______ (iniziare) masomo yako mwezi ujao?", answer: "utaanza", hint: "u- + -ta- + -anza", translation: "Tu inizierai i tuoi studi il mese prossimo?"},
+            {text: "Watoto wao _______ (crescere) kuwa wakubwa.", answer: "watakua", hint: "wa- + -ta- + -kua", translation: "I loro bambini cresceranno e diventeranno grandi."},
+            {text: "Sisi _______ (guardare) mechi ya mpira Jumapili.", answer: "tutaangalia", hint: "tu- + -ta- + -angalia", translation: "Noi guarderemo la partita di calcio domenica."},
+            {text: "Mimi _______ (chiamare) mama yangu kesho.", answer: "nitampigia", hint: "ni- + -ta- + -m- (oggetto) + -pigia", translation: "Io chiamerò mia madre domani."},
+            {text: "Ninyi _______ (imparare) lugha mpya mwaka ujao?", answer: "mtajifunza", hint: "m- + -ta- + -jifunza", translation: "Voi imparerete una lingua nuova l'anno prossimo?"},
+            {text: "Yeye _______ (aprire) duka lake mwezi wa Tatu.", answer: "atafungua", hint: "a- + -ta- + -fungua", translation: "Lui/Lei aprirà il suo negozio a marzo."},
+            {text: "Wewe _______ (chiudere) dirisha kabla ya kulala?", answer: "utafunga", hint: "u- + -ta- + -funga", translation: "Tu chiuderai la finestra prima di dormire?"},
+            {text: "Wao _______ (ascoltare) redio kila asubuhi.", answer: "watasikiliza", hint: "wa- + -ta- + -sikiliza", translation: "Loro ascolteranno la radio ogni mattina."},
+            {text: "Mimi _______ (cucinere) pilau kwa ajili ya wageni.", answer: "nitapika", hint: "ni- + -ta- + -pika", translation: "Io cucinerò pilau per gli ospiti."},
+            
+            // Esercizi avanzati: negazioni e forme complesse (36-50)
+            {text: "Mimi si-_______ (non andare) shuleni kesho.", answer: "nitaenda", hint: "Si- + -ta- + -enda (negazione: sitaenda)", translation: "Io non andrò a scuola domani."},
+            {text: "Wewe hu-_______ (non bere) kahawa yako?", answer: "utakunywa", hint: "Hu- + -ta- + -nywa (negazione: hutakunywa)", translation: "Tu non berrai il tuo caffè?"},
+            {text: "Yeye ha-_______ (non vedeni) filamu hiyo tena.", answer: "ataona", hint: "Ha- + -ta- + -ona (negazione: hataona)", translation: "Lui/Lei non vedrà quel film di nuovo."},
+            {text: "Sisi hatu-_______ (non dormire) vizuri usiku wa leo.", answer: "tutalala", hint: "Hatu- + -ta- + -lala (negazione: hatutalala)", translation: "Noi non dormiremo bene stanotte."},
+            {text: "Ninyi ham-_______ (non giocare) nje kwa sababu ya mvua.", answer: "mtacheza", hint: "Ham- + -ta- + -cheza (negazione: hamtacheza)", translation: "Voi non giocherete fuori a causa della pioggia."},
+            {text: "Kesho asubuhi mimi _______ (lavare) nguo zangu.", answer: "nitafua", hint: "ni- + -ta- + -fua", translation: "Domani mattina io laverò i miei vestiti."},
+            {text: "Wao hawa-_______ (non vendere) nyumba yao.", answer: "watauza", hint: "Hawa- + -ta- + -uza (negazione: hawatauza)", translation: "Loro non venderanno la loro casa."},
+            {text: "Mimi _______ (essere) mwalimu mwaka ujao.", answer: "nitakuwa", hint: "ni- + -ta- + -kuwa (verbo essere)", translation: "Io sarò un insegnante l'anno prossimo."},
+            {text: "Wewe uta-_______ (essere) wapi Jumamosi?", answer: "kuwa", hint: "u- + -ta- + -kuwa", translation: "Tu dove sarai sabato?"},
+            {text: "Sisi tuta-_______ (avere) mtihani kesho.", answer: "kuwa na", hint: "tu- + -ta- + -kuwa na", translation: "Noi avremo un esame domani."},
+            {text: "Yeye ata-_______ (potere) kusoma Kiswahili vizuri.", answer: "weza", hint: "a- + -ta- + -weza", translation: "Lui/Lei potrà parlare swahili bene."},
+            {text: "Mimi nita-_______ (volere) kwenda Tanzania.", answer: "taka", hint: "ni- + -ta- + -taka", translation: "Io vorrò andare in Tanzania."},
+            {text: "Wewe uta-_______ (dovere) kufanya kazi kesho.", answer: "lazimika", hint: "u- + -ta- + -lazimika", translation: "Tu dovrai lavorare domani."},
+            {text: "Wao wata-_______ (venire) hapa kesho kutwa.", answer: "kuja", hint: "wa- + -ta- + -kuja", translation: "Loro verranno qui dopodomani."},
+            {text: "Mimi nita-_______ (dire) kweli kila wakati.", answer: "sema", hint: "ni- + -ta- + -sema", translation: "Io dirò la verità sempre."}
+        ];
+
+        let currentScore = 0;
+        let answeredCount = 0;
+        const pointsPerExercise = 2;
+        const maxScore = 100;
+        const minScore = 60;
+
+        function initExercises() {
+            const list = document.getElementById('exerciseList');
+            
+            exercises.forEach((ex, index) => {
+                const item = document.createElement('div');
+                item.className = 'exercise-item';
+                item.id = `exercise-${index}`;
+                
+                item.innerHTML = `
+                    <div class="exercise-number">${index + 1}</div>
+                    <div class="exercise-text">
+                        ${ex.text}<br>
+                        <small style="color: #6c757d; display: block; margin-top: 5px;">Traduzione: ${ex.translation}</small>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" 
+                               class="blank-input" 
+                               id="input-${index}" 
+                               placeholder="Scrivi la risposta..."
+                               onkeypress="if(event.key==='Enter') checkAnswer(${index})">
+                        <button class="check-btn" onclick="checkAnswer(${index})" id="btn-${index}">
+                            Verifica
+                        </button>
+                    </div>
+                    <div class="hint">💡 Suggerimento: ${ex.hint}</div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+
+        function checkAnswer(index) {
+            const input = document.getElementById(`input-${index}`);
+            const btn = document.getElementById(`btn-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            const item = document.getElementById(`exercise-${index}`);
+            
+            if (input.disabled) return;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = exercises[index].answer.toLowerCase();
+            
+            // Accetta anche varianti comuni
+            const acceptableAnswers = [correctAnswer];
+            if (correctAnswer.includes('-')) {
+                acceptableAnswers.push(correctAnswer.replace(/-/g, ''));
+            }
+            
+            const isCorrect = acceptableAnswers.includes(userAnswer);
+            
+            input.disabled = true;
+            btn.disabled = true;
+            
+            if (isCorrect) {
+                item.classList.add('correct');
+                feedback.classList.add('correct', 'show');
+                feedback.textContent = `✅ Corretto! "${exercises[index].answer}"`;
+                currentScore += pointsPerExercise;
+            } else {
+                item.classList.add('incorrect');
+                feedback.classList.add('incorrect', 'show');
+                feedback.textContent = `❌ Sbagliato. La risposta corretta è: "${exercises[index].answer}"`;
+            }
+            
+            answeredCount++;
+            updateProgress();
+            
+            if (answeredCount === exercises.length) {
+                setTimeout(showCompletion, 500);
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (answeredCount / exercises.length) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = Math.round(percentage) + '%';
+            document.getElementById('currentScore').textContent = `${currentScore}/${maxScore}`;
+        }
+
+        function showCompletion() {
+            document.getElementById('exerciseSection').style.display = 'none';
+            document.getElementById('completionSection').classList.add('show');
+            document.getElementById('finalScore').textContent = `Punteggio finale: ${currentScore}/${maxScore}`;
+            
+            // Prepara il testo per l'email
+            const date = new Date().toLocaleDateString('it-IT');
+            const resultsText = `Data: ${date}\nStudente: [Inserisci il tuo nome]\nPunteggio: ${currentScore}/${maxScore}\nEsercizi completati: ${answeredCount}/50\nValutazione: ${currentScore >= minScore ? 'Superato' : 'Da ripetere'}`;
+            document.getElementById('resultsText').value = resultsText;
+        }
+
+        function handleEmailSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const results = document.getElementById('resultsText').value;
+            
+            const subject = `Risultati Esercizi Futuro Kiswahili - ${name}`;
+            const body = `Nome: ${name}\nEmail: ${email}\n\n${results}`;
+            
+            // Crea il link mailto
+            const mailtoLink = `mailto:infonefelieducation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+            
+            alert('Il tuo client email si aprirà con i risultati precompilati. Invia l\'email per completare la consegna!');
+        }
+
+        // Inizializza al caricamento
+        window.onload = initExercises;
+    </script>
+</body>
+</html>
